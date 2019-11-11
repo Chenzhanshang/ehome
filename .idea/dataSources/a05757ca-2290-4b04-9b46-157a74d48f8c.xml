@@ -845,5 +845,135 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
+    <table id="215" parent="5" name="manage"/>
+    <table id="216" parent="5" name="manage_role"/>
+    <table id="217" parent="5" name="permissions"/>
+    <table id="218" parent="5" name="role"/>
+    <table id="219" parent="5" name="role_permissions"/>
+    <column id="220" parent="215" name="manage_id">
+      <Position>1</Position>
+      <DataType>varchar(64)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="221" parent="215" name="login_name">
+      <Position>2</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="222" parent="215" name="password">
+      <Position>3</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="223" parent="215" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>manage_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="224" parent="216" name="manage_id">
+      <Position>1</Position>
+      <DataType>varchar(64)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="225" parent="216" name="role_id">
+      <Position>2</Position>
+      <DataType>varchar(64)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="226" parent="216" name="fk_manage_role_role_id">
+      <ColNames>role_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="227" parent="216" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>manage_id
+role_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="228" parent="216" name="fk_manage_id">
+      <ColNames>manage_id</ColNames>
+      <RefSchemaName>ehome</RefSchemaName>
+      <RefTableName>manage</RefTableName>
+      <RefColNames>manage_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="229" parent="216" name="fk_manage_role_role_id">
+      <ColNames>role_id</ColNames>
+      <RefSchemaName>ehome</RefSchemaName>
+      <RefTableName>role</RefTableName>
+      <RefColNames>role_id</RefColNames>
+    </foreign-key>
+    <column id="230" parent="217" name="permissions_id">
+      <Position>1</Position>
+      <DataType>varchar(64)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="231" parent="217" name="permissions_name">
+      <Position>2</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="232" parent="217" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>permissions_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="233" parent="218" name="role_id">
+      <Position>1</Position>
+      <DataType>varchar(64)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="234" parent="218" name="role_name">
+      <Position>2</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="235" parent="218" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>role_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="236" parent="219" name="permissions_id">
+      <Position>1</Position>
+      <DataType>varchar(64)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="237" parent="219" name="role_id">
+      <Position>2</Position>
+      <DataType>varchar(64)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="238" parent="219" name="fk_role_id">
+      <ColNames>role_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="239" parent="219" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>permissions_id
+role_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="240" parent="219" name="fk_permissions_id">
+      <ColNames>permissions_id</ColNames>
+      <RefSchemaName>ehome</RefSchemaName>
+      <RefTableName>permissions</RefTableName>
+      <RefColNames>permissions_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="241" parent="219" name="fk_role_id">
+      <ColNames>role_id</ColNames>
+      <RefSchemaName>ehome</RefSchemaName>
+      <RefTableName>role</RefTableName>
+      <RefColNames>role_id</RefColNames>
+    </foreign-key>
   </database-model>
 </dataSource>
