@@ -1,5 +1,8 @@
 package com.zyct.ehome.entity;
 
+import lombok.Data;
+
+@Data
 public class File {
     private String fileId;
 

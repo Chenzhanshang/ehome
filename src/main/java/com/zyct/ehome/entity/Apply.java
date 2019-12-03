@@ -1,7 +1,9 @@
 package com.zyct.ehome.entity;
 
-import java.util.List;
+import lombok.Data;
 
+import java.util.List;
+@Data
 public class Apply {
     private String applyId;
 

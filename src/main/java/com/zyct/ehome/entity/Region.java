@@ -1,10 +1,13 @@
 package com.zyct.ehome.entity;
 
+import lombok.Data;
+
 /**
  * @author JGZ
  * CreateTime 2019/12/3 11:57
  * Email 1945282561@qq.com
  */
+@Data
 public class Region {
     private Long regionId;
     private String createDate;

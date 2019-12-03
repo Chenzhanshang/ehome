@@ -1,7 +1,10 @@
 package com.zyct.ehome.entity;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class Owner {
     private String ownerId;
 
