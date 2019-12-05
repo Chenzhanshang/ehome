@@ -1,6 +1,7 @@
 package com.zyct.ehome.config.shiro;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zyct.ehome.utils.ErrorEnum;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -22,8 +23,9 @@ public class AjaxPermissionsAuthorizationFilter extends FormAuthenticationFilter
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code",-1);
-        jsonObject.put("msg", "没有权限");
+        //用户未登录返回未登录的json信息
+        jsonObject.put("status", ErrorEnum.E_UNAUTHENTICATED.getErrorCode());
+        jsonObject.put("msg", ErrorEnum.E_UNAUTHENTICATED.getErrorMsg());
         PrintWriter out = null;
         HttpServletResponse res = (HttpServletResponse) response;
         try {

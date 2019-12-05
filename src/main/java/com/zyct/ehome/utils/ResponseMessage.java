@@ -12,9 +12,7 @@ import java.util.Map;
  * @Email 1945282561@qq.com
  */
 public class ResponseMessage implements Serializable {
-    /**
-     * 默认返回错
-     */
+
     private String status ;
     private String msg ;
     private Map<String,Object> data = new HashMap<String,Object>();

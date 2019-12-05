@@ -2,10 +2,11 @@ package com.zyct.ehome.entity;
 
 import lombok.Data;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.Set;
 
 @Data
-public class Admin {
+public class Admin implements Serializable {
     private String adminId;
 
     private String adminAccount;
@@ -14,5 +15,5 @@ public class Admin {
 
     private Region region;
 
-    private List<Role> roles;
+    private Set<Role> roles;
 }
