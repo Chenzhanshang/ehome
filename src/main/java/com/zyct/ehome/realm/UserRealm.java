@@ -1,15 +1,21 @@
 package com.zyct.ehome.realm;
 
 import com.zyct.ehome.entity.Admin;
+import com.zyct.ehome.entity.Promise;
+import com.zyct.ehome.entity.Role;
 import com.zyct.ehome.service.AdminService;
+import com.zyct.ehome.service.PromiseService;
+import com.zyct.ehome.service.RoleService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 用户认证
@@ -23,6 +29,12 @@ public class UserRealm extends AuthorizingRealm {
     @Autowired
     private AdminService adminService;
 
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private PromiseService promiseService;
+
     /**
      * 授权
      * @param principalCollection
@@ -30,7 +42,30 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        //开始获取权限
+        Object primaryPrincipal = principalCollection.getPrimaryPrincipal();
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+
+        if(primaryPrincipal instanceof Admin){
+            Admin admin = (Admin) primaryPrincipal;
+            //获取admin的角色
+            Set<Role> roleSet = roleService.getRoleByAdminId(admin.getAdminId());
+            Set<String> roles = new HashSet<>();
+            for (Role role:roleSet) {
+                roles.add(role.getRoleName());
+            }
+            simpleAuthorizationInfo.addRoles(roles);
+
+            //通过角色获取权限
+            Set<Promise> promiseSet = promiseService.getPromiseByRole(roleSet);
+            Set<String> promises = new HashSet<>();
+            for (Promise promise:promiseSet) {
+                promises.add(promise.getPromiseName());
+            }
+            simpleAuthorizationInfo.addStringPermissions(promises);
+        }
+
+        return simpleAuthorizationInfo;
     }
 
     /**

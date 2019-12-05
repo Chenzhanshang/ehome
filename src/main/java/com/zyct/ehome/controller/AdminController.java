@@ -1,11 +1,14 @@
 package com.zyct.ehome.controller;
 
 import com.zyct.ehome.entity.Admin;
+import com.zyct.ehome.utils.ErrorEnum;
 import com.zyct.ehome.utils.ResponseMessage;
+import com.zyct.ehome.utils.SuccessEnum;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,21 +41,41 @@ public class AdminController {
             try {
                 // 执行认证提交
                 subject.login(usernamePasswordToken);
-                return new ResponseMessage("success","登录成功");
+                //返回登录成功信息
+                return new ResponseMessage(SuccessEnum.S_LOGIN_SUCCESS.getSuccessCode()
+                        ,SuccessEnum.S_LOGIN_SUCCESS.getSuccessMsg());
             }
             catch (UnknownAccountException e){
-                return new ResponseMessage("error",e.getMessage());
+                //返回用户不存在
+                return new ResponseMessage(ErrorEnum.E_UNKNOWN_ACCOUNT.getErrorCode(),
+                        ErrorEnum.E_UNKNOWN_ACCOUNT.getErrorMsg());
             }
             catch (AuthenticationException e) {
-//                e.printStackTrace();
-                return new ResponseMessage("error","密码错误");
+                //返回密码错误信息
+                return new ResponseMessage(ErrorEnum.E_PASSWORD_ERROR.getErrorCode(),
+                        ErrorEnum.E_PASSWORD_ERROR.getErrorMsg());
             }
         }
         else{
-            //如果用户已经登录则无需执行登录轮逻辑
-            return new ResponseMessage("success","用户已登陆，无需重复登录");
+            //如果用户已经登录则无需执行登录轮逻辑，直接返回登录成功
+            return new ResponseMessage(SuccessEnum.S_LOGINED.getSuccessCode()
+                    ,SuccessEnum.S_LOGINED.getSuccessMsg());
         }
 
+    }
+
+    @RequiresPermissions("查看")
+    @RequestMapping(value = "/hello",method = RequestMethod.GET)
+    public
+    @ResponseBody String hello(){
+        return "hello";
+    }
+
+    @RequiresPermissions("删除")
+    @RequestMapping(value = "/hello2",method = RequestMethod.GET)
+    public
+    @ResponseBody String hello2(){
+        return "hello";
     }
 
 
