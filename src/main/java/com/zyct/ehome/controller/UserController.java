@@ -62,19 +62,23 @@ public class UserController {
             e.printStackTrace();
 
         }
-        System.out.println(openid);
-        System.out.println(sessionKey);
-        //插入用户
-        String userId = UserService.insertUser(openid);
+        if (openid != null){
+            //插入用户
+            String userId = UserService.insertUser(openid);
 
-        //缓存openid, sessionKey, userId
-        redisCache(openid,sessionKey,userId);
+            //缓存openid, sessionKey, userId
+            redisCache(openid,sessionKey,userId);
+            //返回数据
+            Map<String,String> map = new HashMap<String,String>();
+            map.put("status","1");
+            map.put("userId",userId);
+            return ResponseEntity.status(HttpStatus.OK).body(map);
+        }else {
+            System.out.println("openId为空");
+        }
 
-        //返回数据
-        Map<String,String> map = new HashMap<String,String>();
-        map.put("status","1");
-        map.put("userId",userId);
-        return ResponseEntity.status(HttpStatus.OK).body(map);
+        return null;
+
     }
 
     /**
