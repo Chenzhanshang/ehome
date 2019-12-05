@@ -42,18 +42,18 @@ public class AdminController {
                 // 执行认证提交
                 subject.login(usernamePasswordToken);
                 //返回登录成功信息
-                return new ResponseMessage(SuccessEnum.S_LOGINSUCCESS.getSuccessCode()
-                        ,SuccessEnum.S_LOGINSUCCESS.getSuccessMsg());
+                return new ResponseMessage(SuccessEnum.S_LOGIN_SUCCESS.getSuccessCode()
+                        ,SuccessEnum.S_LOGIN_SUCCESS.getSuccessMsg());
             }
             catch (UnknownAccountException e){
                 //返回用户不存在
-                return new ResponseMessage(ErrorEnum.E_UNKNOWACCOUNT.getErrorCode(),
-                        ErrorEnum.E_UNKNOWACCOUNT.getErrorMsg());
+                return new ResponseMessage(ErrorEnum.E_UNKNOWN_ACCOUNT.getErrorCode(),
+                        ErrorEnum.E_UNKNOWN_ACCOUNT.getErrorMsg());
             }
             catch (AuthenticationException e) {
                 //返回密码错误信息
-                return new ResponseMessage(ErrorEnum.E_PASSWORDERROR.getErrorCode(),
-                        ErrorEnum.E_PASSWORDERROR.getErrorMsg());
+                return new ResponseMessage(ErrorEnum.E_PASSWORD_ERROR.getErrorCode(),
+                        ErrorEnum.E_PASSWORD_ERROR.getErrorMsg());
             }
         }
         else{
