@@ -17,4 +17,10 @@ public interface AdminMapper {
      * @return
      */
     public Admin getAdminByAccount(String account);
+
+    /**
+     * 通过AdminAccount修改密码
+     * @param admin
+     */
+    void updateByAdminAccount(Admin admin);
 }

@@ -2,6 +2,7 @@ package com.zyct.ehome.controller;
 
 import com.zyct.ehome.entity.Admin;
 import com.zyct.ehome.entity.Region;
+import com.zyct.ehome.service.AdminService;
 import com.zyct.ehome.utils.ErrorEnum;
 import com.zyct.ehome.utils.ResponseMessage;
 import com.zyct.ehome.utils.SuccessEnum;
@@ -11,6 +12,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/admin")
 public class AdminController {
 
+    @Autowired
+    private AdminService adminService;
     /**
      * 用户登录控制层
      * @param admin
@@ -55,6 +59,8 @@ public class AdminController {
                 //将角色返回
                 responseMessage.getData().put("roles",
                         principal.getRoles());
+                responseMessage.getData().put("adminModify",
+                        principal.getAdminModify());
                 System.out.println( principal.getRoles());
                 return responseMessage;
             }
@@ -72,6 +78,38 @@ public class AdminController {
             return new ResponseMessage(SuccessEnum.S_LOGINED);
         }
 
+    }
+
+    /**
+     * 管理员修改密码
+     * @param admin
+     * @return
+     */
+    @RequestMapping(value = "/updatePassword",method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage updatePassword(@RequestBody Admin admin){
+        //获取subject
+        Subject subject = SecurityUtils.getSubject();
+        //如果用户登录
+        if(subject.isAuthenticated()){
+            //获取用户信息
+            Admin principal = (Admin) subject.getPrincipal();
+            //设置用户id
+            admin.setAdminId(principal.getAdminId());
+            //设置用户账户
+            admin.setAdminAccount(principal.getAdminAccount());
+            //修改密码
+            adminService.updatePasswordByAdminAccount(admin);
+            //用户登出
+            subject.logout();
+
+            //返回信息
+            return new ResponseMessage("0","修改成功");
+        }
+        else {
+            //返回信息
+            return new ResponseMessage(ErrorEnum.E_UNAUTHENTICATED);
+        }
     }
 
     @RequiresPermissions("查看")

@@ -9,9 +9,11 @@ import com.zyct.ehome.service.RoleService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
@@ -98,7 +100,7 @@ public class UserRealm extends AuthorizingRealm {
 //    public void func(){
 //        String fun = "MD5";
 //        String pwd = "123456";
-//        ByteSource credentialsSalt = ByteSource.Util.bytes("刘八");
+//        ByteSource credentialsSalt = ByteSource.Util.bytes("admin");
 //        int i = 1024;
 //        SimpleHash simpleHash = new SimpleHash(fun, pwd, credentialsSalt, i);
 //        System.out.println(simpleHash);
