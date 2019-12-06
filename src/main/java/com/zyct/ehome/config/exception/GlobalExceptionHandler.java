@@ -25,8 +25,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseMessage unauthorizedExceptionHandler(){
-        return new ResponseMessage(ErrorEnum.E_UNAUTHORIZED.getErrorCode(),
-                ErrorEnum.E_UNAUTHORIZED.getErrorMsg());
+        return new ResponseMessage(ErrorEnum.E_UNAUTHORIZED);
     }
 
     /**
@@ -35,8 +34,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(UnauthenticatedException.class)
     public ResponseMessage unauthenticatedException() {
-        return new ResponseMessage(ErrorEnum.E_UNAUTHENTICATED.getErrorCode(),
-                ErrorEnum.E_UNAUTHENTICATED.getErrorMsg());
+        return new ResponseMessage(ErrorEnum.E_UNAUTHENTICATED);
     }
 
 }
