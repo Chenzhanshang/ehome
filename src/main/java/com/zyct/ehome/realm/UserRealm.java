@@ -83,7 +83,7 @@ public class UserRealm extends AuthorizingRealm {
         if (adminByAccount == null){
             throw new UnknownAccountException("用户不存在");
         }
-
+        adminByAccount.setRoles(roleService.getRoleByAdminId(adminByAccount.getAdminId()));
         //盐值 以用户名作为盐值
         //配置文件中标明用MD5加密了1024次
         ByteSource credentialsSalt = ByteSource.Util.bytes(adminByAccount.getAdminAccount());

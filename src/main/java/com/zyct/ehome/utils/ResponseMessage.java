@@ -26,6 +26,17 @@ public class ResponseMessage implements Serializable {
         this.msg = msg;
     }
 
+    public ResponseMessage(SuccessEnum successEnum){
+        this.status = successEnum.getSuccessCode();
+        this.msg = successEnum.getSuccessMsg();
+    }
+
+    public ResponseMessage(ErrorEnum errorEnum){
+        this.status = errorEnum.getErrorCode();
+        this.msg = errorEnum.getErrorMsg();
+    }
+
+
     public String getStatus() {
         return status;
     }

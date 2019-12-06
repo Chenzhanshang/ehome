@@ -3,10 +3,24 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zyct.ehome.dao.AdminMapper">
-    <select id="getAdminByAccount" resultType="Admin" parameterType="String">
-        select *
-        from t_admin
+    <!--管理员登录-->
+    <select id="getAdminByAccount" resultMap="adminAuthMap" parameterType="String">
+        select a.admin_id admin_id,a.admin_account admin_account,a.admin_password admin_password,
+        r.region_id region_id,r.full_name full_name
+        from t_admin a
+        left join t_region r
+        on a.region_id = r.region_id
         where admin_account = #{v}
     </select>
+    <!--管理员认证的返回-->
+    <resultMap id="adminAuthMap" type="admin">
+        <id column="admin_id" property="adminId" javaType="String" />
+        <result column="admin_account" property="adminAccount" javaType="String"/>
+        <result column="admin_password" property="adminPassword" javaType="String"/>
+        <association  property="region" javaType="region" column="region_id">
+            <id column="region_id" property="regionId" javaType="Long"/>
+            <result column="full_name" property="fullName" javaType="String"/>
+        </association>
+    </resultMap>
 
 </mapper>
