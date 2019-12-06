@@ -37,6 +37,7 @@ public interface CommunityMapper {
      * @return
      */
     public Community selectByCommunityId(String id);
+     /**
      * 通过城市查找小区列表
      * @param city
      * @return
