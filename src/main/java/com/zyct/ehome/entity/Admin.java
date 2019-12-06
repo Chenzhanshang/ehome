@@ -16,4 +16,6 @@ public class Admin implements Serializable {
     private Region region;
 
     private Set<Role> roles;
+
+    private Integer adminModify;
 }

@@ -1,6 +1,9 @@
 package com.zyct.ehome.dao;
 
 import com.zyct.ehome.entity.Community;
+import org.apache.ibatis.annotations.Mapper;
+
+
 import com.zyct.ehome.entity.House;
 import com.zyct.ehome.entity.Room;
 import org.apache.ibatis.annotations.Mapper;
@@ -10,6 +13,9 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 /**
+ * @author JGZ
+ * CreateTime 2019/12/6 14:31
+ * Email 1945282561@qq.com
  * @author litianfu
  * @version 1.0
  * @email 1035869369@qq.com
@@ -19,6 +25,18 @@ import java.util.List;
 public interface CommunityMapper {
 
     /**
+     * 添加社区
+     * @param community
+     * @return
+     */
+    public void insert(Community community);
+
+    /**
+     * 查询社区通过id
+     * @param id
+     * @return
+     */
+    public Community selectByCommunityId(String id);
      * 通过城市查找小区列表
      * @param city
      * @return

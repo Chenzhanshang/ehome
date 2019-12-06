@@ -16,4 +16,9 @@ public interface AdminService {
      */
     public Admin getAdminByAccount(String account);
 
+    /**
+     * 通过账户修改密码
+     * @param admin
+     */
+    void updatePasswordByAdminAccount(Admin admin);
 }
