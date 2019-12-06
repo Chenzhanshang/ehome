@@ -12,9 +12,7 @@ import java.util.Map;
  * @Email 1945282561@qq.com
  */
 public class ResponseMessage implements Serializable {
-    /**
-     * 默认返回错
-     */
+
     private String status ;
     private String msg ;
     private Map<String,Object> data = new HashMap<String,Object>();
@@ -27,6 +25,17 @@ public class ResponseMessage implements Serializable {
         this.status = status;
         this.msg = msg;
     }
+
+    public ResponseMessage(SuccessEnum successEnum){
+        this.status = successEnum.getSuccessCode();
+        this.msg = successEnum.getSuccessMsg();
+    }
+
+    public ResponseMessage(ErrorEnum errorEnum){
+        this.status = errorEnum.getErrorCode();
+        this.msg = errorEnum.getErrorMsg();
+    }
+
 
     public String getStatus() {
         return status;
