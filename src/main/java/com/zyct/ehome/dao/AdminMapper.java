@@ -23,4 +23,13 @@ public interface AdminMapper {
      * @param admin
      */
     void updateByAdminAccount(Admin admin);
+
+    /**
+     * 保存管理员信息
+     * @author CZS
+     * @param admin
+     * @return
+     */
+    public void insertAdmin(Admin admin);
+
 }

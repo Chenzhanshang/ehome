@@ -34,4 +34,9 @@
         where admin_account = #{adminAccount}
     </update>
 
+    <!--新增管理员数据-->
+    <insert id="insertAdmin" parameterType="admin">
+        INSERT INTO t_admin (admin_id,admin_account, admin_password) VALUES (#{adminId},#{adminAccount},#{adminPassword})
+    </insert>
+
 </mapper>
