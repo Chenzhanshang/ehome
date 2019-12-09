@@ -16,4 +16,8 @@ public interface UserMapper {
     public void insertUser(Owner owner) ;
 
     Owner selectUserByWeiXinId(String openid);
+
+    Owner selectUserByOwnerId(String ownerId);
+
+    void updateUser(Owner owner);
 }

@@ -11,4 +11,8 @@ import com.zyct.ehome.entity.Owner;
  */
 public interface UserService {
     String insertUser(String openId);
+
+    Owner selectUserByOwnerId(String ownerId);
+
+    void updateUser(Owner owner);
 }

@@ -59,6 +59,24 @@ public interface CommunityMapper {
     List<Room> getRoomListByHouseId(String houseId);
 
     /**
+     * 通过小区id查询小区
+     * @param communityId
+     * @return
+     */
+    @Select("select * from t_community where community_id = #{communityId}")
+    Community getCommunityByCommunityId(@Param("communityId") String communityId);
+
+    /**
+     * 通过楼栋id查询楼栋
+     * @param houseId
+     * @return
+     */
+    @Select("select * from t_house where house_id = #{houseId}")
+    House getHouseByHouseId(@Param("houseId") String houseId);
+
+    @Select("select * from t_room where room_id = #{roomId}")
+    Room getRoomByRoomId(@Param("roomId") String roomId);
+    /**
      * 获取小区列表
      * @return
      */
