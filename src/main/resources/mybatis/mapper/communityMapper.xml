@@ -4,6 +4,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zyct.ehome.dao.CommunityMapper">
 
+    <insert id="insert" parameterType="community">
+        insert  into t_community(community_id, community_name, region_id, community_info)
+        values (#{communityId},#{communityName},#{region.regionId},#{communityInfo})
+    </insert>
+
+    <select id="selectByCommunityId" parameterType="String" resultMap="selectByCommunityIdMap">
+        select c.community_id community_id,c.community_name community_name,c.community_info community_info,
+        c.region_id region_id,r.full_name full_name
+        from t_community c
+        left join  t_region r
+        on c.region_id = r.region_id
+        where c.community_id = #{v}
+    </select>
+
+    <resultMap id="selectByCommunityIdMap" type="community">
+        <id column="community_id" property="communityId" javaType="String"/>
+        <result column="community_name" property="communityName" javaType="String"/>
+        <result column="community_info" property="communityInfo" javaType="String"/>
+        <association property="region" column="region_id" javaType="region">
+            <id column="region_id" property="regionId" javaType="Long"/>
+            <result column="full_name" property="fullName" javaType="String"/>
+        </association>
+    </resultMap>
 
 
     <!--获取小区的列表-->
