@@ -42,8 +42,15 @@ public class HouseManageController {
         System.out.println(communityId);
         //查询
         List<House> list =houseManageService.getHouseListByCommunityId(communityId);
-        ResponseMessage responseMessage = new ResponseMessage("0", "添加成功");
-        responseMessage.getData().put("houseList",list);
-        return responseMessage;
+        ResponseMessage responseMessage ;
+        if(list != null){
+            responseMessage = new ResponseMessage("0", "获取成功");
+            responseMessage.getData().put("houseList",list);
+            return responseMessage;
+        }
+        else {
+            return new ResponseMessage("-1","获取失败");
+        }
+
     }
 }
