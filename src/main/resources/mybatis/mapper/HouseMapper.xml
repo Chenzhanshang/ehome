@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyct.ehome.dao.HouseMapper">
+
+    <insert id="insert" parameterType="house">
+        insert into t_house(house_id, house_name, community_id)
+        values (#{houseId},#{houseName},#{community.communityId})
+    </insert>
+
+    <select id="getHouseListByCommunityId" parameterType="String" resultType="house">
+        select * from t_house where community_id = #{v}
+    </select>
+
+</mapper>
