@@ -57,4 +57,10 @@ public interface CommunityMapper {
      * @return
      */
     List<Room> getRoomListByHouseId(String houseId);
+
+    /**
+     * 获取小区列表
+     * @return
+     */
+    List<Community> getList();
 }
