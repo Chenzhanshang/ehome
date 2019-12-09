@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
  * 管理端的小区控制层
  * @author JGZ
@@ -27,7 +29,6 @@ public class CommunityManageController {
      * @param community
      * @return
      */
-
     @RequestMapping(value = "/addCommunity",method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessage add(@RequestBody Community community){
@@ -40,6 +41,26 @@ public class CommunityManageController {
         }
         else {
             return new ResponseMessage("-1","插入失败");
+        }
+    }
+
+    /**
+     * 获取小区列表
+     * @return
+     */
+    @RequestMapping(value = "/communityList",method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseMessage list(){
+        List<Community> list =  communityManageService.getList();
+        ResponseMessage responseMessage ;
+        if(list != null){
+            responseMessage = new ResponseMessage("0","获取成功");
+            responseMessage.getData().put("communityList",list);
+            return responseMessage;
+        }
+        else {
+            responseMessage = new ResponseMessage("-1","获取失败");
+            return responseMessage;
         }
     }
 }

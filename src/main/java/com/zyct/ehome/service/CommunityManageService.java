@@ -2,6 +2,8 @@ package com.zyct.ehome.service;
 
 import com.zyct.ehome.entity.Community;
 
+import java.util.List;
+
 /**
  * @author JGZ
  * CreateTime 2019/12/6 14:28
@@ -15,4 +17,10 @@ public interface CommunityManageService {
      * @return
      */
     public Community addCommunity(Community community);
+
+    /**
+     * 获取小区列表
+     * @return
+     */
+    public List<Community> getList();
 }

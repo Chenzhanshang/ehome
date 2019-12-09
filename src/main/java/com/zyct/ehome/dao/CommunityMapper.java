@@ -76,4 +76,9 @@ public interface CommunityMapper {
 
     @Select("select * from t_room where room_id = #{roomId}")
     Room getRoomByRoomId(@Param("roomId") String roomId);
+    /**
+     * 获取小区列表
+     * @return
+     */
+    List<Community> getList();
 }
