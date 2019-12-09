@@ -4,6 +4,7 @@ import com.zyct.ehome.entity.File;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -24,7 +25,8 @@ public interface UploadFileMapper {
 
     void updateFile(File file);
 
-    List<File> selectFileByApplyId(@Param("ApplyId") String ApplyId);
+    @Select("select * from file where apply_id = #{applyId}")
+    List<File> selectFileByApplyId(@Param("applyId") String applyId);
 
 
 }

@@ -11,7 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -32,7 +34,7 @@ public class UploadFileController {
 
     @RequestMapping("/uploadFile")
     @ResponseBody
-    public ResponseMessage uploadFile(@RequestParam("file")MultipartFile multipartFile){
+    public Map<String, Object> uploadFile(@RequestParam("file")MultipartFile multipartFile){
         String filename = multipartFile.getOriginalFilename();
         String path = "/Users/litianfu/Desktop/upload/";
         File f = new File(path);
@@ -51,11 +53,12 @@ public class UploadFileController {
         file.setFileId(UUID.randomUUID().toString());
         file.setFileName(multipartFile.getOriginalFilename());
         file.setFilePath(path+multipartFile.getOriginalFilename());
-//        file.setApply();
-
         applyService.insertFile(file);
-        //将文件信息存入数据库
-        return null;
+//        List<com.zyct.ehome.entity.File> urls = applyService.selectFileUrls();
+        String[] str ={ "http://localhost:8081/ehome/file/"+multipartFile.getOriginalFilename()};
+        Map<String,Object> map = new HashMap<>();
+        map.put("urls",str);
+        return map;
     }
 
 }

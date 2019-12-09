@@ -3,6 +3,8 @@ package com.zyct.ehome.service;
 import com.zyct.ehome.entity.Apply;
 import com.zyct.ehome.entity.File;
 
+import java.util.List;
+
 /**
  * @author litianfu
  * @version 1.0
@@ -23,4 +25,7 @@ public interface ApplyService {
      * @return
      */
     void insertFile(File file);
+
+
+    List<File> selectFileUrls();
 }

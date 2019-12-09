@@ -30,7 +30,7 @@ public class ApplyServiceImpl implements ApplyService {
 
     private List<com.zyct.ehome.entity.File> fileList = new ArrayList<>();
 
-
+    private Apply userApply;
 
     /**
      * 插入一个申请
@@ -39,6 +39,7 @@ public class ApplyServiceImpl implements ApplyService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void insertApply(Apply apply) {
+        userApply = apply;
         applyMapper.insertApply(apply);
         for (File file1 : fileList) {
             file1.setApply(apply);
@@ -48,14 +49,18 @@ public class ApplyServiceImpl implements ApplyService {
     }
 
     /**
-     * 将文件信息数据库
-     *
+     * 将文件信息放进List
      * @param file
      * @return
      */
     @Override
     public void insertFile(File file) {
         fileList.add(file);
+    }
 
+    @Override
+    public List<File> selectFileUrls(){
+        List<File> files = uploadFileMapper.selectFileByApplyId(userApply.getApplyId());
+        return files;
     }
 }
