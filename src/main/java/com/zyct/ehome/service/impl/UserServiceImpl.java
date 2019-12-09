@@ -1,6 +1,5 @@
 package com.zyct.ehome.service.impl;
 
-import com.zyct.ehome.config.weixin.RawData;
 import com.zyct.ehome.dao.UserMapper;
 import com.zyct.ehome.entity.Owner;
 import com.zyct.ehome.service.UserService;
@@ -38,4 +37,16 @@ public class UserServiceImpl implements UserService {
         }
         return uuid;
     }
+
+    @Override
+    public Owner selectUserByOwnerId(String ownerId) {
+        return userMapper.selectUserByOwnerId(ownerId);
+    }
+
+    @Override
+    public void updateUser(Owner owner) {
+        userMapper.updateUser(owner);
+    }
+
+
 }

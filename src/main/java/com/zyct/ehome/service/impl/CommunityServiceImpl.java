@@ -54,4 +54,37 @@ public class CommunityServiceImpl implements CommunityService {
         List<Room> roomList = communityMapper.getRoomListByHouseId(houseId);
         return roomList;
     }
+
+    /**
+     * 通过小区id查询小区
+     *
+     * @param communityId
+     * @return
+     */
+    @Override
+    public Community getCommunityByCommunityId(String communityId) {
+        return communityMapper.getCommunityByCommunityId(communityId);
+    }
+
+    /**
+     * 通过楼栋id查询楼栋
+     *
+     * @param houseId
+     * @return
+     */
+    @Override
+    public House getHouseByHouseId(String houseId) {
+        return communityMapper.getHouseByHouseId(houseId);
+    }
+
+    /**
+     * 通过房子id查询房子
+     *
+     * @param roomId
+     * @return
+     */
+    @Override
+    public Room getRoomByRoomId(String roomId) {
+        return communityMapper.getRoomByRoomId(roomId);
+    }
 }

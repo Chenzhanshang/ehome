@@ -9,4 +9,11 @@ public class FlowNode {
     private String flowNodeName;
 
     private Role role;
+
+    public FlowNode(Integer flowNodeId, String flowNodeName, Role role) {
+        this.flowNodeId = flowNodeId;
+        this.flowNodeName = flowNodeName;
+        this.role = role;
+    }
+
 }
