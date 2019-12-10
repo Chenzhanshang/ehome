@@ -1,7 +1,11 @@
 package com.zyct.ehome.utils;
 
 import com.zyct.ehome.dao.AdminMapper;
+import com.zyct.ehome.dao.GenerateAdminAccountMapper;
 import com.zyct.ehome.entity.Admin;
+import com.zyct.ehome.entity.Region;
+import com.zyct.ehome.service.AdminService;
+import com.zyct.ehome.service.GenerateAdminAccountService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,33 +22,48 @@ import java.util.UUID;
 @Component
 public class GenerateAdminAccount {
     //账号长度为admin加8位
-    private int accountSize = 8;
     private Random random = new Random();
     @Autowired
-    private AdminMapper adminMapper;
+    private GenerateAdminAccountService generateAdminAccountService;
+
+    @Autowired
+    private AdminService adminService;
 
     /**
      * 生成管理员账号
      * @return Admin
      */
-    public Admin generateAccount(){
+    public Admin generateAccount(String accountType, Long regionId){
+        System.out.println(accountType + "----------------------->" + regionId);
         String uuid = null;
         //生成uuid主键
         uuid = UUID.randomUUID().toString().replaceAll("-","");
         Admin admin = new Admin();
         admin.setAdminId(uuid);
+        Region region = new Region();
+        region.setRegionId(regionId);
+        admin.setRegion(region);
+        admin.setAdminPassword("123456");
         //账号前缀
         String prefix = "admin";
         while(true) {
             String account = prefix + random.nextInt(100000000);
             admin.setAdminAccount(account);
             //账户已存在
-            if(adminMapper.getAdminByAccount(admin.getAdminAccount()) != null){
+            if(adminService.getAdminByAccount(admin.getAdminAccount()) != null){
                 continue;
             }
             else {
                 System.out.println(admin);
-                adminMapper.insertAdmin(admin);
+                generateAdminAccountService.insertAdmin(admin);
+                if("subdistrictOffice".equals(accountType)){
+                    generateAdminAccountService.insertAdminAndRole(admin.getAdminId(),"2");
+                }
+                if("houseManagement".equals(accountType)){
+                    generateAdminAccountService.insertAdminAndRole(admin.getAdminId(),"3");
+                }
+
+
                 return admin;
             }
         }
