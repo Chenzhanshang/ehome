@@ -81,4 +81,16 @@ public interface CommunityMapper {
      * @return
      */
     List<Community> getList();
+
+    /**
+     * 通过id删除小区
+     * @param community
+     */
+    void deleteCommunityById(Community community);
+
+    /**
+     * 通过通过id修改小区
+     * @param community
+     */
+    void updateCommunityById(Community community);
 }

@@ -5,10 +5,9 @@ import com.zyct.ehome.service.RoomService;
 import com.zyct.ehome.utils.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author JGZ
@@ -34,4 +33,44 @@ public class RoomManageController {
         roomService.addRoom(room);
         return new ResponseMessage("0","插入成功");
     }
+
+    /**
+     * 获取小区的房间列表
+     * @param communityId
+     * @return
+     */
+    @RequestMapping(value = "/roomList/{communityId}",method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseMessage roomList(@PathVariable("communityId") String communityId){
+
+        List<Room> list = roomService.getListByCommunityId(communityId);
+        if(list != null){
+            ResponseMessage responseMessage = new ResponseMessage("0","请求成功");
+            responseMessage.getData().put("roomList",list);
+            return responseMessage;
+        }
+        return new ResponseMessage("-1","请求失败");
+    }
+
+    /**
+     * 修改房间信息
+     * @param room
+     * @return
+     */
+    @RequestMapping(value = "/updateRoom",method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage updateRoom(@RequestBody Room room){
+        System.out.println(room);
+        roomService.updateRoom(room);
+        return new ResponseMessage("0","修改成功");
+    }
+
+    @RequestMapping(value = "/deleteRoom",method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage deleteRoom(@RequestBody Room room){
+        System.out.println(room);
+        roomService.deleteRoom(room);
+        return new ResponseMessage("0","删除成功");
+    }
+
 }

@@ -30,4 +30,14 @@ public class HouseManageServiceImpl implements HouseManageService {
     public List<House> getHouseListByCommunityId(String communityId) {
         return houseMapper.getHouseListByCommunityId(communityId);
     }
+
+    @Override
+    public void updateHouse(House house) {
+        houseMapper.updateHouseNameById(house);
+    }
+
+    @Override
+    public void deleteHouse(House house) {
+        houseMapper.deleteHouseById(house);
+    }
 }

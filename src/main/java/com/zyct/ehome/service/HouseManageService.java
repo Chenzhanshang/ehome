@@ -24,4 +24,16 @@ public interface HouseManageService {
      * @return
      */
     List<House> getHouseListByCommunityId(String communityId);
+
+    /**
+     * 修改修改楼栋
+     * @param house
+     */
+    void updateHouse(House house);
+
+    /**
+     * 通过id删除楼栋
+     * @param house
+     */
+    void deleteHouse(House house);
 }

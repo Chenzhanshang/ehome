@@ -37,4 +37,15 @@ public class CommunityManageServiceImpl implements CommunityManageService {
     public List<Community> getList() {
         return communityMapper.getList();
     }
+
+    @Override
+    public void deleteCommunity(Community community) {
+        communityMapper.deleteCommunityById(community);
+    }
+
+    @Override
+    public void updateCommunity(Community community) {
+        communityMapper.updateCommunityById(community);
+
+    }
 }

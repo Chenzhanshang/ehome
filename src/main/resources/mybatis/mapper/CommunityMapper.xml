@@ -88,6 +88,25 @@
     </resultMap>
 
 
+    <delete id="deleteCommunityById" parameterType="community">
+        delete from t_community where community_id = #{communityId}
+    </delete>
+
+    <update id="updateCommunityById" parameterType="community">
+        update t_community
+        <trim prefix="set" suffixOverrides=",">
+            <if test="communityName != null and communityName != ''">
+                community_name = #{communityName},
+            </if>
+            <if test="communityInfo != null and communityInfo != ''">
+                community_info = #{communityInfo},
+            </if>
+            <if test="region != null and region.regionId != null">
+                region_id = #{region.regionId},
+            </if>
+        </trim>
+        where community_id = #{communityId}
+    </update>
 
 
 </mapper>

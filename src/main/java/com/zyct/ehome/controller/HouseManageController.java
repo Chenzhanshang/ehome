@@ -51,6 +51,23 @@ public class HouseManageController {
         else {
             return new ResponseMessage("-1","获取失败");
         }
-
     }
+
+    @RequestMapping(value = "/updateHouse",method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage updateHouse(@RequestBody House house){
+        System.out.println(house);
+        houseManageService.updateHouse(house);
+        return new ResponseMessage("0","修改成功");
+    }
+
+    @RequestMapping(value = "/deleteHouse",method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage deleteHouse(@RequestBody House house){
+        System.out.println(house);
+        houseManageService.deleteHouse(house);
+        return new ResponseMessage("0","删除成功");
+    }
+
+
 }

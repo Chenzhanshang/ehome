@@ -63,4 +63,20 @@ public class CommunityManageController {
             return responseMessage;
         }
     }
+    @RequestMapping(value = "deleteCommunity",method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage deleteCommunity(@RequestBody Community community){
+        communityManageService.deleteCommunity(community);
+
+        return new ResponseMessage("0","删除成功");
+    }
+
+    @RequestMapping(value = "updateCommunity",method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage updateCommunity(@RequestBody Community community){
+        System.out.println(community);
+
+        communityManageService.updateCommunity(community);
+        return new ResponseMessage("0","修改成功");
+    }
 }

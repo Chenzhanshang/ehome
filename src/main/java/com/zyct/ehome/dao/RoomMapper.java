@@ -3,6 +3,8 @@ package com.zyct.ehome.dao;
 import com.zyct.ehome.entity.Room;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @author JGZ
  * CreateTime 2019/12/9 16:53
@@ -15,4 +17,23 @@ public interface RoomMapper {
      * @param room
      */
     void addRoom(Room room);
+
+    /**
+     * 通过小区号获取房间列表
+     * @param communityId
+     * @return
+     */
+    List<Room> getListByCommunityId(String communityId);
+
+    /**
+     * 通过房间id修改房间名
+     * @param room
+     */
+    void updateRoomNameByRoomId(Room room);
+
+    /**
+     * 通过id删除房间
+     * @param room
+     */
+    void deleteRoomById(Room room);
 }
