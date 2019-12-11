@@ -6,6 +6,7 @@ import com.zyct.ehome.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -23,5 +24,20 @@ public class RoomServiceImpl implements RoomService {
     public void addRoom(Room room) {
         room.setRoomId(UUID.randomUUID().toString().replaceAll("-",""));
         roomMapper.addRoom(room);
+    }
+
+    @Override
+    public List<Room> getListByCommunityId(String communityId) {
+        return roomMapper.getListByCommunityId(communityId);
+    }
+
+    @Override
+    public void updateRoom(Room room) {
+        roomMapper.updateRoomNameByRoomId(room);
+    }
+
+    @Override
+    public void deleteRoom(Room room) {
+        roomMapper.deleteRoomById(room);
     }
 }

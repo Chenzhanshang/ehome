@@ -23,4 +23,16 @@ public interface CommunityManageService {
      * @return
      */
     public List<Community> getList();
+
+    /**
+     * 删除小区
+     * @param community
+     */
+    void deleteCommunity(Community community);
+
+    /**
+     * 修改社区信息
+     * @param community
+     */
+    void updateCommunity(Community community);
 }

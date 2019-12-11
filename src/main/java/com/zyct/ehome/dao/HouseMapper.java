@@ -25,4 +25,16 @@ public interface HouseMapper {
      * @return
      */
     List<House> getHouseListByCommunityId(String communityId);
+
+    /**
+     * 通过id修改楼栋名
+     * @param house
+     */
+    void updateHouseNameById(House house);
+
+    /**
+     * 通过id删除楼栋
+     * @param house
+     */
+    void deleteHouseById(House house);
 }
