@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyct.ehome.dao.AdminManageMapper">
+
+    <select id="getAdminList" resultMap="adminListMapVO">
+        SELECT * FROM t_admin,t_region,t_admin_role,t_role
+        WHERE t_admin.admin_id = t_admin_role.admin_id
+        AND t_admin.region_id = t_region.region_id
+        AND t_role.role_id = t_admin_role.role_id
+    </select>
+
+    <select id="getAdminByAdminAccount" parameterType="String" resultMap="adminListMapVO">
+        SELECT * FROM t_admin,t_region,t_admin_role,t_role
+        WHERE t_admin.admin_id = #{adminId}
+        AND t_admin.admin_id = t_admin_role.admin_id
+        AND t_admin.region_id = t_region.region_id
+        AND t_role.role_id = t_admin_role.role_id
+    </select>
+
+    <resultMap id="adminListMapVO"  type="admin">
+        <id column="admin_id" property="adminId" javaType="String"></id>
+        <result column="admin_account" property="adminAccount" javaType="String"></result>
+        <result column="admin_password" property="adminPassword" javaType="String"></result>
+        <result column="admin_modify" property="adminModify" javaType="Integer"></result>
+        <association property="region" javaType="region" column="region_id">
+            <id column="region_id" property="regionId" javaType="Long"></id>
+            <result column="full_name" property="fullName" javaType="String"></result>
+        </association>
+        <!-- 用户-角色需要使用collection进行映射 一对多使用 配置在一的一方添加属性 collection：对关联查询的多条记录映射到集合对象中去
+            property: 将关联查询出来的多条记录映射到类中的那个属性中 list ofType : 指定映射到集合属性中的pojo类，list的泛型 -->
+        <collection property="roles" column="role_id" ofType="role">
+            <!-- id 角色唯一标识 -->
+            <id column="role_id" property="roleId" javaType="String"></id>
+            <result column="role_name" property="roleName" javaType="String"></result>
+        </collection>
+    </resultMap>
+
+    <!-- 删除管理员-角色-->
+    <delete id="delectAdminRole" parameterType="String">
+       DELETE FROM t_admin_role WHERE admin_id = #{adminId}
+    </delete>
+
+    <!-- 删除管理员-->
+    <delete id="delectAdmin" parameterType="String">
+        DELETE FROM t_admin WHERE admin_id = #{adminId}
+    </delete>
+
+    <update id="updateAdmin" parameterType="com.zyct.ehome.entity.Admin">
+        UPDATE t_admin
+        SET admin_password = #{adminPassword},
+        region_id = #{region.regionId}
+        WHERE admin_id = #{adminId}
+    </update>
+
+    <update id="updateAdminRole" parameterType="String">
+        UPDATE t_admin_role
+        SET role_id = #{roleId}
+        WHERE admin_id = #{adminId}
+    </update>
+
+
+</mapper>
