@@ -33,17 +33,22 @@ public class RegionController {
     @RequestMapping(value = "/admin/regionList",method = RequestMethod.GET)
     public @ResponseBody
     ResponseMessage regionList(){
-        Object regionList = redisUtil.get("regionList");
-        ResponseMessage responseMessage ;
-//        System.out.println(regionTrees);
-        if (regionList != null){
-
-            responseMessage = new ResponseMessage("0", "请求成功");
-            responseMessage.getData().put("regionList",regionList);
-            return responseMessage;
+        try{
+            //获取缓存中的地区列表
+            Object regionList = redisUtil.get("regionList");
+            if (regionList != null){
+                //返回数据
+                ResponseMessage responseMessage = new ResponseMessage("0", "获取地区列表成功");
+                responseMessage.getData().put("regionList",regionList);
+                return responseMessage;
+            }
+            //如果等于空
+            return new ResponseMessage("-1","获取地区列表失败");
+        }catch (Exception e){
+            e.printStackTrace();
+            //抛出异常也返回获取失败
+            return new ResponseMessage("-1","获取地区列表失败");
         }
-        responseMessage = new ResponseMessage("-1","请求失败");
-        return responseMessage;
 
     }
 }

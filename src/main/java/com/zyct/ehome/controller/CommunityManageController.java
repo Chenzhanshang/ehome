@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * 管理端的小区控制层
@@ -32,16 +33,18 @@ public class CommunityManageController {
     @RequestMapping(value = "/addCommunity",method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessage add(@RequestBody Community community){
-        //插入用户
-        Community dbComm = communityManageService.addCommunity(community);
-        if (dbComm != null){
-            ResponseMessage responseMessage = new ResponseMessage("0","插入成功");
+        try{
+            //插入小区
+            Community dbComm = communityManageService.addCommunity(community);
+            ResponseMessage responseMessage = new ResponseMessage("0","添加小区成功");
             responseMessage.getData().put("dbData",dbComm);
             return responseMessage;
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","添加小区失败");
         }
-        else {
-            return new ResponseMessage("-1","插入失败");
-        }
+
+
     }
 
     /**
@@ -51,32 +54,40 @@ public class CommunityManageController {
     @RequestMapping(value = "/communityList",method = RequestMethod.GET)
     public @ResponseBody
     ResponseMessage list(){
-        List<Community> list =  communityManageService.getList();
         ResponseMessage responseMessage ;
-        if(list != null){
-            responseMessage = new ResponseMessage("0","获取成功");
+        try {
+            List<Community> list =  communityManageService.getList();
+            responseMessage = new ResponseMessage("0","获取小区列表成功");
             responseMessage.getData().put("communityList",list);
             return responseMessage;
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","获取小区列表失败");
         }
-        else {
-            responseMessage = new ResponseMessage("-1","获取失败");
-            return responseMessage;
-        }
+
     }
     @RequestMapping(value = "deleteCommunity",method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessage deleteCommunity(@RequestBody Community community){
-        communityManageService.deleteCommunity(community);
-
-        return new ResponseMessage("0","删除成功");
+        try {
+            communityManageService.deleteCommunity(community);
+            return new ResponseMessage("0","删除小区成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","删除小区失败");
+        }
     }
 
     @RequestMapping(value = "updateCommunity",method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessage updateCommunity(@RequestBody Community community){
         System.out.println(community);
-
-        communityManageService.updateCommunity(community);
-        return new ResponseMessage("0","修改成功");
+        try{
+            communityManageService.updateCommunity(community);
+            return new ResponseMessage("0","修改小区信息成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","修改小区信息失败");
+        }
     }
 }
