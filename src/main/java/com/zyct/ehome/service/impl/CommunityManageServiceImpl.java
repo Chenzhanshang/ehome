@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -23,7 +22,7 @@ public class CommunityManageServiceImpl implements CommunityManageService {
 
     @Override
     public Community addCommunity(Community community) {
-        String id = UUID.randomUUID().toString().replaceAll("-","");
+        String id = UUID.randomUUID().toString();
         //设置id
         community.setCommunityId(id);
         //插入用户
@@ -31,10 +30,5 @@ public class CommunityManageServiceImpl implements CommunityManageService {
         //查询信息
 
         return communityMapper.selectByCommunityId(id);
-    }
-
-    @Override
-    public List<Community> getList() {
-        return communityMapper.getList();
     }
 }
