@@ -29,9 +29,13 @@ public class RoomManageController {
     @RequestMapping(value = "/addRoom",method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessage addRoom(@RequestBody Room room){
-
-        roomService.addRoom(room);
-        return new ResponseMessage("0","插入成功");
+        try{
+            roomService.addRoom(room);
+            return new ResponseMessage("0","添加房间成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","添加房间失败");
+        }
     }
 
     /**
@@ -42,14 +46,16 @@ public class RoomManageController {
     @RequestMapping(value = "/roomList/{communityId}",method = RequestMethod.GET)
     public @ResponseBody
     ResponseMessage roomList(@PathVariable("communityId") String communityId){
-
-        List<Room> list = roomService.getListByCommunityId(communityId);
-        if(list != null){
-            ResponseMessage responseMessage = new ResponseMessage("0","请求成功");
+        try{
+            //通过communityId获取小区的房间号
+            List<Room> list = roomService.getListByCommunityId(communityId);
+            ResponseMessage responseMessage = new ResponseMessage("0","获取房间列表成功");
             responseMessage.getData().put("roomList",list);
             return responseMessage;
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","获取房间列表失败");
         }
-        return new ResponseMessage("-1","请求失败");
     }
 
     /**
@@ -61,16 +67,26 @@ public class RoomManageController {
     public @ResponseBody
     ResponseMessage updateRoom(@RequestBody Room room){
         System.out.println(room);
-        roomService.updateRoom(room);
-        return new ResponseMessage("0","修改成功");
+        try{
+            roomService.updateRoom(room);
+            return new ResponseMessage("0","修改房间信息成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","修改房间信息失败");
+        }
     }
 
     @RequestMapping(value = "/deleteRoom",method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessage deleteRoom(@RequestBody Room room){
         System.out.println(room);
-        roomService.deleteRoom(room);
-        return new ResponseMessage("0","删除成功");
+        try{
+            roomService.deleteRoom(room);
+            return new ResponseMessage("0","删除房间成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","删除房间失败");
+        }
     }
 
 }
