@@ -1,9 +1,11 @@
 package com.zyct.ehome.controller;
 
+import com.zyct.ehome.dto.CommunityDto;
 import com.zyct.ehome.entity.Community;
 import com.zyct.ehome.entity.House;
 import com.zyct.ehome.entity.Room;
 import com.zyct.ehome.service.CommunityService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.sound.midi.Soundbank;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,5 +52,21 @@ public class CommunityController {
         List<Room> roomList = communityService.getRoomListByHouseId(houseId);
         System.out.println(roomList);
         return roomList;
+    }
+
+    @RequestMapping("/ownerCommunityList")
+    @ResponseBody
+    public List<CommunityDto> ownerCommunityList(@RequestParam("ownerId")String ownerId){
+        List<CommunityDto> communityDtoList = new ArrayList<>();
+        List<Community> communityList = communityService.getCommunityListByOwnerId(ownerId);
+        for (Community community : communityList) {
+            CommunityDto communityDto = new CommunityDto();
+            communityDto.setCommunityId(community.getCommunityId());
+            communityDto.setCommunityName(community.getCommunityName());
+            communityDto.setCommunityInfo(community.getCommunityInfo());
+            communityDto.setIsSelected(0);
+            communityDtoList.add(communityDto);
+        }
+        return communityDtoList;
     }
 }

@@ -59,7 +59,7 @@ public class ApplyController {
         System.out.println(apply.toString());
         applyService.insertApply(apply);
 
-        return null;
+        return new ResponseMessage("success","申请提交成功");
     }
 
 

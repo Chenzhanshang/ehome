@@ -28,4 +28,6 @@ public interface ApplyService {
 
 
     List<File> selectFileUrls();
+
+    void insertGroupApply(File file, String ownerId, String communityId);
 }

@@ -3,15 +3,17 @@ package com.zyct.ehome.service.impl;
 import com.zyct.ehome.controller.UploadFileController;
 import com.zyct.ehome.dao.ApplyMapper;
 import com.zyct.ehome.dao.UploadFileMapper;
-import com.zyct.ehome.entity.Apply;
-import com.zyct.ehome.entity.File;
+import com.zyct.ehome.entity.*;
 import com.zyct.ehome.service.ApplyService;
+import com.zyct.ehome.service.CommunityService;
+import com.zyct.ehome.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author litianfu
@@ -27,6 +29,12 @@ public class ApplyServiceImpl implements ApplyService {
 
     @Autowired
     private ApplyMapper applyMapper;
+
+    @Autowired
+    private CommunityService communityService;
+
+    @Autowired
+    private UserService userService;
 
     private List<com.zyct.ehome.entity.File> fileList = new ArrayList<>();
 
@@ -45,6 +53,7 @@ public class ApplyServiceImpl implements ApplyService {
             file1.setApply(apply);
         }
         uploadFileMapper.insertFiles(fileList);
+        fileList.clear();
 
     }
 
@@ -62,5 +71,32 @@ public class ApplyServiceImpl implements ApplyService {
     public List<File> selectFileUrls(){
         List<File> files = uploadFileMapper.selectFileByApplyId(userApply.getApplyId());
         return files;
+    }
+
+    /**
+     * 插入筹备小组申请信息
+     * @param file
+     * @param ownerId
+     * @param communityId
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void insertGroupApply(File file, String ownerId, String communityId) {
+        Apply apply = new Apply();
+        String uuid = UUID.randomUUID().toString();
+        apply.setApplyId(uuid);
+        Owner owner = userService.selectUserByOwnerId(ownerId);
+        apply.setOwner(owner);
+        Community community = communityService.getCommunityByCommunityId(communityId);
+        apply.setCommunity(community);
+        apply.setFlowNode(new FlowNode(1,"用户提交申请",null));
+        List<File> files = new ArrayList<>();
+        files.add(file);
+        for (File file1 : files) {
+            file1.setApply(apply);
+        }
+        apply.setFiles(files);
+        applyMapper.insertApply(apply);
+        uploadFileMapper.insertFiles(files);
     }
 }
