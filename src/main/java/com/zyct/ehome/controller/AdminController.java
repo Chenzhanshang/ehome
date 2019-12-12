@@ -8,6 +8,7 @@ import com.zyct.ehome.utils.ResponseMessage;
 import com.zyct.ehome.utils.SuccessEnum;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -68,6 +69,11 @@ public class AdminController {
                 e.printStackTrace();
                 //返回用户不存在
                 return new ResponseMessage(ErrorEnum.E_UNKNOWN_ACCOUNT);
+            }
+            catch (IncorrectCredentialsException e){
+                e.printStackTrace();
+                //返回密码错误信息
+                return new ResponseMessage(ErrorEnum.E_PASSWORD_ERROR);
             }
             catch (AuthenticationException e) {
                 e.printStackTrace();

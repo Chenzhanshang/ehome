@@ -10,5 +10,98 @@
         #{house.houseId},#{room.roomId})
     </insert>
 
+    <select id="getApplyStateIsZeroByNode" resultMap="getApplyStateIsZeroByNodeMap" parameterType="list">
+        select a.apply_id apply_id,
+        c.community_id community_id,c.community_name community_name,
+        h.house_id house_id,h.house_name house_name,
+        r.room_id room_id,r.room_name room_name,
+        g.region_id region_id,g.full_name full_name,g.parent parent
+        from t_apply a
+        left join t_community c
+        on a.community_id = c.community_id
+        left join t_house h
+        on a.house_id = h.house_id
+        left join t_room r
+        on a.room_id = r.room_id
+        left join t_region g
+        on c.region_id = g.region_id
+        where a.apply_state = 0 and a.flow_node_id in
+        <foreach collection="list"  item="item" separator="," open="(" close=")">
+            #{item.flowNodeId}
+        </foreach>
+    </select>
+    <resultMap id="getApplyStateIsZeroByNodeMap" type="apply">
+        <id column="apply_id" property="applyId" javaType="String"/>
+        <association property="community" column="community_id" javaType="Community">
+            <id column="community_id" property="communityId" javaType="String"/>
+            <result column="community_name" property="communityName" javaType="String"/>
+            <association property="region" column="region_id" javaType="Region">
+                <id column="region_id" property="regionId" javaType="Long"/>
+                <result column="full_name" property="fullName" javaType="String"/>
+                <result column="parent" property="parent" javaType="Long"/>
+            </association>
+        </association>
+        <association property="house" column="house_id" javaType="House">
+            <id column="house_id" property="houseId" javaType="String"/>
+            <result column="house_name" property="houseName" javaType="String"/>
+        </association>
+        <association property="room" javaType="room" column="room_id">
+            <id column="room_id" property="roomId" javaType="String"/>
+            <result column="room_name" property="roomName" javaType="String"/>
+        </association>
+    </resultMap>
+
+    <select id="getApplyById" resultMap="getApplyByIdMap" parameterType="String">
+        select a.apply_id apply_id,
+        c.community_id community_id,c.community_name community_name,
+        rg.region_id region_id,rg.full_name full_name,
+        h.house_id house_id,h.house_name house_name,
+        r.room_id room_id,r.room_name room_name,
+        o.owner_id owner_id,o.owner_name owner_name,o.owner_id_number owner_id_number,
+        f.file_id file_id,f.file_name file_name,f.file_path file_path
+        from t_apply a
+        left join t_owner o
+        on a.owner_id = o.owner_id
+        left join t_community c
+        on a.community_id = c.community_id
+        left join t_region rg
+        on c.region_id = rg.region_id
+        left join t_house h
+        on a.house_id = h.house_id
+        left join t_room r
+        on a.room_id = r.room_id
+        left join t_file f
+        on a.apply_id = f.apply_id
+        where a.apply_id = #{v}
+    </select>
+    <resultMap id="getApplyByIdMap" type="apply">
+        <id column="apply_id" property="applyId" javaType="String"/>
+        <association property="community" column="community_id" javaType="Community">
+            <id column="community_id" property="communityId" javaType="String"/>
+            <result column="community_name" property="communityName" javaType="String"/>
+            <association property="region" column="region_id" javaType="Region">
+                <id column="region_id" property="regionId" javaType="Long"/>
+                <result column="full_name" property="fullName" javaType="String"/>
+            </association>
+        </association>
+        <association property="house" column="house_id" javaType="House">
+            <id column="house_id" property="houseId" javaType="String"/>
+            <result column="house_name" property="houseName" javaType="String"/>
+        </association>
+        <association property="room" javaType="room" column="room_id">
+            <id column="room_id" property="roomId" javaType="String"/>
+            <result column="room_name" property="roomName" javaType="String"/>
+        </association>
+        <association property="owner" column="owner_id" javaType="Owner">
+            <id column="owner_id" property="ownerId" javaType="String"/>
+            <result column="owner_name" property="ownerName" javaType="String"/>
+            <result column="owner_id_number" property="ownerIdNumber" javaType="String"/>
+        </association>
+        <collection property="files" ofType="File" column="file_id">
+            <id column="file_id" property="fileId" javaType="String"/>
+            <result column="file_name" property="fileName" javaType="String"/>
+            <result column="file_path" property="filePath" javaType="String"/>
+        </collection>
+    </resultMap>
 
 </mapper>
