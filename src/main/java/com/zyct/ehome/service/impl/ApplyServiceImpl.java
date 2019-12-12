@@ -79,7 +79,6 @@ public class ApplyServiceImpl implements ApplyService {
      * @param ownerId
      * @param communityId
      */
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public String insertGroupApply(File file, String ownerId, String communityId) {
         Apply apply = new Apply();
@@ -92,9 +91,6 @@ public class ApplyServiceImpl implements ApplyService {
         apply.setFlowNode(new FlowNode(1,"用户提交申请",null));
         List<File> files = new ArrayList<>();
         files.add(file);
-        for (File file1 : files) {
-            file1.setApply(apply);
-        }
         apply.setFiles(files);
         applyMapper.insertApply(apply);
         uploadFileMapper.insertFiles(files);
