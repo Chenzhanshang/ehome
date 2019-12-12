@@ -39,7 +39,8 @@
 
     <!--获取楼栋所有房间列表-->
     <select id="getRoomListByHouseId" parameterType="String" resultMap="roomListMap">
-        select * from t_room where house_id = #{v};
+        select * from t_room
+         where house_id = #{v} and owner_id is null ;
     </select>
 
     <resultMap id="roomListMap" type="Room">

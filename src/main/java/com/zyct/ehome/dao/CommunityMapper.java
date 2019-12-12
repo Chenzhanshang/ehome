@@ -71,10 +71,10 @@ public interface CommunityMapper {
      * @param houseId
      * @return
      */
-    @Select("select * from t_house where house_id = #{houseId}")
+    @Select("select * from t_house where house_id = #{houseId} ")
     House getHouseByHouseId(@Param("houseId") String houseId);
 
-    @Select("select * from t_room where room_id = #{roomId}")
+    @Select("select * from t_room where room_id = #{roomId} ")
     Room getRoomByRoomId(@Param("roomId") String roomId);
 
     List<Community> getCommunityListByOwnerId(String ownerId);

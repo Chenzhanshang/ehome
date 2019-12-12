@@ -46,7 +46,7 @@ public class ApplyServiceImpl implements ApplyService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void insertApply(Apply apply) {
+    public String insertApply(Apply apply) {
         userApply = apply;
         applyMapper.insertApply(apply);
         for (File file1 : fileList) {
@@ -54,7 +54,7 @@ public class ApplyServiceImpl implements ApplyService {
         }
         uploadFileMapper.insertFiles(fileList);
         fileList.clear();
-
+        return apply.getApplyId();
     }
 
     /**
@@ -81,7 +81,7 @@ public class ApplyServiceImpl implements ApplyService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void insertGroupApply(File file, String ownerId, String communityId) {
+    public String insertGroupApply(File file, String ownerId, String communityId) {
         Apply apply = new Apply();
         String uuid = UUID.randomUUID().toString();
         apply.setApplyId(uuid);
@@ -98,5 +98,6 @@ public class ApplyServiceImpl implements ApplyService {
         apply.setFiles(files);
         applyMapper.insertApply(apply);
         uploadFileMapper.insertFiles(files);
+        return apply.getApplyId();
     }
 }

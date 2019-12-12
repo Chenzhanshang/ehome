@@ -84,8 +84,12 @@ public class UploadFileController {
         file.setFileId(UUID.randomUUID().toString());
         file.setFileName(filename);
         file.setFilePath(path + multipartFile.getOriginalFilename());
-        applyService.insertGroupApply(file, ownerId, communityId);
-        return new ResponseMessage("success", "上传成功");
+        String applyId = applyService.insertGroupApply(file, ownerId, communityId);
+        ResponseMessage responseMessage = new ResponseMessage("success", "上传成功");
+        Map<String,Object> map = new HashMap<>();
+        map.put("applyId",applyId);
+        responseMessage.setData(map);
+        return responseMessage;
     }
 
 }

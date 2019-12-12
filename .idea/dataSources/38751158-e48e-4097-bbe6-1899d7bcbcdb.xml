@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="ehome@47.100.213.102">
-  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.11">
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.14">
     <root id="1">
       <ServerVersion>5.7.26</ServerVersion>
       <DefaultEngine>InnoDB</DefaultEngine>
@@ -915,20 +915,34 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="230" parent="3" name="t_admin"/>
+    <table id="230" parent="3" name="t_admin">
+      <Comment>管理员表</Comment>
+    </table>
     <table id="231" parent="3" name="t_admin_role"/>
-    <table id="232" parent="3" name="t_apply"/>
-    <table id="233" parent="3" name="t_committee"/>
-    <table id="234" parent="3" name="t_community"/>
+    <table id="232" parent="3" name="t_apply">
+      <Comment>申请表</Comment>
+    </table>
+    <table id="233" parent="3" name="t_committee">
+      <Comment>业委会表</Comment>
+    </table>
+    <table id="234" parent="3" name="t_community">
+      <Comment>小区表</Comment>
+    </table>
     <table id="235" parent="3" name="t_file"/>
     <table id="236" parent="3" name="t_flow_line"/>
     <table id="237" parent="3" name="t_flow_node"/>
     <table id="238" parent="3" name="t_house"/>
-    <table id="239" parent="3" name="t_issue"/>
+    <table id="239" parent="3" name="t_issue">
+      <Comment>议题表</Comment>
+    </table>
     <table id="240" parent="3" name="t_leave_audit"/>
-    <table id="241" parent="3" name="t_owner"/>
+    <table id="241" parent="3" name="t_owner">
+      <Comment>业主表</Comment>
+    </table>
     <table id="242" parent="3" name="t_promise"/>
-    <table id="243" parent="3" name="t_region"/>
+    <table id="243" parent="3" name="t_region">
+      <Comment>地区表</Comment>
+    </table>
     <table id="244" parent="3" name="t_role"/>
     <table id="245" parent="3" name="t_role_promise"/>
     <table id="246" parent="3" name="t_room"/>
@@ -959,7 +973,7 @@
     <column id="253" parent="230" name="admin_modify">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
-      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
     <index id="254" parent="230" name="t_admin_admin_id_uindex">
@@ -1147,6 +1161,7 @@ admin_id</ColNames>
     </column>
     <column id="290" parent="233" name="committee_term">
       <Position>4</Position>
+      <Comment>第几届业委会</Comment>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
@@ -1600,7 +1615,7 @@ admin_id</ColNames>
     <column id="380" parent="241" name="authentication_flag">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
-      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
     <index id="381" parent="241" name="t_owner_owner_id_uindex">

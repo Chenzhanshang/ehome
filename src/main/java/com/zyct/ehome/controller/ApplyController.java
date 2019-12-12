@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -57,9 +59,12 @@ public class ApplyController {
         apply.setFlowNode(new FlowNode(1,"用户提交申请",null));
         apply.setApplyState(0);
         System.out.println(apply.toString());
-        applyService.insertApply(apply);
-
-        return new ResponseMessage("success","申请提交成功");
+        String applyId = applyService.insertApply(apply);
+        Map<String,Object> map = new HashMap<>();
+        map.put("applyId",applyId);
+        ResponseMessage responseMessage = new ResponseMessage("success", "申请提交成功");
+        responseMessage.setData(map);
+        return responseMessage;
     }
 
 
