@@ -78,4 +78,21 @@ public interface CommunityMapper {
     Room getRoomByRoomId(@Param("roomId") String roomId);
 
     List<Community> getCommunityListByOwnerId(String ownerId);
+    /**
+     * 获取小区列表
+     * @return
+     */
+    List<Community> getList();
+
+    /**
+     * 通过id删除小区
+     * @param community
+     */
+    void deleteCommunityById(Community community);
+
+    /**
+     * 通过通过id修改小区
+     * @param community
+     */
+    void updateCommunityById(Community community);
 }

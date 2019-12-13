@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
  * 管理端的小区控制层
  * @author JGZ
@@ -22,22 +24,27 @@ public class CommunityManageController {
 
     @Autowired
     private CommunityManageService communityManageService;
+
     /**
      * 添加小区
      * @param community
      * @return
      */
-
     @RequestMapping(value = "/addCommunity",method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessage add(@RequestBody Community community){
-        //插入用户
-        Community dbComm = communityManageService.addCommunity(community);
-        if (dbComm != null){
-            ResponseMessage responseMessage = new ResponseMessage("0","插入成功");
+        try{
+            //插入小区
+            Community dbComm = communityManageService.addCommunity(community);
+            ResponseMessage responseMessage = new ResponseMessage("0","添加小区成功");
             responseMessage.getData().put("dbData",dbComm);
             return responseMessage;
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","添加小区失败");
         }
+
+
     }
 
     /**
@@ -79,11 +86,9 @@ public class CommunityManageController {
             System.out.println("你好");
             communityManageService.updateCommunity(community);
             return new ResponseMessage("0","修改小区信息成功");
-        }catch (Exception e){
+        }catch (Exception e) {
             e.printStackTrace();
-            return new ResponseMessage("-1","修改小区信息失败");
-        else {
-            return new ResponseMessage("-1","插入失败");
+            return new ResponseMessage("-1", "修改小区信息失败");
         }
     }
 }
