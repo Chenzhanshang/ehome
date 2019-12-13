@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyct.ehome.dao.RoomMapper">
+
+  <insert id="addRoom" parameterType="room">
+      insert into t_room(room_id, room_name, house_id,owner_id)
+      values (#{roomId},#{roomName},#{house.houseId},null )
+  </insert>
+
+    <select id="getListByCommunityId" parameterType="String" resultMap="getRoomListByCommunityIdMap">
+        select r.room_id room_id,r.room_name room_name,
+        h.house_id house_id,h.house_name house_name,
+        o.owner_id owner_id,o.owner_name owner_name
+        from t_room r
+        left join t_house h
+        on r.house_id = h.house_id
+        left join t_community c
+        on h.community_id = c.community_id
+        left join t_owner o
+        on r.owner_id = o.owner_id
+        where c.community_id = #{v}
+    </select>
+    <resultMap id="getRoomListByCommunityIdMap" type="room">
+        <id column="room_id" property="roomId" javaType="String"/>
+        <result column="room_name" property="roomName"  javaType="String"/>
+        <association property="house" column="house_id" javaType="house">
+            <id column="house_id" property="houseId" javaType="String"/>
+            <result column="house_name" property="houseName" javaType="String"/>
+        </association>
+        <association property="owner" column="owner_id" javaType="owner">
+            <id column="owner_id" property="ownerId" javaType="String"/>
+            <result column="owner_name" property="ownerName" javaType="String"/>
+        </association>
+    </resultMap>
+
+    <update id="updateRoomNameByRoomId" parameterType="room">
+        update t_room
+        set room_name = #{roomName}
+        where room_id = #{roomId}
+    </update>
+
+    <delete id="deleteRoomById" parameterType="room">
+        delete
+        from t_room
+        where room_id = #{roomId}
+    </delete>
+</mapper>

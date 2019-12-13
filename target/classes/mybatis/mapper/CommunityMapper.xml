@@ -19,7 +19,7 @@
             <id column="ten_id" property="tenId" javaType="String"></id>
 
         </association>
-        <association  property="region" javaType="region" column="region_id">
+        <association property="region" javaType="region" column="region_id">
             <id column="region_id" property="regionId" javaType="Long"/>
             <result column="full_name" property="fullName" javaType="String"/>
         </association>
@@ -38,11 +38,12 @@
     </resultMap>
 
     <!--获取楼栋所有房间列表-->
-    <select id="getRoomListByHouseId" parameterType="String" resultMap="roomListMap" >
-        select * from t_room where house_id = #{v};
+    <select id="getRoomListByHouseId" parameterType="String" resultMap="roomListMap">
+        select * from t_room
+         where house_id = #{v} and owner_id is null ;
     </select>
 
-    <resultMap id="roomListMap" type="Room" >
+    <resultMap id="roomListMap" type="Room">
         <id column="room_id" property="roomId" javaType="String"></id>
         <result column="room_name" property="roomName" javaType="String"></result>
         <result column="room_certification_time" property="roomCertificationTime" javaType="Long"></result>
@@ -53,13 +54,9 @@
         </association>
 
     </resultMap>
-
-
-
     <!--添加社区-->
-
     <insert id="insert" parameterType="community">
-        insert  into t_community(community_id, community_name, region_id, community_info)
+        insert into t_community(community_id, community_name, region_id, community_info)
         values (#{communityId},#{communityName},#{region.regionId},#{communityInfo})
     </insert>
 
@@ -90,6 +87,18 @@
         </association>
     </resultMap>
 
+    <!--通过用户id查询所有已认证小区-->
+    <select id="getCommunityListByOwnerId" parameterType="String" resultMap="communityMap">
+        select * from t_community
+        left join t_house th on t_community.community_id = th.community_id
+        left join t_room tr on th.house_id = tr.house_id
+        where owner_id = #{ownerId}
+    </select>
+    <resultMap id="communityMap" type="community">
+        <id column="community_id" property="communityId" javaType="String"></id>
+        <result column="community_name" property="communityName" javaType="String"></result>
+        <result column="community_info" property="communityInfo" javaType="String"></result>
+    </resultMap>
 
     <delete id="deleteCommunityById" parameterType="community">
         delete from t_community where community_id = #{communityId}
@@ -110,7 +119,4 @@
         </trim>
         where community_id = #{communityId}
     </update>
-
-
 </mapper>
-

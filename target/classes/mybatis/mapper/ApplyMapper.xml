@@ -103,5 +103,4 @@
             <result column="file_path" property="filePath" javaType="String"/>
         </collection>
     </resultMap>
-
 </mapper>

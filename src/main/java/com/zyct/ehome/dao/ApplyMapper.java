@@ -1,7 +1,10 @@
 package com.zyct.ehome.dao;
 
 import com.zyct.ehome.entity.Apply;
+import com.zyct.ehome.entity.FlowNode;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * @author litianfu
@@ -15,4 +18,17 @@ public interface ApplyMapper {
 
     void insertApply(Apply apply);
 
+    /**
+     * 获取正在进行中的审批申请
+     * @param prevNode
+     * @return
+     */
+    List<Apply> getApplyStateIsZeroByNode(List<FlowNode> prevNode);
+
+    /**
+     * 通过id获取审批信息
+     * @param applyId
+     * @return
+     */
+    Apply getApplyById(String applyId);
 }

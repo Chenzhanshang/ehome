@@ -62,24 +62,26 @@
 
     <select id="selectByCommunityId" parameterType="String" resultMap="selectByCommunityIdMap">
         select c.community_id community_id,c.community_name community_name,c.community_info community_info,
-        t.ten_id ten_id,t.ten_name ten_name,
-        r.region_id region_id,r.full_name full_name
+        c.region_id region_id,r.full_name full_name
         from t_community c
-        left join t_ten t
-        on c.ten_id = t.ten_id
-        left join t_region r
+        left join  t_region r
         on c.region_id = r.region_id
         where c.community_id = #{v}
     </select>
+    <!--获取小区列表，封装方式用 selectByCommunityIdMap-->
+    <select id="getList" resultMap="selectByCommunityIdMap">
+        select c.community_id community_id,c.community_name community_name,c.community_info community_info,
+        c.region_id region_id,r.full_name full_name
+        from t_community c
+        left join  t_region r
+        on c.region_id = r.region_id
+    </select>
+
     <resultMap id="selectByCommunityIdMap" type="community">
         <id column="community_id" property="communityId" javaType="String"/>
         <result column="community_name" property="communityName" javaType="String"/>
         <result column="community_info" property="communityInfo" javaType="String"/>
-        <association property="ten" column="ten_id" javaType="ten">
-            <id column="ten_id" property="tenId" javaType="String"/>
-            <result column="ten_name" property="tenName" javaType="String"/>
-        </association>
-        <association property="region" javaType="region" column="region_id">
+        <association property="region" column="region_id" javaType="region">
             <id column="region_id" property="regionId" javaType="Long"/>
             <result column="full_name" property="fullName" javaType="String"/>
         </association>
@@ -97,4 +99,24 @@
         <result column="community_name" property="communityName" javaType="String"></result>
         <result column="community_info" property="communityInfo" javaType="String"></result>
     </resultMap>
+
+    <delete id="deleteCommunityById" parameterType="community">
+        delete from t_community where community_id = #{communityId}
+    </delete>
+
+    <update id="updateCommunityById" parameterType="community">
+        update t_community
+        <trim prefix="set" suffixOverrides=",">
+            <if test="communityName != null and communityName != ''">
+                community_name = #{communityName},
+            </if>
+            <if test="communityInfo != null and communityInfo != ''">
+                community_info = #{communityInfo},
+            </if>
+            <if test="region != null and region.regionId != null">
+                region_id = #{region.regionId},
+            </if>
+        </trim>
+        where community_id = #{communityId}
+    </update>
 </mapper>
