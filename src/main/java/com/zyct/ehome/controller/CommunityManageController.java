@@ -83,6 +83,7 @@ public class CommunityManageController {
     ResponseMessage updateCommunity(@RequestBody Community community){
         System.out.println(community);
         try{
+            System.out.println("你好");
             communityManageService.updateCommunity(community);
             return new ResponseMessage("0","修改小区信息成功");
         }catch (Exception e){
