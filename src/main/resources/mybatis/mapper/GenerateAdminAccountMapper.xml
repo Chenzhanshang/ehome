@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyct.ehome.dao.GenerateAdminAccountMapper">
+    <!--新增管理员数据-->
+    <insert id="insertAdmin" parameterType="admin">
+        INSERT INTO t_admin (admin_id,admin_account, admin_password,region_id) VALUES (#{adminId},#{adminAccount},#{adminPassword},#{region.regionId})
+    </insert>
+
+    <!--新增管理员-角色数据-->
+    <insert id="insertAdminAndRole" parameterType="String">
+        INSERT INTO t_admin_role (admin_id,role_id) VALUES (#{adminId},#{roleId})
+    </insert>
+</mapper>

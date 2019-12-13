@@ -19,7 +19,7 @@
             <id column="ten_id" property="tenId" javaType="String"></id>
 
         </association>
-        <association  property="region" javaType="region" column="region_id">
+        <association property="region" javaType="region" column="region_id">
             <id column="region_id" property="regionId" javaType="Long"/>
             <result column="full_name" property="fullName" javaType="String"/>
         </association>
@@ -38,11 +38,12 @@
     </resultMap>
 
     <!--获取楼栋所有房间列表-->
-    <select id="getRoomListByHouseId" parameterType="String" resultMap="roomListMap" >
-        select * from t_room where house_id = #{v};
+    <select id="getRoomListByHouseId" parameterType="String" resultMap="roomListMap">
+        select * from t_room
+         where house_id = #{v} and owner_id is null ;
     </select>
 
-    <resultMap id="roomListMap" type="Room" >
+    <resultMap id="roomListMap" type="Room">
         <id column="room_id" property="roomId" javaType="String"></id>
         <result column="room_name" property="roomName" javaType="String"></result>
         <result column="room_certification_time" property="roomCertificationTime" javaType="Long"></result>
@@ -54,59 +55,46 @@
 
     </resultMap>
     <!--添加社区-->
-
     <insert id="insert" parameterType="community">
-        insert  into t_community(community_id, community_name, region_id, community_info)
+        insert into t_community(community_id, community_name, region_id, community_info)
         values (#{communityId},#{communityName},#{region.regionId},#{communityInfo})
     </insert>
 
     <select id="selectByCommunityId" parameterType="String" resultMap="selectByCommunityIdMap">
         select c.community_id community_id,c.community_name community_name,c.community_info community_info,
-        c.region_id region_id,r.full_name full_name
+        t.ten_id ten_id,t.ten_name ten_name,
+        r.region_id region_id,r.full_name full_name
         from t_community c
-        left join  t_region r
+        left join t_ten t
+        on c.ten_id = t.ten_id
+        left join t_region r
         on c.region_id = r.region_id
         where c.community_id = #{v}
     </select>
-    <!--获取小区列表，封装方式用 selectByCommunityIdMap-->
-    <select id="getList" resultMap="selectByCommunityIdMap">
-        select c.community_id community_id,c.community_name community_name,c.community_info community_info,
-        c.region_id region_id,r.full_name full_name
-        from t_community c
-        left join  t_region r
-        on c.region_id = r.region_id
-    </select>
-
     <resultMap id="selectByCommunityIdMap" type="community">
         <id column="community_id" property="communityId" javaType="String"/>
         <result column="community_name" property="communityName" javaType="String"/>
         <result column="community_info" property="communityInfo" javaType="String"/>
-        <association property="region" column="region_id" javaType="region">
+        <association property="ten" column="ten_id" javaType="ten">
+            <id column="ten_id" property="tenId" javaType="String"/>
+            <result column="ten_name" property="tenName" javaType="String"/>
+        </association>
+        <association property="region" javaType="region" column="region_id">
             <id column="region_id" property="regionId" javaType="Long"/>
             <result column="full_name" property="fullName" javaType="String"/>
         </association>
     </resultMap>
 
-
-    <delete id="deleteCommunityById" parameterType="community">
-        delete from t_community where community_id = #{communityId}
-    </delete>
-
-    <update id="updateCommunityById" parameterType="community">
-        update t_community
-        <trim prefix="set" suffixOverrides=",">
-            <if test="communityName != null and communityName != ''">
-                community_name = #{communityName},
-            </if>
-            <if test="communityInfo != null and communityInfo != ''">
-                community_info = #{communityInfo},
-            </if>
-            <if test="region != null and region.regionId != null">
-                region_id = #{region.regionId},
-            </if>
-        </trim>
-        where community_id = #{communityId}
-    </update>
-
-
+    <!--通过用户id查询所有已认证小区-->
+    <select id="getCommunityListByOwnerId" parameterType="String" resultMap="communityMap">
+        select * from t_community
+        left join t_house th on t_community.community_id = th.community_id
+        left join t_room tr on th.house_id = tr.house_id
+        where owner_id = #{ownerId}
+    </select>
+    <resultMap id="communityMap" type="community">
+        <id column="community_id" property="communityId" javaType="String"></id>
+        <result column="community_name" property="communityName" javaType="String"></result>
+        <result column="community_info" property="communityInfo" javaType="String"></result>
+    </resultMap>
 </mapper>

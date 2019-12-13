@@ -71,26 +71,11 @@ public interface CommunityMapper {
      * @param houseId
      * @return
      */
-    @Select("select * from t_house where house_id = #{houseId}")
+    @Select("select * from t_house where house_id = #{houseId} ")
     House getHouseByHouseId(@Param("houseId") String houseId);
 
-    @Select("select * from t_room where room_id = #{roomId}")
+    @Select("select * from t_room where room_id = #{roomId} ")
     Room getRoomByRoomId(@Param("roomId") String roomId);
-    /**
-     * 获取小区列表
-     * @return
-     */
-    List<Community> getList();
 
-    /**
-     * 通过id删除小区
-     * @param community
-     */
-    void deleteCommunityById(Community community);
-
-    /**
-     * 通过通过id修改小区
-     * @param community
-     */
-    void updateCommunityById(Community community);
+    List<Community> getCommunityListByOwnerId(String ownerId);
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyct.ehome.dao.RegionMapper">
+
+    <select id="selectOneLevelList" resultType="region">
+        select region_id,grade,full_name,parent from t_region where grade = 1
+    </select>
+    <select id="selectTwoLevelList" resultType="region">
+        select region_id,grade,full_name,parent from t_region where grade = 2
+    </select>
+    <select id="selectThreeLevelList" resultType="region">
+        select region_id,grade,full_name,parent from t_region where grade = 3
+    </select>
+    <select id="selectFourLevelList" resultType="region">
+        select region_id,grade,full_name,parent from t_region where grade = 4
+    </select>
+
+</mapper>

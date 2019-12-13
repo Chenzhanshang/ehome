@@ -87,4 +87,17 @@ public class CommunityServiceImpl implements CommunityService {
     public Room getRoomByRoomId(String roomId) {
         return communityMapper.getRoomByRoomId(roomId);
     }
+
+    /**
+     * 获取该用户所有已认证小区
+     *
+     * @param ownerId
+     * @return
+     */
+    @Override
+    public List<Community> getCommunityListByOwnerId(String ownerId) {
+        return communityMapper.getCommunityListByOwnerId(ownerId);
+    }
+
+
 }
