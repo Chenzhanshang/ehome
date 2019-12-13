@@ -34,6 +34,7 @@ public class RoomManageController {
             return new ResponseMessage("0","添加房间成功");
         }catch (Exception e){
             e.printStackTrace();
+            System.out.println("1321");
             return new ResponseMessage("-1","添加房间失败");
         }
     }
