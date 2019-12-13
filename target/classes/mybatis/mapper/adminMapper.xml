@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyct.ehome.dao.AdminMapper">
+    <!--管理员登录-->
+    <select id="getAdminByAccount" resultMap="adminAuthMap" parameterType="String">
+        select a.admin_id admin_id,a.admin_account admin_account,a.admin_password admin_password,a.admin_modify admin_modify,
+        r.region_id region_id,r.full_name full_name
+        from t_admin a
+        left join t_region r
+        on a.region_id = r.region_id
+        where admin_account = #{v}
+    </select>
+    <!--管理员认证的返回-->
+    <resultMap id="adminAuthMap" type="admin">
+        <id column="admin_id" property="adminId" javaType="String" />
+        <result column="admin_account" property="adminAccount" javaType="String"/>
+        <result column="admin_password" property="adminPassword" javaType="String"/>
+        <result column="admin_modify" property="adminModify" javaType="Integer"/>
+        <association  property="region" javaType="region" column="region_id">
+            <id column="region_id" property="regionId" javaType="Long"/>
+            <result column="full_name" property="fullName" javaType="String"/>
+        </association>
+    </resultMap>
+    <update id="updateByAdminAccount" parameterType="admin">
+        update t_admin
+        <trim prefix="set" suffixOverrides=",">
+            admin_modify = 1,
+            <if test="adminPassword != null and adminPassword != ''">
+                admin_password = #{adminPassword},
+            </if>
+        </trim>
+        where admin_account = #{adminAccount}
+    </update>
+
+    <!--新增管理员数据-->
+    <insert id="insertAdmin" parameterType="admin">
+        INSERT INTO t_admin (admin_id,admin_account, admin_password) VALUES (#{adminId},#{adminAccount},#{adminPassword})
+    </insert>
+
+</mapper>

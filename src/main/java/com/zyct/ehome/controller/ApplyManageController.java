@@ -87,7 +87,8 @@ public class ApplyManageController {
      * @return
      */
     @RequestMapping(value = "/downloadFile", method = RequestMethod.POST)
-    public void downloadFile(@RequestBody File file, HttpServletResponse response) {
+    public @ResponseBody
+    ResponseMessage downloadFile(@RequestBody File file, HttpServletResponse response) {
         //获取文件的信息
         try {
             File dbFile = fileManageService.getFileById(file.getFileId());
@@ -112,8 +113,10 @@ public class ApplyManageController {
                         os.write(buffer, 0, i);
                         i = bis.read(buffer);
                     }
+                    return new ResponseMessage("0", "下载文件成功");
                 } catch (Exception e) {
                     e.printStackTrace();
+                    return new ResponseMessage("-1", "下载文件失败");
                 } finally {
                     if (bis != null) {
                         try {
@@ -131,8 +134,10 @@ public class ApplyManageController {
                     }
                 }
             }
+            return new ResponseMessage("-1", "下载文件不存在");
         } catch (Exception e) {
             e.printStackTrace();
+            return new ResponseMessage("-1", "下载文件失败");
         }
     }
 

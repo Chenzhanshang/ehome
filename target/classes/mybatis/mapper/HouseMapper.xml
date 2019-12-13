@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyct.ehome.dao.HouseMapper">
+
+    <insert id="insert" parameterType="house">
+        insert into t_house(house_id, house_name, community_id)
+        values (#{houseId},#{houseName},#{community.communityId})
+    </insert>
+
+    <select id="getHouseListByCommunityId" parameterType="String" resultMap="houseListMap">
+        select h.house_id house_id,h.house_name house_name,
+        c.community_id community_id,c.community_name community_name
+        from t_house h
+        left join t_community c
+        on h.community_id = c.community_id
+        where h.community_id = #{v}
+    </select>
+    <resultMap id="houseListMap" type="house">
+        <id column="house_id" property="houseId" javaType="String"/>
+        <result column="house_name" property="houseName" javaType="String"/>
+        <association property="community" column="community_id" javaType="community">
+            <id column="community_id" property="communityId" javaType="String"/>
+            <result column="community_name" property="communityName" javaType="String"/>
+        </association>
+    </resultMap>
+
+    <update id="updateHouseNameById" parameterType="house">
+        update t_house
+        set house_name = #{houseName}
+        where house_id = #{houseId}
+    </update>
+
+    <delete id="deleteHouseById" parameterType="house">
+        delete from t_house
+        where house_id = #{houseId}
+    </delete>
+
+</mapper>
