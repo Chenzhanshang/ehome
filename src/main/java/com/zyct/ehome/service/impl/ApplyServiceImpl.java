@@ -89,6 +89,7 @@ public class ApplyServiceImpl implements ApplyService {
         Community community = communityService.getCommunityByCommunityId(communityId);
         apply.setCommunity(community);
         apply.setFlowNode(new FlowNode(1,"用户提交申请",null));
+        file.setApply(apply);
         List<File> files = new ArrayList<>();
         files.add(file);
         apply.setFiles(files);
