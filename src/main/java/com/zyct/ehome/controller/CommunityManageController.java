@@ -38,6 +38,50 @@ public class CommunityManageController {
             responseMessage.getData().put("dbData",dbComm);
             return responseMessage;
         }
+    }
+
+    /**
+     * 获取小区列表
+     * @return
+     */
+    @RequestMapping(value = "/communityList",method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseMessage list(){
+        ResponseMessage responseMessage ;
+        try {
+            List<Community> list =  communityManageService.getList();
+            responseMessage = new ResponseMessage("0","获取小区列表成功");
+            responseMessage.getData().put("communityList",list);
+            return responseMessage;
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","获取小区列表失败");
+        }
+
+    }
+    @RequestMapping(value = "deleteCommunity",method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage deleteCommunity(@RequestBody Community community){
+        try {
+            communityManageService.deleteCommunity(community);
+            return new ResponseMessage("0","删除小区成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","删除小区失败");
+        }
+    }
+
+    @RequestMapping(value = "updateCommunity",method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage updateCommunity(@RequestBody Community community){
+        System.out.println(community);
+        try{
+            System.out.println("你好");
+            communityManageService.updateCommunity(community);
+            return new ResponseMessage("0","修改小区信息成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","修改小区信息失败");
         else {
             return new ResponseMessage("-1","插入失败");
         }
