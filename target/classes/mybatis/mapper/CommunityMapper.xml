@@ -53,6 +53,9 @@
         </association>
 
     </resultMap>
+
+
+
     <!--添加社区-->
 
     <insert id="insert" parameterType="community">
@@ -110,3 +113,4 @@
 
 
 </mapper>
+

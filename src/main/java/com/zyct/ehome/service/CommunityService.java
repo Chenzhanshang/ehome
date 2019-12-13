@@ -54,4 +54,12 @@ public interface CommunityService {
      * @return
      */
     Room getRoomByRoomId(String roomId);
+
+    /**
+     * 获取该用户所有已认证小区
+     * @param ownerId
+     * @return
+     */
+    List<Community> getCommunityListByOwnerId(String ownerId);
+
 }

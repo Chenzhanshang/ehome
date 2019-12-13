@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
 /**
  * 管理端的小区控制层
  * @author JGZ
@@ -30,21 +27,17 @@ public class CommunityManageController {
      * @param community
      * @return
      */
+
     @RequestMapping(value = "/addCommunity",method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessage add(@RequestBody Community community){
-        try{
-            //插入小区
-            Community dbComm = communityManageService.addCommunity(community);
-            ResponseMessage responseMessage = new ResponseMessage("0","添加小区成功");
+        //插入用户
+        Community dbComm = communityManageService.addCommunity(community);
+        if (dbComm != null){
+            ResponseMessage responseMessage = new ResponseMessage("0","插入成功");
             responseMessage.getData().put("dbData",dbComm);
             return responseMessage;
-        }catch (Exception e){
-            e.printStackTrace();
-            return new ResponseMessage("-1","添加小区失败");
         }
-
-
     }
 
     /**
@@ -89,6 +82,8 @@ public class CommunityManageController {
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseMessage("-1","修改小区信息失败");
+        else {
+            return new ResponseMessage("-1","插入失败");
         }
     }
 }
