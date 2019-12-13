@@ -8,7 +8,6 @@ import com.zyct.ehome.utils.ResponseMessage;
 import com.zyct.ehome.utils.SuccessEnum;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -66,17 +65,10 @@ public class AdminController {
                 return responseMessage;
             }
             catch (UnknownAccountException e){
-                e.printStackTrace();
                 //返回用户不存在
                 return new ResponseMessage(ErrorEnum.E_UNKNOWN_ACCOUNT);
             }
-            catch (IncorrectCredentialsException e){
-                e.printStackTrace();
-                //返回密码错误信息
-                return new ResponseMessage(ErrorEnum.E_PASSWORD_ERROR);
-            }
             catch (AuthenticationException e) {
-                e.printStackTrace();
                 //返回密码错误信息
                 return new ResponseMessage(ErrorEnum.E_PASSWORD_ERROR);
             }
@@ -106,17 +98,13 @@ public class AdminController {
             admin.setAdminId(principal.getAdminId());
             //设置用户账户
             admin.setAdminAccount(principal.getAdminAccount());
-            try {
-                //修改密码
-                adminService.updatePasswordByAdminAccount(admin);
-                //修改成功用户登出
-                subject.logout();
-                //返回信息
-                return new ResponseMessage("0","修改密码成功");
-            }catch (Exception e){
-                e.printStackTrace();
-                return new ResponseMessage("-1","修改密码失败");
-            }
+            //修改密码
+            adminService.updatePasswordByAdminAccount(admin);
+            //用户登出
+            subject.logout();
+
+            //返回信息
+            return new ResponseMessage("0","修改成功");
         }
         else {
             //返回信息

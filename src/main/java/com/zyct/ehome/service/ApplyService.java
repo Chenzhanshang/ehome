@@ -17,7 +17,7 @@ public interface ApplyService {
      * 插入一个申请
      * @param apply
      */
-     void insertApply(Apply apply);
+     String insertApply(Apply apply);
 
     /**
      * 将文件信息数据库
@@ -28,4 +28,6 @@ public interface ApplyService {
 
 
     List<File> selectFileUrls();
+
+    String insertGroupApply(File file, String ownerId, String communityId);
 }

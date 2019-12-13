@@ -52,9 +52,6 @@ public class UserRealm extends AuthorizingRealm {
             Admin admin = (Admin) primaryPrincipal;
             //获取admin的角色
             Set<Role> roleSet = roleService.getRoleByAdminId(admin.getAdminId());
-            //
-            admin.setRoles(roleSet);
-
             Set<String> roles = new HashSet<>();
             for (Role role:roleSet) {
                 roles.add(role.getRoleName());
@@ -99,15 +96,15 @@ public class UserRealm extends AuthorizingRealm {
         return info;
     }
 
-    @Test
-    public void func(){
-        String fun = "MD5";
-        String pwd = "123456";
-        ByteSource credentialsSalt = ByteSource.Util.bytes("admin");
-        int i = 1024;
-        SimpleHash simpleHash = new SimpleHash(fun, pwd, credentialsSalt, i);
-        System.out.println(simpleHash);
-    }
+//    @Test
+//    public void func(){
+//        String fun = "MD5";
+//        String pwd = "123456";
+//        ByteSource credentialsSalt = ByteSource.Util.bytes("admin");
+//        int i = 1024;
+//        SimpleHash simpleHash = new SimpleHash(fun, pwd, credentialsSalt, i);
+//        System.out.println(simpleHash);
+//    }
 
 
 }
