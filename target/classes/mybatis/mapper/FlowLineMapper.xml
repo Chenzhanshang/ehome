@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyct.ehome.dao.FlowLineMapper">
+
+    <select id="getPrevNodeByNextNode" resultType="flowNode" parameterType="list">
+        select prev_node_id flow_node_id
+        from t_flow_line
+        where next_node_id in
+        <foreach collection="list"  item="item" separator="," open="(" close=")">
+            #{item.flowNodeId}
+        </foreach>
+    </select>
+</mapper>
