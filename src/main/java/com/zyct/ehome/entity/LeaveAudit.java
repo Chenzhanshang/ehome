@@ -8,7 +8,7 @@ public class LeaveAudit {
 
     private String adminName;
 
-    private Boolean auditState;
+    private Integer auditState;
 
     private String auditInfo;
     /**
