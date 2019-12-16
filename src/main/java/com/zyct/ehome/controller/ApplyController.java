@@ -68,5 +68,16 @@ public class ApplyController {
         return responseMessage;
     }
 
+    @RequestMapping("/applyIsPass")
+    @ResponseBody
+    public Boolean applyIsPass(@RequestParam("applyId")String applyId){
+        if (applyId == null ||  "".equals(applyId)){
+            return false;
+        }else {
+            Boolean b = applyService.isPass(applyId);
+            return b;
+        }
+    }
+
 
 }
