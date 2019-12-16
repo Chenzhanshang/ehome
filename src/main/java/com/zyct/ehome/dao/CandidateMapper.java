@@ -18,4 +18,24 @@ public interface CandidateMapper {
      * @return
      */
     List<Candidate> getCandidateListByCommunityId(String communityId);
+
+    /**
+     * 添加候选人，返回添加后的候选人
+     * @param can
+     * @return
+     */
+    void addCandidate(List<Candidate> can);
+
+    /**
+     * 通过业主id查询候选人列表
+     * @param ownerId
+     * @return
+     */
+    List<Candidate> selectCandidateByOwnerId(List<String> ownerId);
+
+    /**
+     * 通过id删除候选人
+     * @param candidateId
+     */
+    void deleteCandidateById(String candidateId);
 }

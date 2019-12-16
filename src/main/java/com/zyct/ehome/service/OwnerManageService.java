@@ -16,5 +16,5 @@ public interface OwnerManageService {
      * @param communityId
      * @return
      */
-    List<Owner> ownerList(String communityId);
+    List<Owner> unCandidateOwnerList(String communityId);
 }

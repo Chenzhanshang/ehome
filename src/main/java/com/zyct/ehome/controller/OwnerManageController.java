@@ -26,11 +26,11 @@ public class OwnerManageController {
     @Autowired
     private OwnerManageService ownerManageService;
 
-    @RequestMapping(value = "/ownerList/{communityId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/unCandidateOwnerList/{communityId}",method = RequestMethod.GET)
     public @ResponseBody
-    ResponseMessage ownerList(@PathVariable("communityId") String communityId){
+    ResponseMessage unCandidateOwnerList(@PathVariable("communityId") String communityId){
         try{
-           List<Owner> ownerList = ownerManageService.ownerList(communityId);
+           List<Owner> ownerList = ownerManageService.unCandidateOwnerList(communityId);
            Set<Owner> set = new HashSet<>(ownerList);
            ResponseMessage responseMessage = new ResponseMessage("0","获取业主列表成功");
            responseMessage.getData().put("ownerList",set);

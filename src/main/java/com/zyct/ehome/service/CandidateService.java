@@ -1,5 +1,6 @@
 package com.zyct.ehome.service;
 
+import com.zyct.ehome.dto.AddCandidateDto;
 import com.zyct.ehome.entity.Candidate;
 
 import java.util.List;
@@ -17,4 +18,17 @@ public interface CandidateService {
      * @param communityId
      */
     List<Candidate> candidateList(String communityId);
+
+    /**
+     * 添加候选人
+     * @param addCandidateDto
+     * @return
+     */
+    List<Candidate> addCandidate(AddCandidateDto addCandidateDto);
+
+    /**
+     * 删除候选人
+     * @param candidateId
+     */
+    void deleteCandidate(String candidateId);
 }
