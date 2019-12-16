@@ -7,7 +7,7 @@
     <select id="getOwnerListByCommunityId" parameterType="String" resultMap="getOwnerListByCommunityIdMap">
         select owner_id,owner_name
         from t_owner
-        where owner_id in
+        where authentication_flag = 1 and owner_id in
         (select owner_id from t_room where house_id in
         (select house_id from t_house where community_id = #{v}))
     </select>
