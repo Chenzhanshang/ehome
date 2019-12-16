@@ -32,4 +32,10 @@ public interface CandidateMapper {
      * @return
      */
     List<Candidate> selectCandidateByOwnerId(List<String> ownerId);
+
+    /**
+     * 通过id删除候选人
+     * @param candidateId
+     */
+    void deleteCandidateById(String candidateId);
 }

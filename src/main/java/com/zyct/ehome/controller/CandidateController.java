@@ -52,6 +52,19 @@ public class CandidateController {
         }
     }
 
+    @RequestMapping(value = "/deleteCandidate/{candidateId}",method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseMessage deleteCandidate(@PathVariable("candidateId") String candidateId){
+        try {
+            candidateService.deleteCandidate(candidateId);
+            return new ResponseMessage("0","删除成功");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","删除失败");
+        }
+    }
+
 
 
 }

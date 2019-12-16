@@ -62,4 +62,9 @@ public class CandidateServiceImpl implements CandidateService {
         }
         return candidateList2;
     }
+
+    @Override
+    public void deleteCandidate(String candidateId) {
+        candidateMapper.deleteCandidateById(candidateId);
+    }
 }

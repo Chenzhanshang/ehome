@@ -25,4 +25,10 @@ public interface CandidateService {
      * @return
      */
     List<Candidate> addCandidate(AddCandidateDto addCandidateDto);
+
+    /**
+     * 删除候选人
+     * @param candidateId
+     */
+    void deleteCandidate(String candidateId);
 }
