@@ -5,9 +5,9 @@
 <mapper namespace="com.zyct.ehome.dao.ApplyMapper">
 
     <insert id="insertApply" parameterType="Apply" >
-        insert into t_apply(apply_id, owner_id, community_id, flow_node_id, apply_state, house_id, room_id)
+        insert into t_apply(apply_id, owner_id, community_id, flow_node_id, apply_state, house_id, room_id,create_time)
         values (#{applyId},#{owner.ownerId},#{community.communityId},#{flowNode.flowNodeId},#{applyState},
-        #{house.houseId},#{room.roomId})
+        #{house.houseId},#{room.roomId},#{createTime})
     </insert>
 
     <select id="getApplyStateIsZeroByNode" resultMap="getApplyStateIsZeroByNodeMap" parameterType="list">

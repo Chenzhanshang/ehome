@@ -93,6 +93,8 @@ public class ApplyServiceImpl implements ApplyService {
         List<File> files = new ArrayList<>();
         files.add(file);
         apply.setFiles(files);
+        apply.setApplyState(0);
+        apply.setCreateTime(System.currentTimeMillis());
         applyMapper.insertApply(apply);
         uploadFileMapper.insertFiles(files);
         return apply.getApplyId();

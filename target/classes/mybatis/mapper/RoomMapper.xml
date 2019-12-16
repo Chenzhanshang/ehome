@@ -5,8 +5,8 @@
 <mapper namespace="com.zyct.ehome.dao.RoomMapper">
 
   <insert id="addRoom" parameterType="room">
-      insert into t_room(room_id, room_name, house_id)
-      values (#{roomId},#{roomName},#{house.houseId})
+      insert into t_room(room_id, room_name, house_id,owner_id)
+      values (#{roomId},#{roomName},#{house.houseId},null )
   </insert>
 
     <select id="getListByCommunityId" parameterType="String" resultMap="getRoomListByCommunityIdMap">
