@@ -7,10 +7,13 @@
     <select id="getCandidateListByCommunityId" parameterType="String" resultMap="getCandidateListByCommunityIdMap">
         select c.candidate_id candidate_id,
         c.candidate_create_time candidate_create_time,
-        o.owner_id owner_id,o.owner_name owner_name
+        o.owner_id owner_id,o.owner_name owner_name,
+        co.community_id community_id,co.community_name community_name
          from t_candidate c
          left join t_owner o
          on c.owner_id = o.owner_id
+         left join t_community co
+         on c.community_id = co.community_id
          where c.community_id = #{v}
     </select>
 
@@ -21,6 +24,33 @@
             <id column="owner_id" property="ownerId" javaType="String"/>
             <result column="owner_name" property="ownerName" javaType="String"/>
         </association>
+        <association column="community_id" property="community" javaType="Community">
+            <id column="community_id" property="communityId" javaType="String"/>
+            <result column="community_name" property="communityName" javaType="String"/>
+        </association>
     </resultMap>
 
+    <insert id="addCandidate" parameterType="Candidate">
+        insert into t_candidate(candidate_id,  owner_id, community_id, candidate_create_time)
+        values
+        <foreach collection="list" item="item" separator="," index="index">
+            (#{item.candidateId},#{item.owner.ownerId},#{item.community.communityId},#{item.candidateCreateTime})
+        </foreach>
+    </insert>
+
+    <select id="selectCandidateByOwnerId" parameterType="String" resultMap="getCandidateListByCommunityIdMap">
+        select c.candidate_id candidate_id,
+        c.candidate_create_time candidate_create_time,
+        o.owner_id owner_id,o.owner_name owner_name,
+        co.community_id community_id,co.community_name community_name
+         from t_candidate c
+         left join t_owner o
+         on c.owner_id = o.owner_id
+        left join t_community co
+        on c.community_id = co.community_id
+         where o.owner_id in
+         <foreach collection="list" item="item" open="(" separator="," close=")">
+             #{item}
+         </foreach>
+    </select>
 </mapper>
