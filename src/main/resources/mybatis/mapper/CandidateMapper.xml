@@ -5,7 +5,7 @@
 <mapper namespace="com.zyct.ehome.dao.CandidateMapper">
 
     <select id="getCandidateListByCommunityId" parameterType="String" resultMap="getCandidateListByCommunityIdMap">
-        select c.candidate_id candidate_id,
+        select c.candidate_id candidate_id,c.candidate_poll candidate_poll,
         c.candidate_create_time candidate_create_time,
         o.owner_id owner_id,o.owner_name owner_name,
         co.community_id community_id,co.community_name community_name
@@ -19,6 +19,7 @@
 
     <resultMap id="getCandidateListByCommunityIdMap"  type="Candidate">
         <id column="candidate_id" property="candidateId" javaType="String"/>
+        <result column="candidate_poll" property="candidatePoll" javaType="Integer"/>
         <result column="candidate_create_time" property="candidateCreateTime" javaType="Long"/>
         <association column="owner_id" property="owner" javaType="Owner">
             <id column="owner_id" property="ownerId" javaType="String"/>
@@ -39,7 +40,7 @@
     </insert>
 
     <select id="selectCandidateByOwnerId" parameterType="String" resultMap="getCandidateListByCommunityIdMap">
-        select c.candidate_id candidate_id,
+        select c.candidate_id candidate_id,c.candidate_poll candidate_poll,
         c.candidate_create_time candidate_create_time,
         o.owner_id owner_id,o.owner_name owner_name,
         co.community_id community_id,co.community_name community_name
@@ -53,4 +54,8 @@
              #{item}
          </foreach>
     </select>
+
+    <delete id="deleteCandidateById" parameterType="String">
+        delete from t_candidate where candidate_id = #{v}
+    </delete>
 </mapper>
