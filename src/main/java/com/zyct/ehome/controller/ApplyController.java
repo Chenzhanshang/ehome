@@ -58,6 +58,7 @@ public class ApplyController {
         apply.setRoom(room);
         apply.setFlowNode(new FlowNode(1,"用户提交申请",null));
         apply.setApplyState(0);
+        apply.setCreateTime(System.currentTimeMillis());
         System.out.println(apply.toString());
         String applyId = applyService.insertApply(apply);
         Map<String,Object> map = new HashMap<>();
