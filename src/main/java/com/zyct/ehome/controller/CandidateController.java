@@ -1,14 +1,12 @@
 package com.zyct.ehome.controller;
 
+import com.zyct.ehome.dto.AddCandidateDto;
 import com.zyct.ehome.entity.Candidate;
 import com.zyct.ehome.service.CandidateService;
 import com.zyct.ehome.utils.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,6 +35,20 @@ public class CandidateController {
         catch (Exception e){
             e.printStackTrace();
             return new ResponseMessage("-1","获取候选人列表失败");
+        }
+    }
+
+    @RequestMapping(value = "/addCandidate",method = RequestMethod.POST)
+    public @ResponseBody ResponseMessage addCandidate(@RequestBody AddCandidateDto addCandidateDto){
+        System.out.println(addCandidateDto);
+        try{
+            List<Candidate> candidateList = candidateService.addCandidate(addCandidateDto);
+            ResponseMessage responseMessage = new ResponseMessage("0","添加候选人成功");
+            responseMessage.getData().put("candidateList",candidateList);
+            return responseMessage;
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","添加候选人失败");
         }
     }
 
