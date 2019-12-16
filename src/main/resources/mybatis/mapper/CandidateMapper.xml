@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyct.ehome.dao.CandidateMapper">
+
+    <select id="getCandidateListByCommunityId" parameterType="String" resultMap="getCandidateListByCommunityIdMap">
+        select c.candidate_id candidate_id,
+        c.candidate_create_time candidate_create_time,
+        o.owner_id owner_id,o.owner_name owner_name
+         from t_candidate c
+         left join t_owner o
+         on c.owner_id = o.owner_id
+         where c.community_id = #{v}
+    </select>
+
+    <resultMap id="getCandidateListByCommunityIdMap"  type="Candidate">
+        <id column="candidate_id" property="candidateId" javaType="String"/>
+        <result column="candidate_create_time" property="candidateCreateTime" javaType="Long"/>
+        <association column="owner_id" property="owner" javaType="Owner">
+            <id column="owner_id" property="ownerId" javaType="String"/>
+            <result column="owner_name" property="ownerName" javaType="String"/>
+        </association>
+    </resultMap>
+
+</mapper>
