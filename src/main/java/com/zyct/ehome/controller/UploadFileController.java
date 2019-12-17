@@ -1,6 +1,8 @@
 package com.zyct.ehome.controller;
 
+import com.zyct.ehome.dao.UploadFileMapper;
 import com.zyct.ehome.service.ApplyService;
+import com.zyct.ehome.service.UserService;
 import com.zyct.ehome.utils.ResponseMessage;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author litianfu
@@ -31,6 +30,12 @@ public class UploadFileController {
     @Autowired
     private ApplyService applyService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UploadFileMapper uploadFileMapper;
+
     String path = "/Users/litianfu/Desktop/upload/";
 
 
@@ -38,19 +43,7 @@ public class UploadFileController {
     @ResponseBody
     public Map<String, Object> uploadFile(@RequestParam("file") MultipartFile multipartFile) {
         String filename = multipartFile.getOriginalFilename();
-
-        File f = new File(path);
-        //如果不存在该路径就创建
-        if (!f.exists()) {
-            f.mkdir();
-        }
-        File dir = new File(path + multipartFile.getOriginalFilename());
-        // 文件写入
-        try {
-            multipartFile.transferTo(dir);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        createFile(multipartFile);
         com.zyct.ehome.entity.File file = new com.zyct.ehome.entity.File();
         file.setFileId(UUID.randomUUID().toString());
         file.setFileName(multipartFile.getOriginalFilename());
@@ -68,6 +61,50 @@ public class UploadFileController {
     public ResponseMessage uploadApplyGroup(@RequestParam("file") MultipartFile multipartFile,
                                             @Param("ownerId") String ownerId, @Param("filename") String filename,
                                             @Param("communityId") String communityId) {
+        createFile(multipartFile);
+        com.zyct.ehome.entity.File file = new com.zyct.ehome.entity.File();
+        file.setFileId(UUID.randomUUID().toString());
+        file.setFileName(filename);
+        file.setFilePath(path + multipartFile.getOriginalFilename());
+        String applyId = applyService.insertGroupApply(file, ownerId, communityId);
+        ResponseMessage responseMessage = new ResponseMessage("success", "上传成功");
+        Map<String,Object> map = new HashMap<>();
+        map.put("applyId",applyId);
+        responseMessage.setData(map);
+        return responseMessage;
+    }
+
+    /**
+     * 更换头像
+     * @param multipartFile
+     * @param openid
+     */
+    @RequestMapping("/uploadAvatar")
+    @ResponseBody
+    public Map<String, Object> uploadAvatar(@RequestParam("file") MultipartFile multipartFile,
+                                            @RequestParam(value = "ownerId",required = false)String ownerId){
+        createFile(multipartFile);
+        com.zyct.ehome.entity.File file = new com.zyct.ehome.entity.File();
+        file.setFileId(UUID.randomUUID().toString());
+        String filename = multipartFile.getOriginalFilename();
+        file.setFileName(filename);
+        file.setFilePath(path + filename);
+        List<com.zyct.ehome.entity.File> files = new ArrayList<>();
+        files.add(file);
+        uploadFileMapper.insertFiles(files);
+        userService.getAvatar(filename,path + filename,ownerId);
+        String[] str = {"http://localhost:8081/ehome/file/" + filename};
+        Map<String, Object> map = new HashMap<>();
+        map.put("urls", str);
+        return map;
+
+    }
+
+    /**
+     * 抽取重复代码
+     * @param multipartFile
+     */
+    private void createFile(MultipartFile multipartFile) {
         File f = new File(path);
         //如果不存在该路径就创建
         if (!f.exists()) {
@@ -80,16 +117,8 @@ public class UploadFileController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        com.zyct.ehome.entity.File file = new com.zyct.ehome.entity.File();
-        file.setFileId(UUID.randomUUID().toString());
-        file.setFileName(filename);
-        file.setFilePath(path + multipartFile.getOriginalFilename());
-        String applyId = applyService.insertGroupApply(file, ownerId, communityId);
-        ResponseMessage responseMessage = new ResponseMessage("success", "上传成功");
-        Map<String,Object> map = new HashMap<>();
-        map.put("applyId",applyId);
-        responseMessage.setData(map);
-        return responseMessage;
+
     }
+
 
 }

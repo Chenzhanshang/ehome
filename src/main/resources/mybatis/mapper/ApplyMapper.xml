@@ -105,4 +105,8 @@
             <result column="file_path" property="filePath" javaType="String"/>
         </collection>
     </resultMap>
+    <!--通过applyId查询申请-->
+    <select id="selectAppplyByApplyId" parameterType="String" resultType="Apply">
+        select * from t_apply where apply_id = #{applyId}
+    </select>
 </mapper>

@@ -30,4 +30,6 @@ public interface ApplyService {
     List<File> selectFileUrls();
 
     String insertGroupApply(File file, String ownerId, String communityId);
+
+    Boolean isPass(String applyId);
 }

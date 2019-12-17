@@ -20,4 +20,5 @@ public interface UserMapper {
     Owner selectUserByOwnerId(String ownerId);
 
     void updateUser(Owner owner);
+
 }

@@ -99,4 +99,20 @@ public class ApplyServiceImpl implements ApplyService {
         uploadFileMapper.insertFiles(files);
         return apply.getApplyId();
     }
+
+    /**
+     * 该申请是否通过
+     * @param applyId
+     * @return
+     */
+    @Override
+    public Boolean isPass(String applyId) {
+        Apply apply = applyMapper.selectAppplyByApplyId(applyId);
+        if (apply.getApplyState() == 0){
+            return false;
+        }else {
+            return true;
+        }
+
+    }
 }

@@ -22,5 +22,11 @@ public class Owner {
 
     private List<Room> rooms;
 
+    private String avatar;
+
+    private String avatarUrl;
+
+    private Integer authenticationFlag;
+
 
 }

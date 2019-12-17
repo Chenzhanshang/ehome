@@ -31,4 +31,6 @@ public interface ApplyMapper {
      * @return
      */
     Apply getApplyById(String applyId);
+
+    Apply selectAppplyByApplyId(String applyId);
 }
