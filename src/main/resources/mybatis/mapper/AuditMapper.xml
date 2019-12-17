@@ -10,7 +10,16 @@
     </insert>
 
     <update id="updateApply" parameterType="com.zyct.ehome.utils.AuditEntity">
-        UPDATE t_apply SET flow_node_id = #{flowNode}
+        UPDATE t_apply SET flow_node_id = #{flowNode},
+        apply_state = #{applyState}
         WHERE apply_id = #{applyId}
     </update>
+
+    <select id="findFlowNodeByApplyId" parameterType="String" resultType="Integer">
+        SELECT t_apply.flow_node_id FROM t_apply WHERE t_apply.apply_id = #{applyId}
+    </select>
+
+    <select id="findNextNodeByFlowNode" parameterType="Integer" resultType="Integer">
+        SELECT t_flow_line.next_node_id FROM t_flow_line WHERE flow_line_id = #{flowNode}
+    </select>
 </mapper>

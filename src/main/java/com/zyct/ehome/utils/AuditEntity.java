@@ -11,6 +11,8 @@ import com.sun.javafx.util.TempState;
 public class AuditEntity {
     private String auditId;
 
+    private Integer applyState;
+
     private String adminName;
 
     private Integer auditState;
@@ -19,7 +21,7 @@ public class AuditEntity {
 
     private String applyId;
 
-    private String flowNode;
+    private Integer flowNode;
 
     /**
      * 审批时间
@@ -38,6 +40,7 @@ public class AuditEntity {
     public String getAdminName() {
         return adminName;
     }
+
 
     public void setAdminName(String adminName) {
         this.adminName = adminName;
@@ -78,21 +81,30 @@ public class AuditEntity {
     @Override
     public String toString() {
         return "AuditEntity{" +
-                "auditId=" + auditId +
+                "auditId='" + auditId + '\'' +
+                ", applyState=" + applyState +
                 ", adminName='" + adminName + '\'' +
                 ", auditState=" + auditState +
                 ", auditInfo='" + auditInfo + '\'' +
                 ", applyId='" + applyId + '\'' +
-                ", flowNode='" + flowNode + '\'' +
+                ", flowNode=" + flowNode +
                 ", auditDate=" + auditDate +
                 '}';
     }
 
-    public String getFlowNode() {
+    public Integer getFlowNode() {
         return flowNode;
     }
 
-    public void setFlowNode(String flowNode) {
+    public void setFlowNode(Integer flowNode) {
         this.flowNode = flowNode;
+    }
+
+    public Integer getApplyState() {
+        return applyState;
+    }
+
+    public void setApplyState(Integer applyState) {
+        this.applyState = applyState;
     }
 }
