@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyct.ehome.dao.AuditMapper">
+    <insert id="insertAudit" parameterType="com.zyct.ehome.utils.AuditEntity">
+        INSERT INTO
+        t_leave_audit(audit_id,admin_name,audit_state,audit_info,audit_date)
+        VALUES (#{auditId},#{adminName},#{auditState},#{auditInfo},#{auditDate})
+    </insert>
+
+    <update id="updateApply" parameterType="com.zyct.ehome.utils.AuditEntity">
+        UPDATE t_apply SET flow_node_id = #{flowNode}
+        WHERE apply_id = #{applyId}
+    </update>
+</mapper>
