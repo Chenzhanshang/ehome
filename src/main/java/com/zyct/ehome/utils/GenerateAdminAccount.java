@@ -6,6 +6,8 @@ import com.zyct.ehome.entity.Admin;
 import com.zyct.ehome.entity.Region;
 import com.zyct.ehome.service.AdminService;
 import com.zyct.ehome.service.GenerateAdminAccountService;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,17 +45,21 @@ public class GenerateAdminAccount {
         Region region = new Region();
         region.setRegionId(regionId);
         admin.setRegion(region);
-        admin.setAdminPassword("123456");
         //账号前缀
         String prefix = "admin";
         while(true) {
             String account = prefix + random.nextInt(100000000);
             admin.setAdminAccount(account);
+
             //账户已存在
             if(adminService.getAdminByAccount(admin.getAdminAccount()) != null){
                 continue;
             }
             else {
+                //加密密码
+                ByteSource bytes = ByteSource.Util.bytes(account);
+                SimpleHash simpleHash = new SimpleHash("MD5","123456",bytes,1024);
+                admin.setAdminPassword(simpleHash.toString());
                 System.out.println(admin);
                 generateAdminAccountService.insertAdmin(admin);
                 if("subdistrictOffice".equals(accountType)){
