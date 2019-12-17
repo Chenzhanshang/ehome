@@ -32,17 +32,18 @@ public class AuditServiceImpl implements Auditservice {
             //查询当前的申请对应的节点
             Integer flowNode = auditMapper.findFlowNodeByApplyId(auditEntity.getApplyId());
             //如果当前节点拥有下一节点
-            if(auditMapper.findNextNodeByFlowNode(flowNode) != null){
+            if(auditMapper.findNextNodeByFlowNode(flowNode+1) != null){
                 //设置当前申请的节点为下一节点
                 auditEntity.setFlowNode(auditMapper.findNextNodeByFlowNode(flowNode));
             }
             else{
                 //设置处理状态为0（即申请彻底通过）
+                auditEntity.setFlowNode(auditMapper.findNextNodeByFlowNode(flowNode));
                 auditEntity.setApplyState(1);
             }
         }
 
-        if(auditEntity.getAuditState() == null){
+        if(auditEntity.getApplyState() == null){
             auditEntity.setApplyState(0);
         }
 
