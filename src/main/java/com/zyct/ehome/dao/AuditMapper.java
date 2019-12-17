@@ -30,4 +30,20 @@ public interface AuditMapper {
      */
     void updateApply(AuditEntity auditEntity);
 
+    /**
+     * 通过申请id查询当前节点
+     * @author CZS
+     * @param applyId
+     * @return
+     */
+    Integer findFlowNodeByApplyId(String applyId);
+
+    /**
+     * 通过当前节点查询后一节点
+     * @author CZS
+     * @param flowNode
+     * @return
+     */
+    Integer findNextNodeByFlowNode(Integer flowNode);
+
 }
