@@ -10,7 +10,8 @@ import com.zyct.ehome.entity.Owner;
  * @date 2019-12-03 17:01
  */
 public interface UserService {
-    String insertUser(String openId);
+
+    Owner insertUser(String openId, RawData data);
 
     Owner selectUserByOwnerId(String ownerId);
 
