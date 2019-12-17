@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zyct.ehome.dao.UserMapper">
     <insert id="insertUser" parameterType="Owner">
-        insert into t_owner(owner_id,owner_weixin_id) values (#{ownerId},#{ownerWeixinId})
+        insert into t_owner(owner_id,owner_weixin_id,avatar) values (#{ownerId},#{ownerWeixinId},#{avatar})
     </insert>
     <select id="selectUserByWeiXinId" resultType="Owner" parameterType="String">
         select * from t_owner where owner_weixin_id = #{v}
@@ -15,7 +15,8 @@
 
     <update id="updateUser" parameterType="Owner">
         update t_owner set owner_name = #{ownerName},owner_id_number = #{ownerIdNumber},
-        owner_phone = #{ownerPhone},owner_office_trime = #{ownerOfficeTrime},committee_id=#{committee.committeeId}
+        owner_phone = #{ownerPhone},owner_office_trime = #{ownerOfficeTrime},committee_id=#{committee.committeeId},
+        avatar = #{avatar},avatar_url = #{avatarUrl},authentication_flag = #{authenticationFlag}
         where owner_id = #{ownerId}
     </update>
 
