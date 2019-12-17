@@ -16,4 +16,8 @@ public interface UserService {
     Owner selectUserByOwnerId(String ownerId);
 
     void updateUser(Owner owner);
+
+    void getAvatar(String avatar,String avatarUrl,String openid);
+
+
 }

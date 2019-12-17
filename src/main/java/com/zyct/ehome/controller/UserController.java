@@ -6,6 +6,7 @@ import com.zyct.ehome.config.weixin.RawData;
 import com.zyct.ehome.config.weixin.WxTools;
 import com.zyct.ehome.entity.Owner;
 import com.zyct.ehome.service.UserService;
+import com.zyct.ehome.utils.ResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -89,6 +92,20 @@ public class UserController {
 
         return null;
 
+    }
+
+    @RequestMapping("/getUserNewInfo")
+    @ResponseBody
+    public ResponseMessage getUserNewInfo(@RequestParam("ownerId")String ownerId){
+        System.out.println(ownerId);
+        Owner owner = UserService.selectUserByOwnerId(ownerId);
+        String path = "http://localhost:8081/ehome/file/"+owner.getAvatar();
+        owner.setAvatar(path);
+        ResponseMessage responseMessage = new ResponseMessage("0","查询成功");
+        Map<String,Object> map = new HashMap<>();
+        map.put("owner",owner);
+        responseMessage.setData(map);
+        return responseMessage;
     }
 
     /**

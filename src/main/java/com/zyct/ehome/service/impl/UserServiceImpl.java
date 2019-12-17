@@ -45,6 +45,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void getAvatar(String avatar, String avatarUrl, String ownerId){
+        Owner owner = userMapper.selectUserByOwnerId(ownerId);
+        owner.setAvatarUrl(avatarUrl);
+        owner.setAvatar(avatar);
+        this.updateUser(owner);
+    }
+
+    @Override
     public Owner selectUserByOwnerId(String ownerId) {
         return userMapper.selectUserByOwnerId(ownerId);
     }
