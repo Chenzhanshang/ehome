@@ -1,5 +1,6 @@
 package com.zyct.ehome.service.impl;
 
+import com.zyct.ehome.config.weixin.RawData;
 import com.zyct.ehome.dao.UserMapper;
 import com.zyct.ehome.entity.Owner;
 import com.zyct.ehome.service.UserService;
@@ -21,21 +22,26 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public String insertUser(String openId) {
+    public Owner insertUser(String openId, RawData data) {
         //查询用户是否存在
         Owner owner = userMapper.selectUserByWeiXinId(openId);
         //生成唯一标识
         String uuid = UUID.randomUUID().toString();
         //如果用户不存在就插入新用户
+        Owner newOwner = new Owner();
         if (owner == null){
-            Owner newOwner = new Owner();
             newOwner.setOwnerId(uuid);
             newOwner.setOwnerWeixinId(openId);
+            newOwner.setAvatar(data.getAvatarUrl());
+            newOwner.setAvatarUrl(data.getAvatarUrl());
             userMapper.insertUser(newOwner);
         }else {
-            return owner.getOwnerId();
+            owner.setAvatar(data.getAvatarUrl());
+            owner.setAvatarUrl(data.getAvatarUrl());
+            this.updateUser(owner);
+            return owner;
         }
-        return uuid;
+        return newOwner;
     }
 
     @Override

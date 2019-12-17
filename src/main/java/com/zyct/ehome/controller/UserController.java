@@ -41,8 +41,17 @@ public class UserController {
     WxTools wxTools;
 
 
+    /**
+     * 用于用户登录
+     * @param code
+     * @param rawData
+     * @param signature
+     * @param encrypteData
+     * @param iv
+     * @return
+     */
     @RequestMapping(value = "/userLogin")
-    public ResponseEntity<Map<String, String>> userLogin(String code, String rawData, String signature, String encrypteData, String iv){
+    public ResponseEntity<Map<String, Object>> userLogin(String code, String rawData, String signature, String encrypteData, String iv){
         ObjectMapper mapper = new ObjectMapper();
         RawData data = null;
         OpenIdAndSessionKey openidAndSessionkey = null;
@@ -64,14 +73,15 @@ public class UserController {
         }
         if (openid != null){
             //插入用户
-            String userId = UserService.insertUser(openid);
-
+            Owner owner = UserService.insertUser(openid,data);
+            String userId = owner.getOwnerId();
             //缓存openid, sessionKey, userId
             redisCache(openid,sessionKey,userId);
             //返回数据
-            Map<String,String> map = new HashMap<String,String>();
+            Map<String,Object> map = new HashMap<String,Object>();
             map.put("status","1");
             map.put("userId",userId);
+            map.put("owner",owner);
             return ResponseEntity.status(HttpStatus.OK).body(map);
         }else {
             System.out.println("openId为空");
