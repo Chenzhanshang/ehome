@@ -11,7 +11,7 @@
     </insert>
 
     <select id="getApplyStateIsZeroByNode" resultMap="getApplyStateIsZeroByNodeMap" parameterType="list">
-        select a.apply_id apply_id,
+        select a.apply_id apply_id,a.create_time create_time,
         c.community_id community_id,c.community_name community_name,
         h.house_id house_id,h.house_name house_name,
         r.room_id room_id,r.room_name room_name,
@@ -32,6 +32,7 @@
     </select>
     <resultMap id="getApplyStateIsZeroByNodeMap" type="apply">
         <id column="apply_id" property="applyId" javaType="String"/>
+        <result property="createTime" column="create_time" javaType="Long"/>
         <association property="community" column="community_id" javaType="Community">
             <id column="community_id" property="communityId" javaType="String"/>
             <result column="community_name" property="communityName" javaType="String"/>
@@ -52,7 +53,7 @@
     </resultMap>
 
     <select id="getApplyById" resultMap="getApplyByIdMap" parameterType="String">
-        select a.apply_id apply_id,
+        select a.apply_id apply_id,a.create_time create_time,
         c.community_id community_id,c.community_name community_name,
         rg.region_id region_id,rg.full_name full_name,
         h.house_id house_id,h.house_name house_name,
@@ -76,6 +77,7 @@
     </select>
     <resultMap id="getApplyByIdMap" type="apply">
         <id column="apply_id" property="applyId" javaType="String"/>
+        <result property="createTime" column="create_time" javaType="Long"/>
         <association property="community" column="community_id" javaType="Community">
             <id column="community_id" property="communityId" javaType="String"/>
             <result column="community_name" property="communityName" javaType="String"/>
