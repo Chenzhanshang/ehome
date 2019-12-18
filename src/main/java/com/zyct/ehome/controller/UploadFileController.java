@@ -38,7 +38,11 @@ public class UploadFileController {
 
     String path = "/Users/litianfu/Desktop/upload/";
 
-
+    /**
+     * 上传业主认证文件
+     * @param multipartFile
+     * @return
+     */
     @RequestMapping("/uploadFile")
     @ResponseBody
     public Map<String, Object> uploadFile(@RequestParam("file") MultipartFile multipartFile) {
@@ -56,6 +60,14 @@ public class UploadFileController {
         return map;
     }
 
+    /**
+     * 上传成立业委会的文件
+     * @param multipartFile
+     * @param ownerId
+     * @param filename
+     * @param communityId
+     * @return
+     */
     @RequestMapping("/uploadApplyGroup")
     @ResponseBody
     public ResponseMessage uploadApplyGroup(@RequestParam("file") MultipartFile multipartFile,
@@ -77,7 +89,7 @@ public class UploadFileController {
     /**
      * 更换头像
      * @param multipartFile
-     * @param openid
+     * @param ownerId
      */
     @RequestMapping("/uploadAvatar")
     @ResponseBody

@@ -34,12 +34,16 @@ public class VoteController {
     @ResponseBody
     public void voteCandidate(@RequestParam("candidateId")String candidateId,
                               @RequestParam("ownerId")String ownerId){
-        System.out.println(candidateId);
-        System.out.println(ownerId);
-//        voteService.insertVoteCandidate(candidateId,ownerId);
+        voteService.insertVoteCandidate(candidateId,ownerId);
+        Integer pollNum = voteService.voteCountByCandidateId(candidateId);
 
     }
 
+    /**
+     * 通过小区id获取候选人列表
+     * @param communityId
+     * @return
+     */
     @RequestMapping(value = "/candidateList/{communityId}",method = RequestMethod.GET)
     public @ResponseBody
     ResponseMessage candidateList(@PathVariable("communityId") String communityId){

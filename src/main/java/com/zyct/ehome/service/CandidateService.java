@@ -31,4 +31,11 @@ public interface CandidateService {
      * @param candidateId
      */
     void deleteCandidate(String candidateId);
+
+    /**
+     * 更新候选人票数
+     * @param candidateId
+     * @param count
+     */
+    void updateCandidatePollById(String candidateId,Integer count);
 }

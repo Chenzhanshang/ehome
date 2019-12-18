@@ -29,31 +29,47 @@ public class CommunityController {
     @Autowired
     private CommunityService communityService;
 
+    /**
+     * 获取小区列表
+     * @param city
+     * @return
+     */
     @RequestMapping("/communityList")
     @ResponseBody
     public List<Community> communityList(@RequestParam("city") String city){
         List<Community> communityList = communityService.getCommunityList(city);
-        System.out.println(communityList);
         return communityList;
     }
 
+    /**
+     * 获取小区的栋列表
+     * @param communityId
+     * @return
+     */
     @RequestMapping("/houseList")
     @ResponseBody
     public List<House> houseList(@RequestParam("communityId") String communityId){
         List<House> houseList = communityService.getHouseListByCommunityId(communityId);
-        System.out.println(houseList);
         return houseList;
     }
 
+    /**
+     * 获取栋的房子列表
+     * @param houseId
+     * @return
+     */
     @RequestMapping("/roomList")
     @ResponseBody
     public List<Room> RoomList(@RequestParam("houseId") String houseId){
-        System.out.println(houseId);
         List<Room> roomList = communityService.getRoomListByHouseId(houseId);
-        System.out.println(roomList);
         return roomList;
     }
 
+    /**
+     * 获取业主已认证的小区列表
+     * @param ownerId
+     * @return
+     */
     @RequestMapping("/ownerCommunityList")
     @ResponseBody
     public List<CommunityDto> ownerCommunityList(@RequestParam("ownerId")String ownerId){

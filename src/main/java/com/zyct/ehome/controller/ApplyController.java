@@ -36,6 +36,17 @@ public class ApplyController {
     @Autowired
     private ApplyService applyService;
 
+    /**
+     * 用户认证业主的接口
+     * @param ownerId
+     * @param name
+     * @param idCard
+     * @param phone
+     * @param communityId
+     * @param houseId
+     * @param roomId
+     * @return
+     */
     @RequestMapping("/applyMessage")
     @ResponseBody
     public ResponseMessage applyMessage(@RequestParam("weixin")String ownerId,@RequestParam("name")String name,@RequestParam("idCard")String idCard,
@@ -48,6 +59,7 @@ public class ApplyController {
         //更新用户数据
         userService.updateUser(owner);
         Apply apply = new Apply();
+        //生成uuid
         apply.setApplyId(UUID.randomUUID().toString());
         apply.setOwner(owner);
         Community community = communityService.getCommunityByCommunityId(communityId);
@@ -68,6 +80,11 @@ public class ApplyController {
         return responseMessage;
     }
 
+    /**
+     * 判断申请是否通过
+     * @param applyId
+     * @return
+     */
     @RequestMapping("/applyIsPass")
     @ResponseBody
     public Boolean applyIsPass(@RequestParam("applyId")String applyId){
