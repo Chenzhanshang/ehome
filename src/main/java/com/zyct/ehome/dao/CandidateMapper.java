@@ -2,6 +2,8 @@ package com.zyct.ehome.dao;
 
 import com.zyct.ehome.entity.Candidate;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -38,4 +40,12 @@ public interface CandidateMapper {
      * @param candidateId
      */
     void deleteCandidateById(String candidateId);
+
+    /**
+     * 更新候选人票数
+     * @param candidateId
+     * @param count
+     */
+    @Update("update t_candidate set candidate_poll = #{count} where candidate_id = #{candidateId}")
+    void updateCandidatePollById(@Param("candidateId") String candidateId,@Param("count") Integer count);
 }

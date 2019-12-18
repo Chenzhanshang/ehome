@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zyct.ehome.dao.RoleMapper">
+<mapper namespace="com.zyct.ehome.dao.VoteMapper">
     <insert id="insertVoteCandidate" parameterType="String">
         insert into t_candidate_owner(candidate_id, owner_id)
         values (#{candidateId},#{ownerId})

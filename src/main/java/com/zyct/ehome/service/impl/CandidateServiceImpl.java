@@ -67,4 +67,15 @@ public class CandidateServiceImpl implements CandidateService {
     public void deleteCandidate(String candidateId) {
         candidateMapper.deleteCandidateById(candidateId);
     }
+
+    /**
+     * 更新候选人票数
+     *
+     * @param candidateId
+     * @param count
+     */
+    @Override
+    public void updateCandidatePollById(String candidateId, Integer count) {
+        candidateMapper.updateCandidatePollById(candidateId,count);
+    }
 }
