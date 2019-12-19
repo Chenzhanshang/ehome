@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -25,9 +26,15 @@ public class CandidateController {
 
     @RequestMapping(value = "/candidateList/{communityId}",method = RequestMethod.GET)
     public @ResponseBody
-    ResponseMessage candidateList(@PathVariable("communityId") String communityId){
+    ResponseMessage candidateList(@PathVariable("communityId") String communityId, HttpServletRequest request){
         try {
             List<Candidate> candidateList = candidateService.candidateList(communityId);
+            for (Candidate candidate:candidateList) {
+                if(candidate.getOwner().getAvatar() != null){
+                    String avatar = candidate.getOwner().getAvatar();
+                    candidate.getOwner().setAvatar("http://localhost:8081" + request.getContextPath() + "/file/"+avatar);
+                }
+            }
             ResponseMessage responseMessage = new ResponseMessage("0","获取候选人列表成功");
             responseMessage.getData().put("candidateList",candidateList);
             return responseMessage;
