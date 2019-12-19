@@ -7,7 +7,7 @@
     <select id="getCandidateListByCommunityId" parameterType="String" resultMap="getCandidateListByCommunityIdMap">
         select c.candidate_id candidate_id,c.candidate_poll candidate_poll,
         c.candidate_create_time candidate_create_time,
-        o.owner_id owner_id,o.owner_name owner_name,
+        o.owner_id owner_id,o.owner_name owner_name,o.avatar avatar,
         co.community_id community_id,co.community_name community_name
          from t_candidate c
          left join t_owner o
@@ -24,6 +24,7 @@
         <association column="owner_id" property="owner" javaType="Owner">
             <id column="owner_id" property="ownerId" javaType="String"/>
             <result column="owner_name" property="ownerName" javaType="String"/>
+            <result column="avatar" property="avatar" javaType="String"/>
         </association>
         <association column="community_id" property="community" javaType="Community">
             <id column="community_id" property="communityId" javaType="String"/>
@@ -42,7 +43,7 @@
     <select id="selectCandidateByOwnerId" parameterType="String" resultMap="getCandidateListByCommunityIdMap">
         select c.candidate_id candidate_id,c.candidate_poll candidate_poll,
         c.candidate_create_time candidate_create_time,
-        o.owner_id owner_id,o.owner_name owner_name,
+        o.owner_id owner_id,o.owner_name owner_name,o.avatar avatar,
         co.community_id community_id,co.community_name community_name
          from t_candidate c
          left join t_owner o
