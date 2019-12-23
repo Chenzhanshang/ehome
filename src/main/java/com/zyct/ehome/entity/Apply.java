@@ -25,4 +25,6 @@ public class Apply {
 
     private Long createTime;
 
+    private Flow flow;
+
 }

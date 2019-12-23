@@ -10,4 +10,6 @@ public class FlowLine {
 
     private Integer nextNodeId;
 
+    private Flow flow;
+
 }

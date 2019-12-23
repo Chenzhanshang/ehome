@@ -10,6 +10,8 @@ public class FlowNode {
 
     private Role role;
 
+    private Flow flow;
+
     public FlowNode() {
     }
 
