@@ -19,4 +19,11 @@ public interface OwnerMapper {
      * @return
      */
     List<Owner> getOwnerListByCommunityId(String communityId);
+
+    /**
+     * 通过业主id获取业主
+     * @param ownerId
+     * @return
+     */
+    Owner getOwnerByOwnerId(String ownerId);
 }

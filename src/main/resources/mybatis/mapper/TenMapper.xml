@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyct.ehome.dao.TenMapper">
+
+    <insert id="insertFix" parameterType="ten">
+        insert into t_fix (fix_id, community_id, type, date, time, text, flag, owner_id)
+        values (#{fixId},#{communityId},#{type},#{date},#{time},#{text},#{flag},#{ownerId});
+    </insert>
+
+    <select id="selectFixListByCommunityId" parameterType="String" resultType="Fix">
+        select * from t_fix where flag = 0 and community_id = #{communityId}
+    </select>
+
+</mapper>
