@@ -4,9 +4,7 @@ import com.zyct.ehome.dao.CommunityMapper;
 import com.zyct.ehome.dao.OwnerMapper;
 import com.zyct.ehome.dao.TenMapper;
 import com.zyct.ehome.dto.FixDto;
-import com.zyct.ehome.entity.Community;
-import com.zyct.ehome.entity.Fix;
-import com.zyct.ehome.entity.Owner;
+import com.zyct.ehome.entity.*;
 import com.zyct.ehome.service.TenService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,13 +50,26 @@ public class TenServiceImpl implements TenService {
     public List<FixDto> fixList(String communityId) {
         List<Fix> fixList = tenMapper.selectFixListByCommunityId(communityId);
         List<FixDto> fixDtos = new ArrayList<>();
+        //将fix转换为fixDto
         for (Fix fix : fixList) {
             FixDto fixDto = new FixDto();
             Owner owner = ownerMapper.getOwnerByOwnerId(fix.getOwnerId());
             Community community = communityMapper.getCommunityByCommunityId(fix.getCommunityId());
             BeanUtils.copyProperties(fix,fixDto);
+            fixDto.setName(owner.getOwnerName());
+            fixDto.setPhone(owner.getOwnerPhone());
             fixDto.setCommunity(community);
             fixDto.setOwner(owner);
+            //查询出该用户的所有房子
+            List<Room> rooms = communityMapper.getRoomListByOwnerId(owner.getOwnerId());
+            for (Room room : rooms) {
+                //查出改房子所属的栋
+                House house = communityMapper.getHouseByHouseId(room.getHouse().getHouseId());
+                if (house.getCommunity().getCommunityId().equals(communityId)){
+                    fixDto.setRoom(room.getRoomName());
+                    fixDto.setHouse(house.getHouseName());
+                }
+            }
             fixDtos.add(fixDto);
         }
         return fixDtos;

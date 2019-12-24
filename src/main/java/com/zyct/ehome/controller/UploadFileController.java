@@ -53,7 +53,6 @@ public class UploadFileController {
         file.setFileName(multipartFile.getOriginalFilename());
         file.setFilePath(path + multipartFile.getOriginalFilename());
         applyService.insertFile(file);
-
         String[] str = {"http://localhost:8081/ehome/file/" + multipartFile.getOriginalFilename()};
         Map<String, Object> map = new HashMap<>();
         map.put("urls", str);
