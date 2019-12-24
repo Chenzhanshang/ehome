@@ -1,8 +1,10 @@
 package com.zyct.ehome.service.impl;
 
 import com.zyct.ehome.dao.AuditMapper;
+import com.zyct.ehome.dao.RoomMapper;
 import com.zyct.ehome.entity.Apply;
 import com.zyct.ehome.entity.LeaveAudit;
+import com.zyct.ehome.entity.Room;
 import com.zyct.ehome.service.Auditservice;
 import com.zyct.ehome.utils.AuditEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class AuditServiceImpl implements Auditservice {
 
     @Autowired
     private AuditMapper auditMapper;
+
+    @Autowired
+    private RoomMapper roomMapper;
 
 
     @Override
@@ -45,6 +50,12 @@ public class AuditServiceImpl implements Auditservice {
                 //设置处理状态为0（即申请彻底通过）
                 auditEntity.setFlowNode(auditMapper.findNextNodeByFlowNodeAndFlowId(flowNode, flowId));
                 auditEntity.setApplyState(1);
+                if(flowId == 1) {
+                    //获取申请信息
+                    Apply apply = auditMapper.findApplyByApplyId(auditEntity.getApplyId());
+                    roomMapper.updateRoomOwnerIdByRoomId(apply.getRoom().getRoomId(),
+                            apply.getOwner().getOwnerId());
+                }
             }
         }
 

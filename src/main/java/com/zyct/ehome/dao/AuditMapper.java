@@ -70,4 +70,11 @@ public interface AuditMapper {
      * @return
      */
     LeaveAudit getAuditInfoByAuditId(String auditId);
+
+    /**
+     * 通过id获取完整申请信息
+     * @param applyId
+     * @return
+     */
+    Apply findApplyByApplyId(String applyId);
 }

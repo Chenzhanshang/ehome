@@ -46,4 +46,8 @@
         from t_room
         where room_id = #{roomId}
     </delete>
+
+    <update id="updateRoomOwnerIdByRoomId" parameterType="String">
+        update t_room set owner_id = #{ownerId} where room_id = #{roomId}
+    </update>
 </mapper>
