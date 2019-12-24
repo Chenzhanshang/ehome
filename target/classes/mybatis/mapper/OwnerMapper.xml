@@ -17,5 +17,8 @@
         <result column="owner_name" property="ownerName" javaType="String"/>
     </resultMap>
 
+    <select id="getOwnerByOwnerId" parameterType="String" resultType="Owner">
+        select * from t_owner where owner_id = #{v}
+    </select>
 
 </mapper>
