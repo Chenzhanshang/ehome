@@ -42,21 +42,21 @@ public class AuditServiceImpl implements Auditservice {
             //查询当前的申请对应的节点
             Integer flowNode = auditMapper.findFlowNodeByApplyId(auditEntity.getApplyId());
             //如果当前节点拥有下一节点
-            if(auditMapper.findNextNodeByFlowNodeAndFlowId(flowNode+1, flowId) != null){
+            if(auditMapper.findNextNodeByFlowNodeAndFlowId(flowNode, flowId) != null){
                 //设置当前申请的节点为下一节点
                 auditEntity.setFlowNode(auditMapper.findNextNodeByFlowNodeAndFlowId(flowNode, flowId));
-            }
-            else{
-                //设置处理状态为0（即申请彻底通过）
-                auditEntity.setFlowNode(auditMapper.findNextNodeByFlowNodeAndFlowId(flowNode, flowId));
-                auditEntity.setApplyState(1);
-                if(flowId == 1) {
-                    //获取申请信息
-                    Apply apply = auditMapper.findApplyByApplyId(auditEntity.getApplyId());
-                    roomMapper.updateRoomOwnerIdByRoomId(apply.getRoom().getRoomId(),
-                            apply.getOwner().getOwnerId());
+                if(auditMapper.findNextNodeByFlowNodeAndFlowId(auditEntity.getFlowNode(), flowId) == null){
+                    //设置申请状态为1（完成）
+                    auditEntity.setApplyState(1);
+                    if(flowId == 1) {
+                        //获取申请信息
+                        Apply apply = auditMapper.findApplyByApplyId(auditEntity.getApplyId());
+                        roomMapper.updateRoomOwnerIdByRoomId(apply.getRoom().getRoomId(),
+                                apply.getOwner().getOwnerId());
+                    }
                 }
             }
+
         }
 
         if(auditEntity.getApplyState() == null){

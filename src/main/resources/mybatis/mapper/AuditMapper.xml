@@ -20,7 +20,7 @@
     </select>
 
     <select id="findNextNodeByFlowNodeAndFlowId" parameterType="Integer" resultType="Integer">
-        SELECT t_flow_line.next_node_id FROM t_flow_line WHERE flow_line_id = #{flowNode} AND flow_id = #{flowId}
+        SELECT next_node_id FROM t_flow_line WHERE prev_node_id = #{flowNode} AND flow_id = #{flowId}
     </select>
 
 
