@@ -1,6 +1,7 @@
 package com.zyct.ehome.utils;
 
 import com.sun.javafx.util.TempState;
+import com.zyct.ehome.entity.Admin;
 
 /**
  * 处理申请信息的封装
@@ -20,6 +21,8 @@ public class AuditEntity {
     private String auditInfo;
 
     private String applyId;
+
+    private String adminId;
 
     private Integer flowNode;
 
@@ -78,18 +81,12 @@ public class AuditEntity {
         this.auditDate = auditDate;
     }
 
-    @Override
-    public String toString() {
-        return "AuditEntity{" +
-                "auditId='" + auditId + '\'' +
-                ", applyState=" + applyState +
-                ", adminName='" + adminName + '\'' +
-                ", auditState=" + auditState +
-                ", auditInfo='" + auditInfo + '\'' +
-                ", applyId='" + applyId + '\'' +
-                ", flowNode=" + flowNode +
-                ", auditDate=" + auditDate +
-                '}';
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
     }
 
     public Integer getFlowNode() {
@@ -106,5 +103,20 @@ public class AuditEntity {
 
     public void setApplyState(Integer applyState) {
         this.applyState = applyState;
+    }
+
+    @Override
+    public String toString() {
+        return "AuditEntity{" +
+                "auditId='" + auditId + '\'' +
+                ", applyState=" + applyState +
+                ", adminName='" + adminName + '\'' +
+                ", auditState=" + auditState +
+                ", auditInfo='" + auditInfo + '\'' +
+                ", applyId='" + applyId + '\'' +
+                ", adminId='" + adminId + '\'' +
+                ", flowNode=" + flowNode +
+                ", auditDate=" + auditDate +
+                '}';
     }
 }

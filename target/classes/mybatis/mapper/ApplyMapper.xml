@@ -15,7 +15,8 @@
         c.community_id community_id,c.community_name community_name,
         h.house_id house_id,h.house_name house_name,
         r.room_id room_id,r.room_name room_name,
-        g.region_id region_id,g.full_name full_name,g.parent parent
+        g.region_id region_id,g.full_name full_name,g.parent parent,
+        f.flow_id flow_id
         from t_apply a
         left join t_community c
         on a.community_id = c.community_id
@@ -25,6 +26,8 @@
         on a.room_id = r.room_id
         left join t_region g
         on c.region_id = g.region_id
+        left join t_flow f
+        on a.flow_id = f.flow_id
         where a.apply_state = 0 and a.flow_node_id in
         <foreach collection="list"  item="item" separator="," open="(" close=")">
             #{item.flowNodeId}
@@ -50,6 +53,9 @@
             <id column="room_id" property="roomId" javaType="String"/>
             <result column="room_name" property="roomName" javaType="String"/>
         </association>
+        <association property="flow" column="flow_id" javaType="Flow">
+            <id column="flow_id" property="flowId" javaType="Integer"/>
+        </association>
     </resultMap>
 
     <select id="getApplyById" resultMap="getApplyByIdMap" parameterType="String">
@@ -59,7 +65,8 @@
         h.house_id house_id,h.house_name house_name,
         r.room_id room_id,r.room_name room_name,
         o.owner_id owner_id,o.owner_name owner_name,o.owner_id_number owner_id_number,
-        f.file_id file_id,f.file_name file_name,f.file_path file_path
+        f.file_id file_id,f.file_name file_name,f.file_path file_path,
+        fl.flow_id flow_id,fl.flow_name flow_name
         from t_apply a
         left join t_owner o
         on a.owner_id = o.owner_id
@@ -73,6 +80,8 @@
         on a.room_id = r.room_id
         left join t_file f
         on a.apply_id = f.apply_id
+        left join t_flow fl
+        on a.flow_id = fl.flow_id
         where a.apply_id = #{v}
     </select>
     <resultMap id="getApplyByIdMap" type="apply">
@@ -98,6 +107,10 @@
             <id column="owner_id" property="ownerId" javaType="String"/>
             <result column="owner_name" property="ownerName" javaType="String"/>
             <result column="owner_id_number" property="ownerIdNumber" javaType="String"/>
+        </association>
+        <association property="flow" column="flow_id" javaType="Flow">
+            <id column="flow_id" property="flowId" javaType="Integer"/>
+            <result column="flow_name" property="flowName" javaType="String"/>
         </association>
         <collection property="files" ofType="File" column="file_id">
             <id column="file_id" property="fileId" javaType="String"/>

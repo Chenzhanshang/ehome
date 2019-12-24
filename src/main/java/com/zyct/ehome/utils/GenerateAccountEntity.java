@@ -4,15 +4,15 @@ package com.zyct.ehome.utils;/**
  * Email 642125256@qq.com
  */
 public class GenerateAccountEntity {
-    private String accountType;
+    private String roleId;
     private Long regionId;
 
-    public String getAccountType() {
-        return accountType;
+    public String getRoleId() {
+        return roleId;
     }
 
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
     public Long getRegionId() {
@@ -25,8 +25,8 @@ public class GenerateAccountEntity {
 
     @Override
     public String toString() {
-        return "GenerateAccountUtil{" +
-                "accountType='" + accountType + '\'' +
+        return "GenerateAccountEntity{" +
+                "roleId='" + roleId + '\'' +
                 ", regionId=" + regionId +
                 '}';
     }

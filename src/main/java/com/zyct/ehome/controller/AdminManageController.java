@@ -3,6 +3,7 @@ package com.zyct.ehome.controller;
 import com.sun.org.glassfish.gmbal.ParameterNames;
 import com.zyct.ehome.dao.AdminManageMapper;
 import com.zyct.ehome.entity.Admin;
+import com.zyct.ehome.entity.Role;
 import com.zyct.ehome.service.AdminManageService;
 import com.zyct.ehome.utils.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,13 +51,7 @@ public class AdminManageController {
     @RequestMapping(value = "/updateAdmin",method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessage updateAdmin(@RequestBody Admin admin){
-        if("subdistrictOffice".equals(admin.getRoles().iterator().next().getRoleName())){
-            admin.getRoles().iterator().next().setRoleId("2");
-        }
-        if("houseManagement".equals(admin.getRoles().iterator().next().getRoleName())){
-            admin.getRoles().iterator().next().setRoleId("3");
-        }
-        System.out.println(admin + "-------------------------->");
+        System.out.println(admin);
 
         try{
             adminManageService.updateAdmin(admin);
@@ -69,6 +64,22 @@ public class AdminManageController {
         ResponseMessage responseMessage = new ResponseMessage("0","修改成功！");
         responseMessage.getData().put("admin",admin);
         return responseMessage;
+
+    }
+
+    @RequestMapping("/getAllRole")
+    public @ResponseBody
+    ResponseMessage getAllRole(){
+        try{
+            List<Role> roles = adminManageService.getAllRole();
+            ResponseMessage responseMessage = new ResponseMessage("0","获取角色列表成功");
+            responseMessage.getData().put("roles",roles);
+            return responseMessage;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","获取角色列表失败");
+        }
 
     }
 }

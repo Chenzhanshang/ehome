@@ -42,8 +42,17 @@ public interface AuditMapper {
      * 通过当前节点查询后一节点
      * @author CZS
      * @param flowNode
+     * @param flowId
      * @return
      */
-    Integer findNextNodeByFlowNode(Integer flowNode);
+    Integer findNextNodeByFlowNodeAndFlowId(Integer flowNode, Integer flowId);
+
+    /**
+     * 根据申请id查询节点类型表的flow_id
+     * @author CZS
+     * @param applyId
+     * @return
+     */
+    Integer findFlowIdByApplyId(String applyId);
 
 }

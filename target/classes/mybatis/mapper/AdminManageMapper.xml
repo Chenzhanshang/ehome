@@ -49,8 +49,13 @@
 
     <update id="updateAdmin" parameterType="com.zyct.ehome.entity.Admin">
         UPDATE t_admin
-        SET admin_password = #{adminPassword},
-        region_id = #{region.regionId}
+        SET admin_account = #{adminAccount}
+        <if test="adminPassword!=null and adminPassword!=''">
+            , admin_password = #{adminPassword}
+        </if>
+        <if test="region.regionId!=null and region.regionId!=''">
+            , region_id = #{region.regionId}
+        </if>
         WHERE admin_id = #{adminId}
     </update>
 
@@ -59,6 +64,10 @@
         SET role_id = #{roleId}
         WHERE admin_id = #{adminId}
     </update>
+
+    <select id="getAllRole" resultType="com.zyct.ehome.entity.Role" >
+        SELECT * FROM t_role WHERE role_name != '平台成员'
+    </select>
 
 
 </mapper>
