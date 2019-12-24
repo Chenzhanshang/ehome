@@ -7,6 +7,7 @@ import com.zyct.ehome.utils.AuditEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -55,5 +56,18 @@ public class AuditServiceImpl implements Auditservice {
         auditMapper.insertAudit(auditEntity);
         //更新申请表
         auditMapper.updateApply(auditEntity);
+    }
+
+
+    @Override
+    public List<LeaveAudit> getHistoryExamineListByAdminId(String adminId) {
+
+        return auditMapper.getHistoryExamineListByAdminId(adminId);
+    }
+
+
+    @Override
+    public LeaveAudit getAuditInfoByAuditId(String auditId) {
+        return auditMapper.getAuditInfoByAuditId(auditId);
     }
 }
