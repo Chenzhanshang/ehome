@@ -97,7 +97,7 @@ public class ApplyServiceImpl implements ApplyService {
         apply.setApplyState(0);
         apply.setCreateTime(System.currentTimeMillis());
         Flow flow = new Flow();
-        flow.setFlowId(1);
+        flow.setFlowId(2);
         apply.setFlow(flow);
         applyMapper.insertApply(apply);
         uploadFileMapper.insertFiles(files);

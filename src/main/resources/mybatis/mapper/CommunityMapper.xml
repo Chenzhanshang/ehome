@@ -119,4 +119,28 @@
         </trim>
         where community_id = #{communityId}
     </update>
+    <select id="getRoomListByOwnerId" parameterType="String" resultMap="RoomMap">
+        select * from t_room where owner_id = #{v}
+    </select>
+    <resultMap id="RoomMap" type="Room">
+        <id column="room_id" property="roomId" javaType="String"></id>
+        <result column="room_name" property="roomName" javaType="String"></result>
+        <result column="room_certification_time" property="roomCertificationTime" javaType="Long"></result>
+        <association property="owner" javaType="owner" column="owner_id">
+        </association>
+        <association property="house" javaType="house" column="house_id">
+            <id column="house_id" property="houseId" javaType="String"></id>
+        </association>
+    </resultMap>
+
+    <select id="getHouseByHouseId" parameterType="String" resultMap="houseMapVo">
+        select * from t_house where house_id = #{houseId}
+    </select>
+    <resultMap id="houseMapVo" type="House">
+        <id column="house_id" property="houseId" javaType="String"></id>
+        <result column="house_name" property="houseName" javaType="String"></result>
+        <association property="community" javaType="Community" column="community_id">
+            <id column="community_id" property="communityId" javaType="String"></id>
+        </association>
+    </resultMap>
 </mapper>

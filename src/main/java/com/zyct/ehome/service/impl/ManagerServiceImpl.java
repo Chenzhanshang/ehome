@@ -2,6 +2,7 @@ package com.zyct.ehome.service.impl;
 
 import com.zyct.ehome.dao.CommunityMapper;
 import com.zyct.ehome.dao.ManagerMapper;
+import com.zyct.ehome.dto.FixDto;
 import com.zyct.ehome.dto.ManagerDto;
 import com.zyct.ehome.entity.Community;
 import com.zyct.ehome.entity.Manager;
@@ -72,4 +73,6 @@ public class ManagerServiceImpl implements ManagerService {
         managerDto.setCommunity(community);
         return managerDto;
     }
+
+
 }

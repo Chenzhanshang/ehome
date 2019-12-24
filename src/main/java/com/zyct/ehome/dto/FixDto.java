@@ -20,6 +20,10 @@ public class FixDto {
     private String time;
     private String text;
     private Integer flag;
+    private String name;
+    private String phone;
+    private String house;
+    private String room;
     private Community community;
     private Owner owner;
 }

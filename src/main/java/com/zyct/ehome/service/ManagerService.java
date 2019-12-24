@@ -1,5 +1,6 @@
 package com.zyct.ehome.service;
 
+import com.zyct.ehome.dto.FixDto;
 import com.zyct.ehome.dto.ManagerDto;
 import com.zyct.ehome.entity.Manager;
 
@@ -26,4 +27,6 @@ public interface ManagerService {
      Boolean login(Manager manager);
 
      ManagerDto getManager();
+
+
 }

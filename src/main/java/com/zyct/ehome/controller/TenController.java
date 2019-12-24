@@ -1,16 +1,15 @@
 package com.zyct.ehome.controller;
 
+import com.zyct.ehome.dto.FixDto;
 import com.zyct.ehome.entity.Fix;
 import com.zyct.ehome.entity.Ten;
 import com.zyct.ehome.service.TenService;
 import com.zyct.ehome.utils.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author litianfu
@@ -35,6 +34,18 @@ public class TenController {
         System.out.println(fix.toString());
         tenService.insertFix(fix);
         return new ResponseMessage("0","报修成功");
+    }
+
+    @RequestMapping(value = "/fixList",method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessage fixList(@RequestParam("communityId")String communityId){
+        //通过小区id查询待维修列表
+        List<FixDto> fixDtoList = tenService.fixList(communityId);
+        ResponseMessage responseMessage = new ResponseMessage("0", "请求成功");
+        Map<String,Object> map = new HashMap<>();
+        map.put("fixDtoList",fixDtoList);
+        responseMessage.setData(map);
+        return responseMessage;
     }
 
 
