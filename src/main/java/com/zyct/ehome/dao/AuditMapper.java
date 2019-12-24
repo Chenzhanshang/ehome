@@ -5,6 +5,8 @@ import com.zyct.ehome.entity.LeaveAudit;
 import com.zyct.ehome.utils.AuditEntity;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @author CZS
  * CreateTime 2019/12/16 15:34
@@ -46,4 +48,17 @@ public interface AuditMapper {
      */
     Integer findNextNodeByFlowNode(Integer flowNode);
 
+    /**
+     * 通过adminid获取该用户所有审批过的记录
+     * @param adminId
+     * @return
+     */
+    List<LeaveAudit> getHistoryExamineListByAdminId(String adminId);
+
+    /**
+     * 通过id获取审批详情
+     * @param auditId
+     * @return
+     */
+    LeaveAudit getAuditInfoByAuditId(String auditId);
 }
