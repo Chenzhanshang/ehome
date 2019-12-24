@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyct.ehome.dao.ManagerMapper">
+
+    <select id="isExits" parameterType="Manager" resultType="Manager">
+        select * from t_manager where account = #{account}
+    </select>
+
+    <select id="login" parameterType="Manager" resultType="Manager">
+        select * from t_manager where account = #{account}
+        and password = #{password}
+    </select>
+
+    <update id="update" parameterType="Manager">
+        update t_manager set community_id=#{communityId},type=#{type},login_time=#{loginTime}
+        where manager_id = #{managerId}
+    </update>
+
+
+
+
+</mapper>
