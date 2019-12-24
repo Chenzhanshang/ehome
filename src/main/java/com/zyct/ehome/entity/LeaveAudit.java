@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class LeaveAudit {
-    private Integer auditId;
+    private String auditId;
 
     private String adminName;
 
@@ -16,7 +16,7 @@ public class LeaveAudit {
      */
     private Long auditDate;
 
-    private File file;
+    private Apply apply;
 
     private FlowNode flowNode;
 
