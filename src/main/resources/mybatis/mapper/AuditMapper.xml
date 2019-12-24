@@ -153,4 +153,17 @@
             <result column="flow_node_name" property="flowNodeName" javaType="String"/>
         </association>
     </resultMap>
+
+    <select id="findApplyByApplyId" parameterType="String" resultMap="findApplyByApplyIdMap">
+        select owner_id,room_id
+        from t_apply where apply_id = #{v}
+    </select>
+    <resultMap id="findApplyByApplyIdMap" type="Apply">
+        <association property="room" column="room_id" javaType="Room">
+            <id column="room_id" property="roomId" javaType="String"/>
+        </association>
+        <association property="owner" column="owner_id" javaType="Owner">
+            <id column="owner_id" property="ownerId" javaType="String"/>
+        </association>
+    </resultMap>
 </mapper>

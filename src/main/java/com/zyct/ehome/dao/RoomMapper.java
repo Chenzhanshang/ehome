@@ -36,4 +36,11 @@ public interface RoomMapper {
      * @param room
      */
     void deleteRoomById(Room room);
+
+    /**
+     * 修改房间所属的用户
+     * @param roomId
+     * @param ownerId
+     */
+    void updateRoomOwnerIdByRoomId(String roomId, String ownerId);
 }
