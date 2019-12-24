@@ -5,8 +5,8 @@
 <mapper namespace="com.zyct.ehome.dao.AuditMapper">
     <insert id="insertAudit" parameterType="com.zyct.ehome.utils.AuditEntity">
         INSERT INTO
-        t_leave_audit(audit_id,admin_name,audit_state,audit_info,audit_date)
-        VALUES (#{auditId},#{adminName},#{auditState},#{auditInfo},#{auditDate})
+        t_leave_audit(audit_id,admin_name,audit_state,audit_info,audit_date, admin_id, apply_id)
+        VALUES (#{auditId},#{adminName},#{auditState},#{auditInfo},#{auditDate}, #{adminId}, #{applyId})
     </insert>
 
     <update id="updateApply" parameterType="com.zyct.ehome.utils.AuditEntity">
@@ -16,10 +16,31 @@
     </update>
 
     <select id="findFlowNodeByApplyId" parameterType="String" resultType="Integer">
-        SELECT t_apply.flow_node_id FROM t_apply WHERE t_apply.apply_id = #{applyId}
+        SELECT flow_node_id FROM t_apply WHERE t_apply.apply_id = #{applyId}
     </select>
 
-    <select id="findNextNodeByFlowNode" parameterType="Integer" resultType="Integer">
-        SELECT t_flow_line.next_node_id FROM t_flow_line WHERE flow_line_id = #{flowNode}
+    <select id="findNextNodeByFlowNodeAndFlowId" parameterType="Integer" resultType="Integer">
+        SELECT t_flow_line.next_node_id FROM t_flow_line WHERE flow_line_id = #{flowNode} AND flow_id = #{flowId}
     </select>
+
+
+
+    <select id="findFlowIdByApplyId" parameterType="String" resultType="Integer">
+        SELECT flow_id FROM t_apply WHERE apply_id = #{v}
+    </select>
+
+<!--    <select id="findApplyById" parameterType="String" resultMap="String">-->
+<!--        SELECT a.apply_id apply_id, f.flow_id flow_id, f.flow_name flow_name-->
+<!--        FROM t_apply a-->
+<!--        LEFT JOIN t_flow f-->
+<!--        ON a.flow_id = f.flow_id-->
+<!--        WHERE apply_id = #{v}-->
+<!--    </select>-->
+<!--    <resultMap id="applyMap" type="com.zyct.ehome.entity.Apply">-->
+<!--        <id column="apply_id" property="applyId" javaType="String" />-->
+<!--        <association property="flow" javaType="com.zyct.ehome.entity.Flow" column="flow_id">-->
+<!--            <id column="flow_id" property="flowId" javaType="Integer" />-->
+<!--            <result column="flow_name" property="flowName" javaType="String" />-->
+<!--        </association>-->
+<!--    </resultMap>-->
 </mapper>

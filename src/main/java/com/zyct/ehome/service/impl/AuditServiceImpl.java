@@ -1,6 +1,7 @@
 package com.zyct.ehome.service.impl;
 
 import com.zyct.ehome.dao.AuditMapper;
+import com.zyct.ehome.entity.Apply;
 import com.zyct.ehome.entity.LeaveAudit;
 import com.zyct.ehome.service.Auditservice;
 import com.zyct.ehome.utils.AuditEntity;
@@ -20,6 +21,8 @@ public class AuditServiceImpl implements Auditservice {
 
     @Autowired
     private AuditMapper auditMapper;
+
+
     @Override
     public void insertAudit(AuditEntity auditEntity) {
         auditEntity.setAuditId(UUID.randomUUID().toString().replaceAll("-",""));
@@ -30,16 +33,17 @@ public class AuditServiceImpl implements Auditservice {
             auditEntity.setApplyState(-1);
         }
         else{
+            Integer flowId = auditMapper.findFlowIdByApplyId(auditEntity.getApplyId());
             //查询当前的申请对应的节点
             Integer flowNode = auditMapper.findFlowNodeByApplyId(auditEntity.getApplyId());
             //如果当前节点拥有下一节点
-            if(auditMapper.findNextNodeByFlowNode(flowNode+1) != null){
+            if(auditMapper.findNextNodeByFlowNodeAndFlowId(flowNode+1, flowId) != null){
                 //设置当前申请的节点为下一节点
-                auditEntity.setFlowNode(auditMapper.findNextNodeByFlowNode(flowNode));
+                auditEntity.setFlowNode(auditMapper.findNextNodeByFlowNodeAndFlowId(flowNode, flowId));
             }
             else{
                 //设置处理状态为0（即申请彻底通过）
-                auditEntity.setFlowNode(auditMapper.findNextNodeByFlowNode(flowNode));
+                auditEntity.setFlowNode(auditMapper.findNextNodeByFlowNodeAndFlowId(flowNode, flowId));
                 auditEntity.setApplyState(1);
             }
         }

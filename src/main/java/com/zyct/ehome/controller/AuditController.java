@@ -1,6 +1,7 @@
 package com.zyct.ehome.controller;
 
 import com.zyct.ehome.entity.Admin;
+import com.zyct.ehome.service.AdminService;
 import com.zyct.ehome.entity.File;
 import com.zyct.ehome.entity.LeaveAudit;
 import com.zyct.ehome.service.Auditservice;
@@ -29,6 +30,9 @@ public class AuditController {
     @Autowired
     private Auditservice auditservice;
 
+    @Autowired
+    private AdminService adminService;
+
     /**
      * 处理处理申请的请求
      * @author CZS
@@ -38,6 +42,14 @@ public class AuditController {
     @RequestMapping(value = "/dispose", method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessage dispose(@RequestBody AuditEntity auditEntity){
+        //获取当前管理员账号密码
+        Admin admin = (Admin) SecurityUtils.getSubject().getPrincipal();
+        //根据管理员账号得到管理员
+        admin = adminService.getAdminByAccount(admin.getAdminAccount());
+        //获得管理员id
+        String adminId = admin.getAdminId();
+
+        auditEntity.setAdminId(adminId);
         try {
             auditservice.insertAudit(auditEntity);
             return new ResponseMessage("1","提交成功");

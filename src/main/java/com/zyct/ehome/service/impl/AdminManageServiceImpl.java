@@ -1,9 +1,11 @@
 package com.zyct.ehome.service.impl;
 
 import com.zyct.ehome.dao.AdminManageMapper;
-import com.zyct.ehome.dao.AdminMapper;
 import com.zyct.ehome.entity.Admin;
+import com.zyct.ehome.entity.Role;
 import com.zyct.ehome.service.AdminManageService;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ import java.util.List;
 public class AdminManageServiceImpl implements AdminManageService {
     @Autowired
     private AdminManageMapper adminManageMapper;
+
     @Override
     public List<Admin> getAdminList() {
         List<Admin> list = adminManageMapper.getAdminList();
@@ -26,6 +29,10 @@ public class AdminManageServiceImpl implements AdminManageService {
 
     @Override
     public void updateAdmin(Admin admin) {
+        //加密密码
+        ByteSource bytes = ByteSource.Util.bytes(admin.getAdminAccount());
+        SimpleHash simpleHash = new SimpleHash("MD5",admin.getAdminPassword(),bytes,1024);
+        admin.setAdminPassword(simpleHash.toString());
         adminManageMapper.updateAdmin(admin);
         adminManageMapper.updateAdminRole(admin.getAdminId(),admin.getRoles().iterator().next().getRoleId());
     }
@@ -44,5 +51,11 @@ public class AdminManageServiceImpl implements AdminManageService {
     public Admin getAdminByAdminAccount(String adminId) {
         Admin admin = adminManageMapper.getAdminByAdminAccount(adminId);
         return admin;
+    }
+
+    @Override
+    public List<Role> getAllRole() {
+        List<Role> roles = adminManageMapper.getAllRole();
+        return roles;
     }
 }

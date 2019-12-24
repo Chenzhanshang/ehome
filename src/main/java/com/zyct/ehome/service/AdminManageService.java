@@ -1,6 +1,7 @@
 package com.zyct.ehome.service;
 
 import com.zyct.ehome.entity.Admin;
+import com.zyct.ehome.entity.Role;
 
 import java.util.List;
 
@@ -48,5 +49,12 @@ public interface AdminManageService {
      * @return
      */
     public Admin getAdminByAdminAccount(String adminId);
+
+    /**
+     * 获得角色列表
+     * @author CZS
+     * @return
+     */
+    List<Role> getAllRole();
 
 }
