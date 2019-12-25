@@ -120,5 +120,43 @@ public class TenServiceImpl implements TenService {
         tenMapper.updateFix(fix);
     }
 
+    @Override
+    public void putNotice(Notice notice) {
+        tenMapper.insertNotice(notice);
+    }
+
+    /**
+     * 通过小区id和类型获取通知列表
+     *
+     * @param communityId
+     * @param type
+     * @return
+     */
+    @Override
+    public List<Notice> getNoticeListByType(String communityId, Integer type) {
+        List<Notice> noticeList = tenMapper.selectNoticeListByCommunityIdAndType(communityId, type);
+        return noticeList;
+    }
+
+    /**
+     * 删除公告
+     *
+     * @param notice
+     */
+    @Override
+    public void deleteNotice(Notice notice) {
+        tenMapper.deleteNotice(notice);
+    }
+
+    /**
+     * 修改公告
+     *
+     * @param notice
+     */
+    @Override
+    public void updateNotice(Notice notice) {
+        tenMapper.updateNotice(notice);
+    }
+
 
 }
