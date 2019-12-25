@@ -18,4 +18,6 @@ public class Fix {
     private String time;
     private String text;
     private Integer flag;
+    private String createTime;
+    private String updateTime;
 }

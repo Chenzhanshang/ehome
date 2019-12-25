@@ -27,4 +27,12 @@ public interface TenMapper {
      * @return
      */
     List<Fix> selectFixListByCommunityId(String communityId);
+
+    /**
+     * 更新维修状态
+     * @param fix
+     */
+    void updateFix(Fix fix);
+
+    List<Fix> selectFixedListByCommunityId(String communityId);
 }

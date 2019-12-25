@@ -13,4 +13,13 @@
         select * from t_fix where flag = 0 and community_id = #{communityId}
     </select>
 
+
+    <select id="selectFixedListByCommunityId" parameterType="String" resultType="Fix">
+        select * from t_fix where flag = 1 and community_id = #{communityId}
+    </select>
+
+    <update id="updateFix" parameterType="Fix" >
+        update t_fix set flag = #{flag} where fix_id = #{fixId}
+    </update>
+
 </mapper>

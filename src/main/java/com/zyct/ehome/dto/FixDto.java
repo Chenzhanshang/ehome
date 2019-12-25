@@ -24,6 +24,8 @@ public class FixDto {
     private String phone;
     private String house;
     private String room;
+    private String createTime;
+    private String updateTime;
     private Community community;
     private Owner owner;
 }
