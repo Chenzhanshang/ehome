@@ -27,6 +27,13 @@ public interface TenService {
     List<FixDto> fixList(String communityId);
 
     /**
+     * 通过小区id查询已维修列表，历史维修列表
+     * @param communityId
+     * @return
+     */
+    List<FixDto> fixedList(String communityId);
+
+    /**
      * 更新维修信息
      * @param fix
      */

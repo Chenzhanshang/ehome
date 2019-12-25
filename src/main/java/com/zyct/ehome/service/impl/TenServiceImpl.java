@@ -76,13 +76,48 @@ public class TenServiceImpl implements TenService {
     }
 
     /**
+     * 通过小区id查询已维修列表，历史维修列表
+     *
+     * @param communityId
+     * @return
+     */
+    @Override
+    public List<FixDto> fixedList(String communityId) {
+        List<Fix> fixedList = tenMapper.selectFixedListByCommunityId(communityId);
+        List<FixDto> fixedDtos = new ArrayList<>();
+        //将fix转换为fixDto
+        for (Fix fix : fixedList) {
+            FixDto fixDto = new FixDto();
+            Owner owner = ownerMapper.getOwnerByOwnerId(fix.getOwnerId());
+            Community community = communityMapper.getCommunityByCommunityId(fix.getCommunityId());
+            BeanUtils.copyProperties(fix,fixDto);
+            fixDto.setName(owner.getOwnerName());
+            fixDto.setPhone(owner.getOwnerPhone());
+            fixDto.setCommunity(community);
+            fixDto.setOwner(owner);
+            //查询出该用户的所有房子
+            List<Room> rooms = communityMapper.getRoomListByOwnerId(owner.getOwnerId());
+            for (Room room : rooms) {
+                //查出改房子所属的栋
+                House house = communityMapper.getHouseByHouseId(room.getHouse().getHouseId());
+                if (house.getCommunity().getCommunityId().equals(communityId)){
+                    fixDto.setRoom(room.getRoomName());
+                    fixDto.setHouse(house.getHouseName());
+                }
+            }
+            fixedDtos.add(fixDto);
+        }
+        return fixedDtos;
+    }
+
+    /**
      * 更新维修信息
      *
      * @param fix
      */
     @Override
     public void updateFix(Fix fix) {
-
+        tenMapper.updateFix(fix);
     }
 
 
