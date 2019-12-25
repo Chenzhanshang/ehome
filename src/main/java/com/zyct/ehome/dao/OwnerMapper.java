@@ -26,4 +26,11 @@ public interface OwnerMapper {
      * @return
      */
     Owner getOwnerByOwnerId(String ownerId);
+
+    /**
+     * 修改业认证状态
+     * @param owner
+     * @return
+     */
+    void updateOwnerFlag( Owner owner);
 }
