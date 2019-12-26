@@ -18,8 +18,29 @@
         select * from t_fix where flag = 1 and community_id = #{communityId}
     </select>
 
-    <update id="updateFix" parameterType="Fix" >
+    <update id="updateFix" parameterType="Fix">
         update t_fix set flag = #{flag} where fix_id = #{fixId}
     </update>
 
+    <insert id="insertNotice" parameterType="Notice">
+        insert into t_notice(title, content, type, community_id)
+        values (#{title},#{content},#{type},#{communityId})
+    </insert>
+
+    <select id="selectNoticeListByCommunityId" parameterType="String" resultType="Notice">
+        select * from t_notice where community_id = #{communityId} ;
+    </select>
+
+    <select id="selectNoticeListByCommunityIdAndType" resultType="Notice">
+        select * from t_notice where community_id = #{communityId} and type = #{type};
+    </select>
+
+    <delete id="deleteNotice" parameterType="Notice">
+        delete from t_notice where notice_id = #{noticeId}
+    </delete>
+
+    <update id="updateNotice" parameterType="Notice">
+        update t_notice set title = #{title},content = #{content}
+        where notice_id = #{noticeId}
+    </update>
 </mapper>

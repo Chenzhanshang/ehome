@@ -27,7 +27,9 @@ public class InitRegionToCache implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 
         List<RegionTree> regionTrees = regionService.regionList();
+        List<RegionTree> regionTreesForThree = regionService.regionListForThree();
         redisUtil.set("regionList",regionTrees);
+        redisUtil.set("regionTreesForThree",regionTreesForThree);
 
     }
 }

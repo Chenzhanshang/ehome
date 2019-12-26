@@ -1,11 +1,13 @@
 package com.zyct.ehome.controller;
 
 import com.zyct.ehome.dto.FixDto;
+import com.zyct.ehome.dto.NoticeDto;
 import com.zyct.ehome.entity.Fix;
 import com.zyct.ehome.entity.Notice;
 import com.zyct.ehome.entity.Ten;
 import com.zyct.ehome.service.TenService;
 import com.zyct.ehome.utils.ResponseMessage;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,80 +30,158 @@ public class TenController {
 
     /**
      * 用户进行维修
+     *
      * @param fix
      * @return
      */
     @RequestMapping("/fix")
     @ResponseBody
-    public ResponseMessage fix(@RequestBody Fix fix){
+    public ResponseMessage fix(@RequestBody Fix fix) {
         String uuid = UUID.randomUUID().toString();
         fix.setFixId(uuid);
         fix.setFlag(0);
         System.out.println(fix.toString());
         tenService.insertFix(fix);
-        return new ResponseMessage("0","报修成功");
+        return new ResponseMessage("0", "报修成功");
     }
 
     /**
      * 获取待维修列表
+     *
      * @param communityId
      * @return
      */
-    @RequestMapping(value = "/fixList",method = RequestMethod.GET)
+    @RequestMapping(value = "/fixList", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessage fixList(@RequestParam("communityId")String communityId){
+    public ResponseMessage fixList(@RequestParam("communityId") String communityId) {
         //通过小区id查询待维修列表
         List<FixDto> fixDtoList = tenService.fixList(communityId);
         ResponseMessage responseMessage = new ResponseMessage("0", "请求成功");
-        Map<String,Object> map = new HashMap<>();
-        map.put("fixDtoList",fixDtoList);
+        Map<String, Object> map = new HashMap<>();
+        map.put("fixDtoList", fixDtoList);
         responseMessage.setData(map);
         return responseMessage;
     }
 
     /**
      * 获取已维修列表，历史维修列表
+     *
      * @param communityId
      * @return
      */
-    @RequestMapping(value = "/fixedList",method = RequestMethod.GET)
+    @RequestMapping(value = "/fixedList", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessage fixedList(@RequestParam("communityId")String communityId){
+    public ResponseMessage fixedList(@RequestParam("communityId") String communityId) {
         //通过小区id查询待维修列表
         List<FixDto> fixedDtoList = tenService.fixedList(communityId);
         ResponseMessage responseMessage = new ResponseMessage("0", "请求成功");
-        Map<String,Object> map = new HashMap<>();
-        map.put("fixedDtoList",fixedDtoList);
+        Map<String, Object> map = new HashMap<>();
+        map.put("fixedDtoList", fixedDtoList);
         responseMessage.setData(map);
         return responseMessage;
     }
 
     /**
      * 已通知维修人员上门维修
+     *
      * @param fix
      * @return
      */
     @RequestMapping("/doJob")
     @ResponseBody
-    public ResponseMessage doJob(@RequestBody Fix fix){
+    public ResponseMessage doJob(@RequestBody Fix fix) {
         //将维修状态更新
         fix.setFlag(1);
         tenService.updateFix(fix);
-        return new ResponseMessage("0","操纵成功");
+        return new ResponseMessage("0", "操纵成功");
     }
 
     /**
      * 发布公告
-     * @param notice
+     *
+     * @param noticeDto
      * @return
      */
     @RequestMapping("/putNotice")
     @ResponseBody
-    public ResponseMessage putNotice(@RequestBody Notice notice){
+    public ResponseMessage putNotice(@RequestBody NoticeDto noticeDto) {
+        if (noticeDto.getTitle() == null || noticeDto.getTitle().equals("")) {
+            return new ResponseMessage("-1", "发布失败,标题不能为空");
+        } else if (noticeDto.getContent() == null || noticeDto.getContent().equals("")) {
+            return new ResponseMessage("-1", "发布失败,内容不能为空");
+        } else {
+            //封装notice
+            Notice notice = new Notice();
+            notice.setTitle(noticeDto.getTitle());
+            notice.setContent(noticeDto.getContent());
+            notice.setCommunityId(noticeDto.getManagerDto().getCommunityId());
+            notice.setType(noticeDto.getManagerDto().getType());
+            //插入数据库
+            tenService.putNotice(notice);
+            return new ResponseMessage("0", "发布成功");
+        }
 
-        return null;
+
     }
 
+    /**
+     * 通过小区id和通知类型查询通知
+     * @param communityId
+     * @param type
+     * @return
+     */
+    @RequestMapping("/getNoticeListByType")
+    @ResponseBody
+    public ResponseMessage getNoticeListByType(@RequestParam("communityId")String communityId,
+                                               @RequestParam("type")Integer type){
+        List<Notice> noticeList = tenService.getNoticeListByType(communityId,type);
+        if (noticeList == null){
+            return new ResponseMessage("-1","查不到数据");
+        }else {
+            ResponseMessage responseMessage = new ResponseMessage("0","操纵成功");
+            Map<String,Object> map = new HashMap<>();
+            map.put("noticeList",noticeList);
+            responseMessage.setData(map);
+            return responseMessage;
+        }
 
+    }
+
+    /**
+     * 删除公告
+     * @param notice
+     * @return
+     */
+    @RequestMapping("/deleteNotice")
+    @ResponseBody
+    public ResponseMessage deleteNotice(@RequestBody Notice notice){
+
+        System.out.println(notice.toString());
+        tenService.deleteNotice(notice);
+        return new ResponseMessage("0","操作成功");
+    }
+
+    @RequestMapping("/updateNotice")
+    @ResponseBody
+    public ResponseMessage updateNotice(@RequestBody NoticeDto noticeDto){
+        System.out.println(noticeDto.toString());
+        if (noticeDto.getTitle() == null || noticeDto.getTitle().equals("")) {
+            return new ResponseMessage("-1", "修改失败,标题不能为空");
+        } else if (noticeDto.getContent() == null || noticeDto.getContent().equals("")) {
+            return new ResponseMessage("-1", "修改失败,内容不能为空");
+        } else {
+            //封装notice
+            Notice notice = new Notice();
+            notice.setNoticeId(noticeDto.getNoticeId());
+            notice.setTitle(noticeDto.getTitle());
+            notice.setContent(noticeDto.getContent());
+            notice.setCommunityId(noticeDto.getManagerDto().getCommunityId());
+            notice.setType(noticeDto.getManagerDto().getType());
+            //插入数据库
+            tenService.updateNotice(notice);
+            return new ResponseMessage("0", "发布成功");
+        }
+
+    }
 
 }

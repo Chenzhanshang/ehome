@@ -16,4 +16,10 @@ public interface RegionService {
      * @return
      */
     public List<RegionTree> regionList();
+
+    /**
+     * 获取三级地区列表
+     * @return
+     */
+    public List<RegionTree> regionListForThree();
 }

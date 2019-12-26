@@ -34,12 +34,14 @@ public class RegionController {
     public @ResponseBody
     ResponseMessage regionList(){
         Object regionList = redisUtil.get("regionList");
+        Object regionTreesForThree = redisUtil.get("regionTreesForThree");
         ResponseMessage responseMessage ;
 //        System.out.println(regionTrees);
         if (regionList != null){
 
             responseMessage = new ResponseMessage("0", "请求成功");
             responseMessage.getData().put("regionList",regionList);
+            responseMessage.getData().put("regionTreesForThree",regionTreesForThree);
             return responseMessage;
         }
         responseMessage = new ResponseMessage("-1","请求失败");

@@ -1,6 +1,7 @@
 package com.zyct.ehome.service.impl;
 
 import com.zyct.ehome.dao.AuditMapper;
+import com.zyct.ehome.dao.OwnerMapper;
 import com.zyct.ehome.dao.RoomMapper;
 import com.zyct.ehome.entity.Apply;
 import com.zyct.ehome.entity.LeaveAudit;
@@ -26,6 +27,9 @@ public class AuditServiceImpl implements Auditservice {
 
     @Autowired
     private RoomMapper roomMapper;
+
+    @Autowired
+    private OwnerMapper ownerMapper;
 
 
     @Override
@@ -53,6 +57,10 @@ public class AuditServiceImpl implements Auditservice {
                         Apply apply = auditMapper.findApplyByApplyId(auditEntity.getApplyId());
                         roomMapper.updateRoomOwnerIdByRoomId(apply.getRoom().getRoomId(),
                                 apply.getOwner().getOwnerId());
+                        apply.getOwner().setAuthenticationFlag(1);
+                        //设置用户为已认证
+                        ownerMapper.updateOwnerFlag(apply.getOwner());
+
                     }
                 }
             }
