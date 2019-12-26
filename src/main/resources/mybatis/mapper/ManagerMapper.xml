@@ -18,6 +18,15 @@
         where manager_id = #{managerId}
     </update>
 
+    <insert id="insert" parameterType="Manager">
+        insert into
+        t_manager (manager_id, community_id, account, password, type)
+        values (#{managerId},#{communityId},#{account},#{password},#{type})
+    </insert>
+
+    <select id="selectByCommunityId" parameterType="String" resultType="Manager">
+        select  * from t_manager where community_id = #{v}
+    </select>
 
 
 

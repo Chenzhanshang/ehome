@@ -1,14 +1,13 @@
 package com.zyct.ehome.controller;
 
 import com.zyct.ehome.entity.Community;
+import com.zyct.ehome.entity.Manager;
 import com.zyct.ehome.service.CommunityManageService;
+import com.zyct.ehome.service.ManagerService;
 import com.zyct.ehome.utils.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +23,9 @@ public class CommunityManageController {
 
     @Autowired
     private CommunityManageService communityManageService;
+
+    @Autowired
+    private ManagerService managerService;
 
     /**
      * 添加小区
@@ -89,6 +91,20 @@ public class CommunityManageController {
         }catch (Exception e) {
             e.printStackTrace();
             return new ResponseMessage("-1", "修改小区信息失败");
+        }
+    }
+
+    @RequestMapping(value = "/getCommunityAccount/{communityId}",method = RequestMethod.GET)
+    public @ResponseBody ResponseMessage getCommunityAccount(@PathVariable("communityId") String communityId){
+        try {
+           List<Manager> managerList = managerService.selectByCommunityId(communityId);
+           ResponseMessage responseMessage = new ResponseMessage("0","获取成功");
+           responseMessage.getData().put("communityAccount",managerList);
+           return responseMessage;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-1","获取失败");
         }
     }
 }

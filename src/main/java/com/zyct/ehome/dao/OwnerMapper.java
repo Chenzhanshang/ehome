@@ -28,6 +28,17 @@ public interface OwnerMapper {
     Owner getOwnerByOwnerId(String ownerId);
 
     /**
+     * 修改业主所属业委会和入职时间
+     * @param ownerList
+     */
+    void updateCommitteeIdAndOfficeTrimeById(List<Owner> ownerList);
+
+    /**
+     * 设置所属业委会为空
+     * @param committeeId
+     */
+    void setCommitteeIdIsNullByCommitteeId(String committeeId);
+     /*
      * 修改业认证状态
      * @param owner
      * @return

@@ -3,6 +3,8 @@ package com.zyct.ehome.dao;
 import com.zyct.ehome.entity.Manager;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @author litianfu
  * @version 1.0
@@ -31,4 +33,18 @@ public interface ManagerMapper {
      * @param manager
      */
     void update(Manager manager);
+
+    /**
+     *
+     * 插入账号
+     * @param m
+     */
+    void insert(Manager m);
+
+    /**
+     * 获取某个小区的管理账号
+     * @param communityId
+     * @return
+     */
+    List<Manager> selectByCommunityId(String communityId);
 }

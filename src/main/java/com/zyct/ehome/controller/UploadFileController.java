@@ -36,7 +36,7 @@ public class UploadFileController {
     @Autowired
     private UploadFileMapper uploadFileMapper;
 
-    String path = "/Users/litianfu/Desktop/upload/";
+    String path = "D:/file/";
 
     /**
      * 上传业主认证文件

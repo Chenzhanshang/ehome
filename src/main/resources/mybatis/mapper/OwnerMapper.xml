@@ -21,6 +21,37 @@
         select * from t_owner where owner_id = #{v}
     </select>
 
+    <update id="updateCommitteeIdAndOfficeTrimeById" parameterType="list">
+        update t_owner
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="committee_id =case" suffix="end,">
+                <foreach collection="list" item="item">
+                    <if test="item.committee!=null">
+                        when owner_id=#{item.ownerId} then #{item.committee.committeeId}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="owner_office_trime =case" suffix="end,">
+                <foreach collection="list" item="item">
+                    <if test="item.ownerOfficeTrime!=null">
+                        when owner_id=#{item.ownerId} then #{item.ownerOfficeTrime}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        <where>
+            owner_id in
+            <foreach collection="list" index="index"  separator="," open="(" close=")" item="item">
+                #{item.ownerId}
+            </foreach>
+        </where>
+
+    </update>
+
+    <update id="setCommitteeIdIsNullByCommitteeId" parameterType="String">
+        update t_owner set committee_id = null,owner_office_trime = null
+        where committee_id = #{v}
+    </update>
     <update id="updateOwnerFlag" parameterType="Owner">
         UPDATE t_owner SET authentication_flag = #{authenticationFlag} WHERE owner_id = #{ownerId}
     </update>

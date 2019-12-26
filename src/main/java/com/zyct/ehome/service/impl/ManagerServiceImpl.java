@@ -11,6 +11,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author litianfu
  * @version 1.0
@@ -72,6 +74,11 @@ public class ManagerServiceImpl implements ManagerService {
         Community community = communityMapper.getCommunityByCommunityId(manager.getCommunityId());
         managerDto.setCommunity(community);
         return managerDto;
+    }
+
+    @Override
+    public List<Manager> selectByCommunityId(String communityId) {
+        return managerMapper.selectByCommunityId(communityId);
     }
 
 

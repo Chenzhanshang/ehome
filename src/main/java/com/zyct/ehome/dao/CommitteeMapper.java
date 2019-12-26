@@ -13,4 +13,16 @@ import org.apache.ibatis.annotations.Mapper;
 public interface CommitteeMapper {
 
     Committee selectCommitteeByCommunityId(String communityId);
+
+    /**
+     * 插入业委会
+     * @param committee
+     */
+    void insert(Committee committee);
+
+    /**
+     * 修改
+     * @param committee
+     */
+    void update(Committee committee);
 }
