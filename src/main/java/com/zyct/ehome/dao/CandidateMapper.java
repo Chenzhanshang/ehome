@@ -48,4 +48,17 @@ public interface CandidateMapper {
      */
     @Update("update t_candidate set candidate_poll = #{count} where candidate_id = #{candidateId}")
     void updateCandidatePollById(@Param("candidateId") String candidateId,@Param("count") Integer count);
+
+    /**
+     * 按照票数降序获取业主列表
+     * @param communityId
+     * @return
+     */
+    List<Candidate> getCandidateListByCommunityIdDesc(String communityId);
+
+    /**
+     * 将当前届的人选改为往届
+     * @param communityId
+     */
+    void updateCandidateIsCurrentToOneByCommunityId(String communityId);
 }

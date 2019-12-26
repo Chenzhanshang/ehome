@@ -3,7 +3,39 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zyct.ehome.dao.CommitteeMapper">
-    <select id="selectCommitteeByCommunityId" parameterType="String" resultType="Committee">
-        select * from t_committee where community_id = #{communityId}
+    <select id="selectCommitteeByCommunityId" parameterType="String" resultMap="selectCommitteeByCommunityIdMap">
+        select community_id,committee_id,committee_people_number,committee_term
+         from t_committee where community_id = #{communityId}
     </select>
+
+    <resultMap id="selectCommitteeByCommunityIdMap" type="Committee">
+        <id column="committee_id" property="committeeId" javaType="String"/>
+        <result column="committee_people_number" property="committeePeopleNumber" javaType="Integer"/>
+        <result column="committee_term" property="committeeTerm" javaType="Integer" />
+        <association property="community" column="community_id" javaType="Community">
+            <id column="community_id" property="communityId" javaType="String"/>
+        </association>
+    </resultMap>
+
+    <insert id="insert" parameterType="Committee">
+        insert into
+        t_committee (committee_id, committee_people_number, community_id, committee_term)
+        values (#{committeeId},#{committeePeopleNumber},#{community.communityId},#{committeeTerm});
+    </insert>
+
+    <update id="update" parameterType="Committee">
+        update t_committee
+        <trim prefix="set" suffixOverrides=",">
+            <if test="committeePeopleNumber != null">
+                committee_people_number = #{committeePeopleNumber},
+            </if>
+            <if test="committeeTerm !=null">
+                committee_term = #{committeeTerm},
+            </if>
+            <if test="community != null and community.communityId !=null and community.communityId != ''">
+                community_id = #{community.communityId},
+            </if>
+        </trim>
+        where committee_id = #{committeeId}
+    </update>
 </mapper>

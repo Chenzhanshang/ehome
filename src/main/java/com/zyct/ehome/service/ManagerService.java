@@ -4,6 +4,8 @@ import com.zyct.ehome.dto.FixDto;
 import com.zyct.ehome.dto.ManagerDto;
 import com.zyct.ehome.entity.Manager;
 
+import java.util.List;
+
 /**
  * @author litianfu
  * @version 1.0
@@ -28,5 +30,10 @@ public interface ManagerService {
 
      ManagerDto getManager();
 
-
+    /**
+     * 获取某个小区的管理账号
+     * @param communityId
+     * @return
+     */
+    List<Manager> selectByCommunityId(String communityId);
 }

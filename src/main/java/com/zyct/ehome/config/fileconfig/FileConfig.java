@@ -15,7 +15,7 @@ public class FileConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //实际文件存储位置
-        String path = "/Users/litianfu/Desktop/upload/";
+        String path = "D:/file/";
         registry.addResourceHandler("/file/**").addResourceLocations("file:"+path);
 
     }
