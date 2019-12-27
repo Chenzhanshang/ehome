@@ -65,4 +65,7 @@ public class VoteController {
             return new ResponseMessage("-1","获取候选人列表失败");
         }
     }
+
+
+
 }

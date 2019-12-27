@@ -1,8 +1,10 @@
 package com.zyct.ehome.dao;
 
 import com.zyct.ehome.entity.Issue;
+import com.zyct.ehome.entity.Vote;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,4 +23,10 @@ public interface IssueMapper {
     void insertIssue(Issue issue);
 
     List<Issue> selectIssueListByCommitteeId(String CommitteeId);
+
+    void insertVote(Vote vote);
+
+    void updateIssue(@Param("issueId") String issueId,@Param("voteFlag") Integer voteFlag);
+
+    List<Vote> selectVoteListByOwnerId(String ownerId);
 }

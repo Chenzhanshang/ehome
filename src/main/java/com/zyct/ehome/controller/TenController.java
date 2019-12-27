@@ -148,6 +148,27 @@ public class TenController {
     }
 
     /**
+     * 通过小区id和通知类型查询通知
+     * @param communityId
+     * @return
+     */
+    @RequestMapping("/getNoticeList")
+    @ResponseBody
+    public ResponseMessage getNoticeList(@RequestParam("communityId")String communityId){
+        List<Notice> noticeList = tenService.getNoticeList(communityId);
+        if (noticeList == null){
+            return new ResponseMessage("-1","查不到数据");
+        }else {
+            ResponseMessage responseMessage = new ResponseMessage("0","操纵成功");
+            Map<String,Object> map = new HashMap<>();
+            map.put("noticeList",noticeList);
+            responseMessage.setData(map);
+            return responseMessage;
+        }
+
+    }
+
+    /**
      * 删除公告
      * @param notice
      * @return

@@ -158,5 +158,17 @@ public class TenServiceImpl implements TenService {
         tenMapper.updateNotice(notice);
     }
 
+    /**
+     * 通过小区id获取全部通知
+     *
+     * @param communityId
+     * @return
+     */
+    @Override
+    public List<Notice> getNoticeList(String communityId) {
+        List<Notice> noticeList = tenMapper.selectNoticeListByCommunityId(communityId);
+        return noticeList;
+    }
+
 
 }

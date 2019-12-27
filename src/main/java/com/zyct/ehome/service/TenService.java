@@ -66,4 +66,11 @@ public interface TenService {
      * @param notice
      */
     void updateNotice(Notice notice);
+
+    /**
+     * 通过小区id获取全部通知
+     * @param communityId
+     * @return
+     */
+    List<Notice> getNoticeList(String communityId);
 }

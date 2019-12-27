@@ -4,6 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zyct.ehome.dao.CandidateMapper">
 
+    <select id="getCandidateListByCommunityIdDesc" parameterType="String" resultMap="getCandidateListByCommunityIdMap">
+        select c.candidate_id candidate_id,c.candidate_poll candidate_poll,
+        c.candidate_create_time candidate_create_time,
+        o.owner_id owner_id,o.owner_name owner_name,o.avatar avatar,
+        co.community_id community_id,co.community_name community_name
+         from t_candidate c
+         left join t_owner o
+         on c.owner_id = o.owner_id
+         left join t_community co
+         on c.community_id = co.community_id
+         where is_current = 0 and c.community_id = #{v} order by candidate_poll desc
+    </select>
+
     <select id="getCandidateListByCommunityId" parameterType="String" resultMap="getCandidateListByCommunityIdMap">
         select c.candidate_id candidate_id,c.candidate_poll candidate_poll,
         c.candidate_create_time candidate_create_time,
@@ -14,7 +27,7 @@
          on c.owner_id = o.owner_id
          left join t_community co
          on c.community_id = co.community_id
-         where c.community_id = #{v}
+         where is_current = 0 and c.community_id = #{v}
     </select>
 
     <resultMap id="getCandidateListByCommunityIdMap"  type="Candidate">
@@ -50,7 +63,7 @@
          on c.owner_id = o.owner_id
         left join t_community co
         on c.community_id = co.community_id
-         where o.owner_id in
+         where is_current = 0 and o.owner_id in
          <foreach collection="list" item="item" open="(" separator="," close=")">
              #{item}
          </foreach>
@@ -59,4 +72,8 @@
     <delete id="deleteCandidateById" parameterType="String">
         delete from t_candidate where candidate_id = #{v}
     </delete>
+
+    <update id="updateCandidateIsCurrentToOneByCommunityId" parameterType="String">
+        update t_candidate set is_current = 1 where is_current = 0 and community_id = #{v}
+    </update>
 </mapper>
