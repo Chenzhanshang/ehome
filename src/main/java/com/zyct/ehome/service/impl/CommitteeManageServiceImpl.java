@@ -10,6 +10,9 @@ import com.zyct.ehome.entity.Owner;
 import com.zyct.ehome.service.CommitteeManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -30,6 +33,7 @@ public class CommitteeManageServiceImpl implements CommitteeManageService {
     @Autowired
     private OwnerMapper ownerMapper;
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void createCommittee(String communityId, Integer count) {
         //查询某个小区的业委会是否存在
@@ -45,6 +49,11 @@ public class CommitteeManageServiceImpl implements CommitteeManageService {
 
         //将当前届的候选人变为往届
         candidateMapper.updateCandidateIsCurrentToOneByCommunityId(communityId);
+    }
+
+    @Override
+    public Committee getCommitteeById(String communityId) {
+        return committeeMapper.selectCommitteeByCommunityId(communityId);
     }
 
     /**
@@ -111,6 +120,7 @@ public class CommitteeManageServiceImpl implements CommitteeManageService {
         }
         ownerMapper.updateCommitteeIdAndOfficeTrimeById(ownerList);
     }
+
 
 
 }

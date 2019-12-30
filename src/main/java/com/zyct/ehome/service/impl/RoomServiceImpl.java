@@ -5,6 +5,9 @@ import com.zyct.ehome.entity.Room;
 import com.zyct.ehome.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +23,7 @@ public class RoomServiceImpl implements RoomService {
     @Autowired
     private RoomMapper roomMapper;
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void addRoom(Room room) {
         room.setRoomId(UUID.randomUUID().toString().replaceAll("-",""));
@@ -31,11 +35,13 @@ public class RoomServiceImpl implements RoomService {
         return roomMapper.getListByCommunityId(communityId);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void updateRoom(Room room) {
         roomMapper.updateRoomNameByRoomId(room);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void deleteRoom(Room room) {
         roomMapper.deleteRoomById(room);

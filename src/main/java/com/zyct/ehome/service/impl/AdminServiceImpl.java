@@ -6,6 +6,9 @@ import com.zyct.ehome.service.AdminService;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author JGZ
@@ -24,6 +27,7 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.getAdminByAccount(account);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void updatePasswordByAdminAccount(Admin admin) {
         //利用Account做盐值进行1024次加密

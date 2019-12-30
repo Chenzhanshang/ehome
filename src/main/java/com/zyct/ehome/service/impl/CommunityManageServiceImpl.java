@@ -8,6 +8,9 @@ import com.zyct.ehome.service.CommunityManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Random;
@@ -27,6 +30,7 @@ public class CommunityManageServiceImpl implements CommunityManageService {
     @Autowired
     private ManagerMapper managerMapper;
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public Community addCommunity(Community community) {
         String id = UUID.randomUUID().toString().replaceAll("-","");
@@ -85,11 +89,13 @@ public class CommunityManageServiceImpl implements CommunityManageService {
         return communityMapper.getList();
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void deleteCommunity(Community community) {
         communityMapper.deleteCommunityById(community);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void updateCommunity(Community community) {
         communityMapper.updateCommunityById(community);

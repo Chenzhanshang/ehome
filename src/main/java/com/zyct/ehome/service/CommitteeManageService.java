@@ -1,5 +1,7 @@
 package com.zyct.ehome.service;
 
+import com.zyct.ehome.entity.Committee;
+
 /**
  * @author JGZ
  * CreateTime 2019/12/25 14:21
@@ -12,4 +14,11 @@ public interface CommitteeManageService {
      * @param count
      */
     void createCommittee(String communityId, Integer count);
+
+    /**
+     * 获取小区的业委会
+     * @param communityId
+     * @return
+     */
+    Committee getCommitteeById(String communityId);
 }

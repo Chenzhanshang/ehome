@@ -8,6 +8,9 @@ import com.zyct.ehome.entity.Owner;
 import com.zyct.ehome.service.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,7 @@ public class CandidateServiceImpl implements CandidateService {
         return candidateMapper.getCandidateListByCommunityId(communityId);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public List<Candidate> addCandidate(AddCandidateDto addCandidateDto) {
         List<Candidate> can = new ArrayList<>();
@@ -63,6 +67,7 @@ public class CandidateServiceImpl implements CandidateService {
         return candidateList2;
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void deleteCandidate(String candidateId) {
         candidateMapper.deleteCandidateById(candidateId);
@@ -74,6 +79,7 @@ public class CandidateServiceImpl implements CandidateService {
      * @param candidateId
      * @param count
      */
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void updateCandidatePollById(String candidateId, Integer count) {
         candidateMapper.updateCandidatePollById(candidateId,count);

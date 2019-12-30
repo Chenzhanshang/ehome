@@ -29,6 +29,7 @@ public class ApplyManageServiceImpl implements ApplyManageService {
     @Autowired
     private ApplyMapper applyMapper;
 
+
     @Override
     public List<Apply> getCurrentAdminExamineList(Admin admin) {
         //1.获取管理员的角色

@@ -17,4 +17,11 @@ public interface OwnerManageService {
      * @return
      */
     List<Owner> unCandidateOwnerList(String communityId);
+
+    /**
+     * 获取该业委会下的所有业主信息
+     * @param committeeId
+     * @return
+     */
+    List<Owner> getOwnerInfoByCommitteeId(String committeeId);
 }

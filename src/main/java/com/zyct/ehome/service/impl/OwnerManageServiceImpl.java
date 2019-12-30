@@ -25,6 +25,7 @@ public class OwnerManageServiceImpl implements OwnerManageService {
     @Autowired
     private CandidateMapper candidateMapper;
 
+
     @Override
     public List<Owner> unCandidateOwnerList(String communityId) {
         //获取小区的所有业主
@@ -47,5 +48,10 @@ public class OwnerManageServiceImpl implements OwnerManageService {
         }
 
         return ownerList;
+    }
+
+    @Override
+    public List<Owner> getOwnerInfoByCommitteeId(String committeeId) {
+        return ownerMapper.getOwnerInfoByCommitteeId(committeeId);
     }
 }
