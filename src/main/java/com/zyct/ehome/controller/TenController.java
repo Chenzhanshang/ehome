@@ -223,7 +223,6 @@ public class TenController {
     @RequestMapping("/adviseList")
     @ResponseBody
     public ResponseMessage adviseList(@RequestParam("communityId")String communityId){
-        System.out.println(communityId);
         List<AdviseDto> adviseList = tenService.getAdviseList(communityId);
         ResponseMessage responseMessage = new ResponseMessage("0","操纵成功");
         Map<String,Object> map = new HashMap<>();

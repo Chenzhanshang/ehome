@@ -6,6 +6,8 @@ import com.zyct.ehome.service.UserService;
 import com.zyct.ehome.utils.ResponseMessage;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +26,7 @@ import java.util.*;
  * 用于接收上传的文件
  * @RequestParam("file")MultipartFile multipartFile
  */
+@PropertySource("classpath:file.properties")
 @Controller
 public class UploadFileController {
 
@@ -36,7 +39,8 @@ public class UploadFileController {
     @Autowired
     private UploadFileMapper uploadFileMapper;
 
-    String path = "D:/file/";
+    @Value("${filepath}")
+    String path;
 
     /**
      * 上传业主认证文件
