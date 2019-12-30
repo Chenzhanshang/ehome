@@ -25,4 +25,5 @@ public interface CommitteeMapper {
      * @param committee
      */
     void update(Committee committee);
+
 }

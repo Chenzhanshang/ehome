@@ -38,10 +38,18 @@ public interface OwnerMapper {
      * @param committeeId
      */
     void setCommitteeIdIsNullByCommitteeId(String committeeId);
-     /*
+
+     /**
      * 修改业认证状态
      * @param owner
      * @return
      */
     void updateOwnerFlag( Owner owner);
+
+    /**
+     * 获取业委会的所有业主
+     * @param committeeId
+     * @return
+     */
+    List<Owner> getOwnerInfoByCommitteeId(String committeeId);
 }

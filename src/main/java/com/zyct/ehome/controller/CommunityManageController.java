@@ -68,6 +68,12 @@ public class CommunityManageController {
         }
 
     }
+
+    /**
+     * 删除小区信息
+     * @param community
+     * @return
+     */
     @RequestMapping(value = "deleteCommunity",method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessage deleteCommunity(@RequestBody Community community){
@@ -80,6 +86,11 @@ public class CommunityManageController {
         }
     }
 
+    /**
+     * 修改小区
+     * @param community
+     * @return
+     */
     @RequestMapping(value = "updateCommunity",method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessage updateCommunity(@RequestBody Community community){
@@ -94,6 +105,11 @@ public class CommunityManageController {
         }
     }
 
+    /**
+     * 获取小区的管理账号
+     * @param communityId
+     * @return
+     */
     @RequestMapping(value = "/getCommunityAccount/{communityId}",method = RequestMethod.GET)
     public @ResponseBody ResponseMessage getCommunityAccount(@PathVariable("communityId") String communityId){
         try {
