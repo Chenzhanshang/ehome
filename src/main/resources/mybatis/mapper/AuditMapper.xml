@@ -5,8 +5,8 @@
 <mapper namespace="com.zyct.ehome.dao.AuditMapper">
     <insert id="insertAudit" parameterType="com.zyct.ehome.utils.AuditEntity">
         INSERT INTO
-        t_leave_audit(audit_id,admin_name,audit_state,audit_info,audit_date, admin_id, apply_id)
-        VALUES (#{auditId},#{adminName},#{auditState},#{auditInfo},#{auditDate}, #{adminId}, #{applyId})
+        t_leave_audit(audit_id,admin_name,audit_state,audit_info,audit_date, admin_id, apply_id, audit_file_name, audit_file_path)
+        VALUES (#{auditId},#{adminName},#{auditState},#{auditInfo},#{auditDate}, #{adminId}, #{applyId}, #{fileName}, #{filePath})
     </insert>
 
     <update id="updateApply" parameterType="com.zyct.ehome.utils.AuditEntity">
@@ -91,6 +91,7 @@
         select
         la.audit_id audit_id,la.admin_name admin_name,la.audit_info audit_info,
         la.audit_date audit_date,la.audit_state audit_state,
+        la.audit_file_path audit_file_path, la.audit_file_name audit_file_name,
         a.apply_id apply_id,a.create_time create_time,a.apply_state apply_state,
         f.file_id file_id,f.file_path file_path,f.file_name file_name,
         fn.flow_node_id flow_node_id,fn.flow_node_name flow_node_name,
@@ -121,6 +122,8 @@
         <result column="audit_info" property="auditInfo" javaType="String"/>
         <result column="audit_date" property="auditDate" javaType="Long"/>
         <result column="audit_state" property="auditState" javaType="Integer"/>
+        <result column="audit_file_path" property="filePath" javaType="String"/>
+        <result column="audit_file_name" property="fileName" javaType="String"/>
         <association property="apply" column="apply_id" javaType="Apply">
             <id column="apply_id" property="applyId" javaType="String"/>
             <result column="create_time" property="createTime" javaType="Long"/>

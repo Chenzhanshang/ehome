@@ -141,4 +141,59 @@ public class ApplyManageController {
         }
     }
 
+    /**
+     * 申请处理表文件下载方法
+     * @param filePath
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/download", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage download(@RequestBody File file, HttpServletResponse response) {
+        String filePath = file.getFilePath();
+        //获取文件的信息
+        try {
+            java.io.File f = new java.io.File(filePath);
+            if (f.exists()) {
+                byte[] buffer = new byte[1024];
+                FileInputStream fis = null;
+                BufferedInputStream bis = null;
+                try {
+                    fis = new FileInputStream(f);
+                    bis = new BufferedInputStream(fis);
+                    //从响应中拿到输出流对象
+                    OutputStream os = response.getOutputStream();
+                    int i = bis.read(buffer);
+                    while (i != -1) {
+                        os.write(buffer, 0, i);
+                        i = bis.read(buffer);
+                    }
+                    return new ResponseMessage("0", "下载文件成功");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return new ResponseMessage("-1", "下载文件失败");
+                } finally {
+                    if (bis != null) {
+                        try {
+                            bis.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (fis != null) {
+                        try {
+                            fis.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            return new ResponseMessage("-1", "下载文件不存在");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseMessage("-1", "下载文件失败");
+        }
+    }
+
 }

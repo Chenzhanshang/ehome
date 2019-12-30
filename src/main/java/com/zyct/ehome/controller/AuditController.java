@@ -7,6 +7,7 @@ import com.zyct.ehome.entity.LeaveAudit;
 import com.zyct.ehome.service.Auditservice;
 import com.zyct.ehome.utils.AuditEntity;
 import com.zyct.ehome.utils.ErrorEnum;
+import com.zyct.ehome.utils.RedisUtil;
 import com.zyct.ehome.utils.ResponseMessage;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -33,8 +34,11 @@ public class AuditController {
     @Autowired
     private AdminService adminService;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
     /**
-     * 处理处理申请的请求
+     * 处理处理申请的请求,保存处理结果
      * @author CZS
      * @param auditEntity
      * @return
@@ -48,6 +52,12 @@ public class AuditController {
         admin = adminService.getAdminByAccount(admin.getAdminAccount());
         //获得管理员id
         String adminId = admin.getAdminId();
+        if(redisUtil.get("fileName") != null ){
+            auditEntity.setFileName(redisUtil.get("fileName").toString());
+        }
+        if(redisUtil.get("filePath") != null){
+            auditEntity.setFilePath(redisUtil.get("filePath").toString());
+        }
 
         auditEntity.setAdminId(adminId);
         try {
@@ -57,6 +67,9 @@ public class AuditController {
         catch (Exception e){
             e.printStackTrace();
             return new ResponseMessage("0","提交失败");
+        }
+        finally {
+            redisUtil.del("fileName","filePath");
         }
     }
 
@@ -95,6 +108,7 @@ public class AuditController {
     ResponseMessage getAuditInfo(@PathVariable("auditId") String auditId, HttpServletRequest request){
         try {
             LeaveAudit leaveAudit = auditservice.getAuditInfoByAuditId(auditId);
+            leaveAudit.setFilePath(leaveAudit.getFilePath() + leaveAudit.getFileName() );
             //文件路径
             if(leaveAudit.getApply()!=null){
                 if(leaveAudit.getApply().getFiles()!=null){

@@ -3,11 +3,13 @@ package com.zyct.ehome.controller;
 import com.zyct.ehome.dao.UploadFileMapper;
 import com.zyct.ehome.service.ApplyService;
 import com.zyct.ehome.service.UserService;
+import com.zyct.ehome.utils.RedisUtil;
 import com.zyct.ehome.utils.ResponseMessage;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,7 +38,10 @@ public class UploadFileController {
     @Autowired
     private UploadFileMapper uploadFileMapper;
 
-    String path = "D:/file/";
+    @Autowired
+    private RedisUtil redisUtil;
+
+    String path = "C:\\Users\\Administrator\\Desktop\\photo\\";
 
     /**
      * 上传业主认证文件
@@ -128,6 +133,34 @@ public class UploadFileController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+
+    @RequestMapping(value = "/uploadExamine", method = RequestMethod.POST)
+    public void uploadExamine(MultipartFile multipartFile) throws IOException {
+        //设置文件保存路径
+        String path = "C:\\Users\\Administrator\\Desktop\\file\\" ;
+        String fileName = multipartFile.getOriginalFilename();
+        //将文件路径，文件名信息放入缓存
+        redisUtil.set("fileName",fileName);
+        redisUtil.set("filePath",path);
+        //封装文件对象
+        File file = new File(path, fileName);
+        //判断文件夹是否存在，如果不存在则创建
+        if (!file.exists()) {
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            file.createNewFile();
+        }
+        try {
+            // 文件写入
+            multipartFile.transferTo(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

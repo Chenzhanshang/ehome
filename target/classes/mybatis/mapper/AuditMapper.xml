@@ -5,8 +5,8 @@
 <mapper namespace="com.zyct.ehome.dao.AuditMapper">
     <insert id="insertAudit" parameterType="com.zyct.ehome.utils.AuditEntity">
         INSERT INTO
-        t_leave_audit(audit_id,admin_name,audit_state,audit_info,audit_date, admin_id, apply_id)
-        VALUES (#{auditId},#{adminName},#{auditState},#{auditInfo},#{auditDate}, #{adminId}, #{applyId})
+        t_leave_audit(audit_id,admin_name,audit_state,audit_info,audit_date, admin_id, apply_id, audit_file_name, audit_file_path)
+        VALUES (#{auditId},#{adminName},#{auditState},#{auditInfo},#{auditDate}, #{adminId}, #{applyId}, #{fileName}, #{filePath})
     </insert>
 
     <update id="updateApply" parameterType="com.zyct.ehome.utils.AuditEntity">
@@ -20,7 +20,7 @@
     </select>
 
     <select id="findNextNodeByFlowNodeAndFlowId" parameterType="Integer" resultType="Integer">
-        SELECT t_flow_line.next_node_id FROM t_flow_line WHERE flow_line_id = #{flowNode} AND flow_id = #{flowId}
+        SELECT next_node_id FROM t_flow_line WHERE prev_node_id = #{flowNode} AND flow_id = #{flowId}
     </select>
 
 
@@ -43,4 +43,130 @@
 <!--            <result column="flow_name" property="flowName" javaType="String" />-->
 <!--        </association>-->
 <!--    </resultMap>-->
+    <select id="getHistoryExamineListByAdminId" parameterType="String" resultMap="getHistoryExamineListByAdminIdMap">
+        select
+        la.audit_id audit_id,la.admin_name admin_name,la.audit_info audit_info,
+        la.audit_date audit_date,la.audit_state audit_state,
+        a.apply_id apply_id,a.create_time create_time,a.apply_state apply_state,
+        f.file_id file_id,f.file_path file_path,f.file_name file_name,
+        fn.flow_node_id flow_node_id,fn.flow_node_name flow_node_name,
+        c.community_id community_id,c.community_name community_name
+        from t_leave_audit la
+        left join t_apply a
+        on la.apply_id = a.apply_id
+        left join t_file f
+        on a.apply_id = f.apply_id
+        left join t_flow_node fn
+        on la.flow_node_id = fn.flow_node_id
+        left join t_community c
+        on a.community_id = c.community_id
+        where la.admin_id = #{v}
+    </select>
+    <resultMap id="getHistoryExamineListByAdminIdMap" type="LeaveAudit">
+        <id column="audit_id" property="auditId" javaType="String"/>
+        <result column="admin_name" property="adminName" javaType="String"/>
+        <result column="audit_info" property="auditInfo" javaType="String"/>
+        <result column="audit_date" property="auditDate" javaType="Long"/>
+        <result column="audit_state" property="auditState" javaType="Integer"/>
+        <association property="apply" column="apply_id" javaType="Apply">
+            <id column="apply_id" property="applyId" javaType="String"/>
+            <result column="create_time" property="createTime" javaType="Long"/>
+            <result column="apply_state" property="applyState" javaType="Integer"/>
+            <association property="community" column="community_id" javaType="Community">
+                <id column="community_id" property="communityId" javaType="String"/>
+                <result column="community_name" property="communityName" javaType="String"/>
+            </association>
+            <collection property="files" column="file_id" ofType="File">
+                <id column="file_id" property="fileId" javaType="String"/>
+                <result column="file_path" property="filePath" javaType="String"/>
+                <result column="file_name" property="fileName" javaType="String"/>
+            </collection>
+        </association>
+        <association property="flowNode" column="flow_node_id" javaType="FlowNode">
+            <id column="flow_node_id" property="flowNodeId" javaType="Integer"/>
+            <result column="flow_node_name" property="flowNodeName" javaType="String"/>
+        </association>
+    </resultMap>
+    <select id="getAuditInfoByAuditId" parameterType="String" resultMap="getAuditInfoByAuditIdMap">
+        select
+        la.audit_id audit_id,la.admin_name admin_name,la.audit_info audit_info,
+        la.audit_date audit_date,la.audit_state audit_state,
+        la.audit_file_path audit_file_path, la.audit_file_name audit_file_name,
+        a.apply_id apply_id,a.create_time create_time,a.apply_state apply_state,
+        f.file_id file_id,f.file_path file_path,f.file_name file_name,
+        fn.flow_node_id flow_node_id,fn.flow_node_name flow_node_name,
+        c.community_id community_id,c.community_name community_name,
+        o.owner_id owner_id,o.owner_name owner_name,o.owner_phone owner_phone,
+        h.house_id house_id,h.house_name house_name,
+        r.room_id room_id,r.room_name room_name
+        from t_leave_audit la
+        left join t_apply a
+        on la.apply_id = a.apply_id
+        left join t_file f
+        on a.apply_id = f.apply_id
+        left join t_flow_node fn
+        on la.flow_node_id = fn.flow_node_id
+        left join t_community c
+        on a.community_id = c.community_id
+        left join t_owner o
+        on a.owner_id = o.owner_id
+        left join t_house h
+        on a.house_id = h.house_id
+        left join t_room r
+        on a.room_id = r.room_id
+        where la.audit_id = #{v}
+    </select>
+    <resultMap id="getAuditInfoByAuditIdMap" type="LeaveAudit">
+        <id column="audit_id" property="auditId" javaType="String"/>
+        <result column="admin_name" property="adminName" javaType="String"/>
+        <result column="audit_info" property="auditInfo" javaType="String"/>
+        <result column="audit_date" property="auditDate" javaType="Long"/>
+        <result column="audit_state" property="auditState" javaType="Integer"/>
+        <result column="audit_file_path" property="filePath" javaType="String"/>
+        <result column="audit_file_name" property="fileName" javaType="String"/>
+        <association property="apply" column="apply_id" javaType="Apply">
+            <id column="apply_id" property="applyId" javaType="String"/>
+            <result column="create_time" property="createTime" javaType="Long"/>
+            <result column="apply_state" property="applyState" javaType="Integer"/>
+            <association property="owner" column="owner_id" javaType="Owner">
+                <id column="owner_id" property="ownerId" javaType="String"/>
+                <result column="owner_name" property="ownerName" javaType="String"/>
+                <result column="owner_phone" property="ownerPhone" javaType="String"/>
+            </association>
+            <association property="community" column="community_id" javaType="Community">
+                <id column="community_id" property="communityId" javaType="String"/>
+                <result column="community_name" property="communityName" javaType="String"/>
+            </association>
+            <association property="house" column="house_id" javaType="House">
+                <id column="house_id" property="houseId" javaType="String"/>
+                <result column="house_name" property="houseName" javaType="String"/>
+            </association>
+            <association property="room" column="room_id" javaType="Room">
+                <id column="room_id" property="roomId" javaType="String"/>
+                <result column="room_name" property="roomName" javaType="String"/>
+            </association>
+            <collection property="files" column="file_id" ofType="File">
+                <id column="file_id" property="fileId" javaType="String"/>
+                <result column="file_path" property="filePath" javaType="String"/>
+                <result column="file_name" property="fileName" javaType="String"/>
+            </collection>
+        </association>
+        <association property="flowNode" column="flow_node_id" javaType="FlowNode">
+            <id column="flow_node_id" property="flowNodeId" javaType="Integer"/>
+            <result column="flow_node_name" property="flowNodeName" javaType="String"/>
+        </association>
+    </resultMap>
+
+    <select id="findApplyByApplyId" parameterType="String" resultMap="findApplyByApplyIdMap">
+        select owner_id,room_id
+        from t_apply where apply_id = #{v}
+    </select>
+    <resultMap id="findApplyByApplyIdMap" type="Apply">
+        <association property="room" column="room_id" javaType="Room">
+            <id column="room_id" property="roomId" javaType="String"/>
+        </association>
+        <association property="owner" column="owner_id" javaType="Owner">
+            <id column="owner_id" property="ownerId" javaType="String"/>
+        </association>
+    </resultMap>
 </mapper>
