@@ -26,10 +26,30 @@ public class AuditEntity {
 
     private Integer flowNode;
 
+    private String fileName;
+
+    private String filePath;
+
     /**
      * 审批时间
      */
     private Long auditDate;
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
 
     public String getAuditId() {
         return auditId;
@@ -116,6 +136,8 @@ public class AuditEntity {
                 ", applyId='" + applyId + '\'' +
                 ", adminId='" + adminId + '\'' +
                 ", flowNode=" + flowNode +
+                ", fileName='" + fileName + '\'' +
+                ", filePath='" + filePath + '\'' +
                 ", auditDate=" + auditDate +
                 '}';
     }

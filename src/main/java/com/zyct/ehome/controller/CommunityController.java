@@ -41,6 +41,8 @@ public class CommunityController {
         return communityList;
     }
 
+
+
     /**
      * 获取小区的栋列表
      * @param communityId

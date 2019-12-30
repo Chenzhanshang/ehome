@@ -16,6 +16,10 @@ public class LeaveAudit {
      */
     private Long auditDate;
 
+    private String fileName;
+
+    private String filePath;
+
     private Apply apply;
 
     private FlowNode flowNode;
