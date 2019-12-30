@@ -1,6 +1,8 @@
 package com.zyct.ehome.service;
 
+import com.zyct.ehome.dto.AdviseDto;
 import com.zyct.ehome.dto.FixDto;
+import com.zyct.ehome.entity.Advise;
 import com.zyct.ehome.entity.Fix;
 import com.zyct.ehome.entity.Notice;
 
@@ -66,4 +68,24 @@ public interface TenService {
      * @param notice
      */
     void updateNotice(Notice notice);
+
+    /**
+     * 通过小区id获取全部通知
+     * @param communityId
+     * @return
+     */
+    List<Notice> getNoticeList(String communityId);
+
+    /**
+     * 插入一条投诉信息
+     * @param advise
+     */
+    void insertAdvise(Advise advise);
+
+    /**
+     * 获取投诉列表
+     * @param communityId
+     * @return
+     */
+    List<AdviseDto> getAdviseList(String communityId);
 }

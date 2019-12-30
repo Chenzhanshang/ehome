@@ -6,4 +6,30 @@
     <select id="selectIssueListByCommitteeId" resultType="Issue" parameterType="String">
         select * from t_issue where committee_id = #{committeeId};
     </select>
+
+    <insert id="insertVote" parameterType="Vote">
+        insert into t_vote(vote_flag, issue_id, owner_id)
+        values(#{voteFlag},#{issueId},#{ownerId})
+    </insert>
+
+    <update id="updateIssue" >
+        update t_issue
+        <choose>
+            <when test="voteFlag == 1">
+                set issue_agree = issue_agree+1
+            </when>
+            <when test="voteFlag == 2">
+                set  issue_waiver = issue_waiver+1
+            </when>
+            <when test="voteFlag == 3">
+                set issue_oppose = issue_oppose+1
+            </when>
+        </choose>
+        where issue_id = #{issueId}
+    </update>
+
+    <select id="selectVoteListByOwnerId" parameterType="String" resultType="Vote">
+        select * from t_vote where owner_id = #{v}
+    </select>
+
 </mapper>

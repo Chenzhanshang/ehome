@@ -1,10 +1,13 @@
 package com.zyct.ehome.controller;
 
+import com.zyct.ehome.dto.IssueDto;
 import com.zyct.ehome.entity.Issue;
+import com.zyct.ehome.entity.Vote;
 import com.zyct.ehome.service.IssueService;
 import com.zyct.ehome.utils.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,25 +29,38 @@ public class IssueController {
     @Autowired
     private IssueService issueService;
 
-    @RequestMapping("/insertIssue")
+    @RequestMapping("/putIssue")
     @ResponseBody
-    public ResponseMessage insertIssue(Issue issue){
-
+    public ResponseMessage insertIssue(@RequestBody IssueDto issue) {
+        System.out.println(issue.toString());
         issueService.insertIssue(issue);
-        return null;
+        return new ResponseMessage("0","发布成功");
     }
 
     @RequestMapping("/issueList")
     @ResponseBody
-    public ResponseMessage issueList(@RequestParam("communityId")String communityId){
-        System.out.println(communityId);
+    public ResponseMessage issueList(@RequestParam("communityId") String communityId) {
         List<Issue> issueList = issueService.selectIssueListByCommitteeId(communityId);
-        System.out.println(issueList);
-        ResponseMessage responseMessage = new ResponseMessage("success","请求成功");
-        Map<String,Object> map = new HashMap<>();
-        map.put("issueList",issueList);
+        ResponseMessage responseMessage = new ResponseMessage("success", "请求成功");
+        Map<String, Object> map = new HashMap<>();
+        map.put("issueList", issueList);
         responseMessage.setData(map);
         return responseMessage;
+    }
+
+    @RequestMapping("/vote")
+    @ResponseBody
+    public ResponseMessage vote(@RequestBody Vote vote) {
+        issueService.insertVote(vote);
+        return new ResponseMessage("0", "投票成功");
+    }
+
+    @RequestMapping("/ownerVoteList")
+    @ResponseBody
+    public List<Vote> ownerVoteList(@RequestParam("ownerId") String ownerId) {
+
+        List<Vote> voteList = issueService.selectVoteListByOwnerId(ownerId);
+        return voteList;
     }
 
 }

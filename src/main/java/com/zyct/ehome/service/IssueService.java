@@ -1,6 +1,8 @@
 package com.zyct.ehome.service;
 
+import com.zyct.ehome.dto.IssueDto;
 import com.zyct.ehome.entity.Issue;
+import com.zyct.ehome.entity.Vote;
 
 import java.util.List;
 
@@ -12,7 +14,11 @@ import java.util.List;
  */
 public interface IssueService {
 
-    void insertIssue(Issue issue);
+    void insertIssue(IssueDto issue);
 
     List<Issue> selectIssueListByCommitteeId(String committeeId);
+
+    void insertVote(Vote vote);
+
+    List<Vote> selectVoteListByOwnerId(String ownerId);
 }
