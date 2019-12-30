@@ -1,7 +1,9 @@
 package com.zyct.ehome.controller;
 
+import com.zyct.ehome.dto.AdviseDto;
 import com.zyct.ehome.dto.FixDto;
 import com.zyct.ehome.dto.NoticeDto;
+import com.zyct.ehome.entity.Advise;
 import com.zyct.ehome.entity.Fix;
 import com.zyct.ehome.entity.Notice;
 import com.zyct.ehome.entity.Ten;
@@ -203,6 +205,31 @@ public class TenController {
             return new ResponseMessage("0", "发布成功");
         }
 
+    }
+
+    /**
+     * 投诉建议接口
+     * @param advise
+     * @return
+     */
+    @RequestMapping("/advise")
+    @ResponseBody
+    public ResponseMessage advise(@RequestBody Advise advise){
+        System.out.println(advise.toString());
+        tenService.insertAdvise(advise);
+        return new ResponseMessage("0","操纵成功");
+    }
+
+    @RequestMapping("/adviseList")
+    @ResponseBody
+    public ResponseMessage adviseList(@RequestParam("communityId")String communityId){
+        System.out.println(communityId);
+        List<AdviseDto> adviseList = tenService.getAdviseList(communityId);
+        ResponseMessage responseMessage = new ResponseMessage("0","操纵成功");
+        Map<String,Object> map = new HashMap<>();
+        map.put("adviseList",adviseList);
+        responseMessage.setData(map);
+        return responseMessage;
     }
 
 }

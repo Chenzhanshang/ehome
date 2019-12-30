@@ -43,4 +43,13 @@
         update t_notice set title = #{title},content = #{content}
         where notice_id = #{noticeId}
     </update>
+
+    <insert id="insertAdvise" parameterType="Advise" >
+        insert into t_advise (community_id, owner_id, type, department, content)
+        values (#{communityId},#{ownerId},#{type},#{department},#{content});
+    </insert>
+
+    <select id="selectAdviseListByCommunityId" parameterType="String" resultType="Advise">
+        select * from t_advise where community_id = #{v};
+    </select>
 </mapper>

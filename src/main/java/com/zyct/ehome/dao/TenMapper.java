@@ -1,5 +1,6 @@
 package com.zyct.ehome.dao;
 
+import com.zyct.ehome.entity.Advise;
 import com.zyct.ehome.entity.Community;
 import com.zyct.ehome.entity.Fix;
 import com.zyct.ehome.entity.Notice;
@@ -60,8 +61,28 @@ public interface TenMapper {
     List<Notice> selectNoticeListByCommunityIdAndType(@Param("communityId") String communityId,@Param("type") Integer type);
 
 
-
+    /**
+     * 删除公告
+     * @param notice
+     */
     void deleteNotice(Notice notice);
 
+    /**
+     * 更新公告
+     * @param notice
+     */
     void updateNotice(Notice notice);
+
+    /**
+     * 插入一条投诉信息
+     * @param advise
+     */
+    void insertAdvise(Advise advise);
+
+    /**
+     * 通过小区id获取投诉列表
+     * @param communityId
+     * @return
+     */
+    List<Advise> selectAdviseListByCommunityId(String communityId);
 }

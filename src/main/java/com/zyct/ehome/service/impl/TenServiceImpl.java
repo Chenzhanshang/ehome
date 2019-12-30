@@ -3,6 +3,7 @@ package com.zyct.ehome.service.impl;
 import com.zyct.ehome.dao.CommunityMapper;
 import com.zyct.ehome.dao.OwnerMapper;
 import com.zyct.ehome.dao.TenMapper;
+import com.zyct.ehome.dto.AdviseDto;
 import com.zyct.ehome.dto.FixDto;
 import com.zyct.ehome.entity.*;
 import com.zyct.ehome.service.TenService;
@@ -168,6 +169,37 @@ public class TenServiceImpl implements TenService {
     public List<Notice> getNoticeList(String communityId) {
         List<Notice> noticeList = tenMapper.selectNoticeListByCommunityId(communityId);
         return noticeList;
+    }
+
+    /**
+     * 插入一条投诉信息
+     *
+     * @param advise
+     */
+    @Override
+    public void insertAdvise(Advise advise) {
+        tenMapper.insertAdvise(advise);
+    }
+
+    /**
+     * 获取投诉列表
+     *
+     * @param communityId
+     * @return
+     */
+    @Override
+    public List<AdviseDto> getAdviseList(String communityId) {
+        List<Advise> advises = tenMapper.selectAdviseListByCommunityId(communityId);
+        List<AdviseDto> adviseDtoList = new ArrayList<>();
+        for (Advise advise : advises) {
+            AdviseDto adviseDto = new AdviseDto();
+            BeanUtils.copyProperties(advise,adviseDto);
+            Owner owner = ownerMapper.getOwnerByOwnerId(advise.getOwnerId());
+            adviseDto.setName(owner.getOwnerName());
+            adviseDto.setPhone(owner.getOwnerPhone());
+            adviseDtoList.add(adviseDto);
+        }
+        return adviseDtoList;
     }
 
 
