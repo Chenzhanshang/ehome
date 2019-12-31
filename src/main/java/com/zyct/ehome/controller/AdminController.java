@@ -81,6 +81,28 @@ public class AdminController {
     }
 
     /**
+     * 登出
+     * @return
+     */
+    @RequestMapping(value = "/logout",method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseMessage logout(){
+        try {
+            Subject subject = SecurityUtils.getSubject();
+            if(subject.isAuthenticated()){
+                subject.logout();
+                return new ResponseMessage("0","退出成功");
+            }
+            else{
+                return new ResponseMessage(ErrorEnum.E_UNAUTHENTICATED);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage("-2","退出失败");
+        }
+    }
+
+    /**
      * 管理员修改密码
      * @param admin
      * @return
