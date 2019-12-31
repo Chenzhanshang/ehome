@@ -1,7 +1,5 @@
 package com.zyct.ehome.controller;
 
-import com.sun.org.glassfish.gmbal.ParameterNames;
-import com.zyct.ehome.dao.AdminManageMapper;
 import com.zyct.ehome.entity.Admin;
 import com.zyct.ehome.entity.Role;
 import com.zyct.ehome.service.AdminManageService;
