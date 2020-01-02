@@ -5,6 +5,8 @@ import com.zyct.ehome.service.CandidateService;
 import com.zyct.ehome.service.VoteService;
 import com.zyct.ehome.utils.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +21,21 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/vote")
+@PropertySource("classpath:file.properties")
 public class VoteController {
     @Autowired
     private CandidateService candidateService;
 
     @Autowired
     private VoteService voteService;
+
+    @Value("${filepath}")
+    String path;
+
+    @Value("${responsePath}")
+    private String responsePath;
+
+
 
     /**
      * 给候选人投票
@@ -53,7 +64,7 @@ public class VoteController {
             for (Candidate candidate:candidateList) {
                 if(candidate.getOwner().getAvatar() != null){
                     String avatar = candidate.getOwner().getAvatar();
-                    candidate.getOwner().setAvatar("http://localhost:8081" + request.getContextPath() + "/file/"+avatar);
+                    candidate.getOwner().setAvatar(responsePath + request.getContextPath() + "/file/"+avatar);
                 }
             }
             ResponseMessage responseMessage = new ResponseMessage("0","获取候选人列表成功");
