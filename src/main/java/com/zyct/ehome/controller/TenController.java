@@ -150,7 +150,7 @@ public class TenController {
     }
 
     /**
-     * 通过小区id和通知类型查询通知
+     * 通过小区id查询通知
      * @param communityId
      * @return
      */
@@ -220,6 +220,11 @@ public class TenController {
         return new ResponseMessage("0","操纵成功");
     }
 
+    /**
+     * 获取投诉列表
+     * @param communityId
+     * @return
+     */
     @RequestMapping("/adviseList")
     @ResponseBody
     public ResponseMessage adviseList(@RequestParam("communityId")String communityId){

@@ -29,6 +29,11 @@ public class IssueController {
     @Autowired
     private IssueService issueService;
 
+    /**
+     * 发布议题
+     * @param issue
+     * @return
+     */
     @RequestMapping("/putIssue")
     @ResponseBody
     public ResponseMessage insertIssue(@RequestBody IssueDto issue) {
@@ -37,6 +42,11 @@ public class IssueController {
         return new ResponseMessage("0","发布成功");
     }
 
+    /**
+     * 通过小区id获取议题列表
+     * @param communityId
+     * @return
+     */
     @RequestMapping("/issueList")
     @ResponseBody
     public ResponseMessage issueList(@RequestParam("communityId") String communityId) {
@@ -48,6 +58,11 @@ public class IssueController {
         return responseMessage;
     }
 
+    /**
+     * 给议题投票
+     * @param vote
+     * @return
+     */
     @RequestMapping("/vote")
     @ResponseBody
     public ResponseMessage vote(@RequestBody Vote vote) {
@@ -55,6 +70,11 @@ public class IssueController {
         return new ResponseMessage("0", "投票成功");
     }
 
+    /**
+     * 用户投票列表
+     * @param ownerId
+     * @return
+     */
     @RequestMapping("/ownerVoteList")
     @ResponseBody
     public List<Vote> ownerVoteList(@RequestParam("ownerId") String ownerId) {

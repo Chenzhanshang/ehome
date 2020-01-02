@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
         Owner newOwner = new Owner();
         if (owner == null){
             newOwner.setOwnerId(uuid);
+            newOwner.setOwnerName(data.getNickName());
             newOwner.setOwnerWeixinId(openId);
             newOwner.setAvatar(data.getAvatarUrl());
             newOwner.setAvatarUrl(data.getAvatarUrl());

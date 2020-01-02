@@ -102,10 +102,14 @@ public class UserController {
     @RequestMapping("/getUserNewInfo")
     @ResponseBody
     public ResponseMessage getUserNewInfo(@RequestParam("ownerId")String ownerId){
-        System.out.println(ownerId);
+        if (ownerId.equals("")||ownerId == null){
+            return new ResponseMessage("-1","ownerId为空");
+        }
         Owner owner = UserService.selectUserByOwnerId(ownerId);
-        String path = responsePath+"/ehome/file/"+owner.getAvatar();
-        owner.setAvatar(path);
+        if (owner.getAvatar().indexOf("https://wx.qlogo.cn/")== -1){
+            String path = responsePath+"/ehome/file/"+owner.getAvatar();
+            owner.setAvatar(path);
+        }
         ResponseMessage responseMessage = new ResponseMessage("0","查询成功");
         Map<String,Object> map = new HashMap<>();
         map.put("owner",owner);
