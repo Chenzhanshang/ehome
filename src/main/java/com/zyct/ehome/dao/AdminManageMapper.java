@@ -43,7 +43,7 @@ public interface AdminManageMapper {
      * @param adminId
      * @return
      */
-    public void delectAdmin(String adminId);
+    public void deleteAdmin(String adminId);
 
 
     /**
@@ -52,7 +52,7 @@ public interface AdminManageMapper {
      * @param adminId
      * @return
      */
-    public void delectAdminRole(String adminId);
+    public void deleteAdminRole(String adminId);
 
     /**
      * 根据账号查询管理员ID

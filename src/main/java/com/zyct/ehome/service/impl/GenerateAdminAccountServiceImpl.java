@@ -5,6 +5,9 @@ import com.zyct.ehome.entity.Admin;
 import com.zyct.ehome.service.GenerateAdminAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author CZS
@@ -16,11 +19,13 @@ public class GenerateAdminAccountServiceImpl implements GenerateAdminAccountServ
 
     @Autowired
     private GenerateAdminAccountMapper generateAdminAccountMapper;
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void insertAdmin(Admin admin) {
         generateAdminAccountMapper.insertAdmin(admin);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void insertAdminAndRole(String adminId, String roleId) {
         generateAdminAccountMapper.insertAdminAndRole(adminId, roleId);

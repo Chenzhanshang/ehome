@@ -34,8 +34,8 @@ public class AdminManageController {
     ResponseMessage deleteAdmin(@PathVariable("adminId") String adminId){
 
         try{
-            adminManageService.delectAdminRole(adminId);
-            adminManageService.delectAdmin(adminId);
+            adminManageService.deleteAdminRole(adminId);
+            adminManageService.deleteAdmin(adminId);
         }
         catch (Exception e){
             e.printStackTrace();

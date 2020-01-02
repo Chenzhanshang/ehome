@@ -10,6 +10,9 @@ import com.zyct.ehome.service.Auditservice;
 import com.zyct.ehome.utils.AuditEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,7 +34,7 @@ public class AuditServiceImpl implements Auditservice {
     @Autowired
     private OwnerMapper ownerMapper;
 
-
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void insertAudit(AuditEntity auditEntity) {
         auditEntity.setAuditId(UUID.randomUUID().toString().replaceAll("-",""));
