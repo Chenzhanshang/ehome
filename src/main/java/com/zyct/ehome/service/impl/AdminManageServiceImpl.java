@@ -8,6 +8,9 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +30,7 @@ public class AdminManageServiceImpl implements AdminManageService {
         return list;
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void updateAdmin(Admin admin) {
         //加密密码
@@ -38,13 +42,13 @@ public class AdminManageServiceImpl implements AdminManageService {
     }
 
     @Override
-    public void delectAdmin(String adminId) {
-        adminManageMapper.delectAdmin(adminId);
+    public void deleteAdmin(String adminId) {
+        adminManageMapper.deleteAdmin(adminId);
     }
 
     @Override
-    public void delectAdminRole(String adminId) {
-        adminManageMapper.delectAdminRole(adminId);
+    public void deleteAdminRole(String adminId) {
+        adminManageMapper.deleteAdminRole(adminId);
     }
 
     @Override

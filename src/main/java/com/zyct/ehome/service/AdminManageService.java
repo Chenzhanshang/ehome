@@ -32,7 +32,7 @@ public interface AdminManageService {
      * @param adminId
      * @return
      */
-    public void delectAdmin(String adminId);
+    public void deleteAdmin(String adminId);
 
     /**
      * 删除管理员-角色
@@ -40,7 +40,7 @@ public interface AdminManageService {
      * @param adminId
      * @return
      */
-    public void delectAdminRole(String adminId);
+    public void deleteAdminRole(String adminId);
 
     /**
      * 根据账号查询管理员ID
