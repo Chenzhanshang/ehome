@@ -14,7 +14,6 @@ import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
@@ -58,6 +57,11 @@ public class ShiroConfig {
 //        filterChainDefinitionMap.put("/admin/addCommunity", "anon");
 //        filterChainDefinitionMap.put("/admin/logout", "logout");
 //        filterChainDefinitionMap.put("/user/**","anon");
+        filterChainDefinitionMap.put("/admin/login", "anon");
+        filterChainDefinitionMap.put("/admin/logout", "anon");
+        filterChainDefinitionMap.put("/admin/**", "authc");
+        filterChainDefinitionMap.put("/audit/**", "authc");
+        filterChainDefinitionMap.put("/generate/**", "authc");
         filterChainDefinitionMap.put("/**", "anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
