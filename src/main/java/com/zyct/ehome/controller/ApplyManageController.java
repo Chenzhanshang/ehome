@@ -9,6 +9,8 @@ import com.zyct.ehome.utils.ResponseMessage;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +28,12 @@ import java.util.List;
  * Email 1945282561@qq.com
  */
 @Controller
+@PropertySource("classpath:file.properties")
 @RequestMapping("/admin")
 public class ApplyManageController {
+
+    @Value("${responsePath}")
+    private String responsePath;
 
     @Autowired
     private ApplyManageService applyManageService;
@@ -68,7 +74,7 @@ public class ApplyManageController {
             //设置文件访问路径
             List<File> files = apply.getFiles();
             for (File file : files) {
-                file.setFilePath("http://localhost:8081" + request.getContextPath() + "/file/" + file.getFileName());
+                file.setFilePath(responsePath + request.getContextPath() + "/file/" + file.getFileName());
             }
             ResponseMessage responseMessage = new ResponseMessage("0", "获取审批信息成功");
             responseMessage.getData().put("applyInfo", apply);

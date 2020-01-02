@@ -45,6 +45,9 @@ public class UploadFileController {
     @Value("${filepath}")
     String path;
 
+    @Value("${responsePath}")
+    private String responsePath;
+
     @Autowired
     private RedisUtil redisUtil;
 
@@ -65,7 +68,7 @@ public class UploadFileController {
         file.setFileName(multipartFile.getOriginalFilename());
         file.setFilePath(path + multipartFile.getOriginalFilename());
         applyService.insertFile(file);
-        String[] str = {"http://localhost:8081/ehome/file/" + multipartFile.getOriginalFilename()};
+        String[] str = {responsePath+"/ehome/file/" + multipartFile.getOriginalFilename()};
         Map<String, Object> map = new HashMap<>();
         map.put("urls", str);
         return map;
@@ -116,7 +119,7 @@ public class UploadFileController {
         files.add(file);
         uploadFileMapper.insertFiles(files);
         userService.getAvatar(filename,path + filename,ownerId);
-        String[] str = {"http://localhost:8081/ehome/file/" + filename};
+        String[] str = {responsePath+"/ehome/file/" + filename};
         Map<String, Object> map = new HashMap<>();
         map.put("urls", str);
         return map;
@@ -147,7 +150,7 @@ public class UploadFileController {
     @RequestMapping(value = "/uploadExamine", method = RequestMethod.POST)
     public void uploadExamine(MultipartFile multipartFile) throws IOException {
         //设置文件保存路径
-        String path = "C:\\Users\\Administrator\\Desktop\\file\\" ;
+        String path = this.path+"audit/" ;
         String fileName = multipartFile.getOriginalFilename();
         //将文件路径，文件名信息放入缓存
         redisUtil.set("fileName",fileName);

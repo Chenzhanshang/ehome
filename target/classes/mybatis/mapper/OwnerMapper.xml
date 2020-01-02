@@ -4,6 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zyct.ehome.dao.OwnerMapper">
 
+    <select id="getOwnerInfoByCommitteeId" parameterType="String" resultType="Owner">
+        select * from t_owner where committee_id = #{v}
+    </select>
+
     <select id="getOwnerListByCommunityId" parameterType="String" resultMap="getOwnerListByCommunityIdMap">
         select owner_id,owner_name
         from t_owner
