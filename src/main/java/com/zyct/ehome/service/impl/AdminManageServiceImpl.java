@@ -41,9 +41,14 @@ public class AdminManageServiceImpl implements AdminManageService {
         adminManageMapper.updateAdminRole(admin.getAdminId(),admin.getRoles().iterator().next().getRoleId());
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void deleteAdmin(String adminId) {
+        System.out.println(adminId);
+        adminManageMapper.deleteAdminRole(adminId);
         adminManageMapper.deleteAdmin(adminId);
+
+
     }
 
     @Override

@@ -38,12 +38,12 @@
     </resultMap>
 
     <!-- 删除管理员-角色-->
-    <delete id="delectAdminRole" parameterType="String">
+    <delete id="deleteAdminRole" parameterType="String">
        DELETE FROM t_admin_role WHERE admin_id = #{adminId}
     </delete>
 
     <!-- 删除管理员-->
-    <delete id="delectAdmin" parameterType="String">
+    <delete id="deleteAdmin" parameterType="String">
         DELETE FROM t_admin WHERE admin_id = #{adminId}
     </delete>
 
