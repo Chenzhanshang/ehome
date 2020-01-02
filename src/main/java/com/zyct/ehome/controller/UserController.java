@@ -10,6 +10,8 @@ import com.zyct.ehome.utils.ResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,7 @@ import java.util.UUID;
  * @date 2019-12-03 17:00
  */
 @Controller
+@PropertySource("classpath:file.properties")
 @RequestMapping("/user")
 public class UserController {
     @Autowired
@@ -38,6 +41,8 @@ public class UserController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @Value("${responsePath}")
+    private String responsePath;
 
 
     @Autowired
@@ -99,7 +104,7 @@ public class UserController {
     public ResponseMessage getUserNewInfo(@RequestParam("ownerId")String ownerId){
         System.out.println(ownerId);
         Owner owner = UserService.selectUserByOwnerId(ownerId);
-        String path = "http://localhost:8081/ehome/file/"+owner.getAvatar();
+        String path = responsePath+"/ehome/file/"+owner.getAvatar();
         owner.setAvatar(path);
         ResponseMessage responseMessage = new ResponseMessage("0","查询成功");
         Map<String,Object> map = new HashMap<>();
