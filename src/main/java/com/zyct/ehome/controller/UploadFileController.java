@@ -148,6 +148,7 @@ public class UploadFileController {
 
 
     @RequestMapping(value = "/uploadExamine", method = RequestMethod.POST)
+    @ResponseBody
     public void uploadExamine(MultipartFile multipartFile) throws IOException {
         //设置文件保存路径
         String path = this.path+"audit/" ;

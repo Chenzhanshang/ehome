@@ -1,9 +1,9 @@
 package com.zyct.ehome.controller;
 
 import com.zyct.ehome.entity.Admin;
-import com.zyct.ehome.service.AdminService;
 import com.zyct.ehome.entity.File;
 import com.zyct.ehome.entity.LeaveAudit;
+import com.zyct.ehome.service.AdminService;
 import com.zyct.ehome.service.Auditservice;
 import com.zyct.ehome.utils.AuditEntity;
 import com.zyct.ehome.utils.ErrorEnum;
@@ -12,6 +12,8 @@ import com.zyct.ehome.utils.ResponseMessage;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +28,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/audit")
+@PropertySource("classpath:file.properties")
 public class AuditController {
 
     @Autowired
@@ -36,6 +39,12 @@ public class AuditController {
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Value("${filepath}")
+    String path;
+
+    @Value("${responsePath}")
+    private String responsePath;
 
     /**
      * 处理处理申请的请求,保存处理结果
@@ -113,7 +122,8 @@ public class AuditController {
             if(leaveAudit.getApply()!=null){
                 if(leaveAudit.getApply().getFiles()!=null){
                     for (File f:leaveAudit.getApply().getFiles()) {
-                        f.setFilePath("http://localhost:8081" + request.getContextPath() + "/file/" + f.getFileName());
+                        ///
+                        f.setFilePath(responsePath + request.getContextPath() + "/file/" + f.getFileName());
                     }
                 }
             }

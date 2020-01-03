@@ -7,7 +7,6 @@ import com.zyct.ehome.service.UserService;
 import com.zyct.ehome.utils.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -49,9 +48,9 @@ public class ApplyController {
      */
     @RequestMapping("/applyMessage")
     @ResponseBody
-    public ResponseMessage applyMessage(@RequestParam("weixin")String ownerId,@RequestParam("name")String name,@RequestParam("idCard")String idCard,
-                                        @RequestParam("phone")String phone,@RequestParam("communityId")String communityId,
-                                        @RequestParam("houseId")String houseId,@RequestParam("roomId")String roomId){
+    public ResponseMessage applyMessage(@RequestParam("weixin")String ownerId, @RequestParam("name")String name, @RequestParam("idCard")String idCard,
+                                        @RequestParam("phone")String phone, @RequestParam("communityId")String communityId,
+                                        @RequestParam("houseId")String houseId, @RequestParam("roomId")String roomId){
         Owner owner = userService.selectUserByOwnerId(ownerId);
         owner.setOwnerName(name);
         owner.setOwnerPhone(phone);

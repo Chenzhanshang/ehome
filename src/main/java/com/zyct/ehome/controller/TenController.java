@@ -6,15 +6,16 @@ import com.zyct.ehome.dto.NoticeDto;
 import com.zyct.ehome.entity.Advise;
 import com.zyct.ehome.entity.Fix;
 import com.zyct.ehome.entity.Notice;
-import com.zyct.ehome.entity.Ten;
 import com.zyct.ehome.service.TenService;
 import com.zyct.ehome.utils.ResponseMessage;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author litianfu

@@ -70,7 +70,7 @@ public class CandidateController {
     @RequestMapping(value = "/createCommittee/{communityId}/{count}",method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessage createCommittee(@PathVariable("communityId") String communityId,
-                                           @PathVariable("count")Integer count){
+                                    @PathVariable("count")Integer count){
         if(count <= 0 ){
             return new ResponseMessage("-2","业委会人数过少");
         }
@@ -94,7 +94,8 @@ public class CandidateController {
      * @return
      */
     @RequestMapping(value = "/addCandidate",method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage addCandidate(@RequestBody AddCandidateDto addCandidateDto){
+    public @ResponseBody
+    ResponseMessage addCandidate(@RequestBody AddCandidateDto addCandidateDto){
         System.out.println(addCandidateDto);
         try{
             List<Candidate> candidateList = candidateService.addCandidate(addCandidateDto);

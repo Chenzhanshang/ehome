@@ -111,7 +111,8 @@ public class CommunityManageController {
      * @return
      */
     @RequestMapping(value = "/getCommunityAccount/{communityId}",method = RequestMethod.GET)
-    public @ResponseBody ResponseMessage getCommunityAccount(@PathVariable("communityId") String communityId){
+    public @ResponseBody
+    ResponseMessage getCommunityAccount(@PathVariable("communityId") String communityId){
         try {
            List<Manager> managerList = managerService.selectByCommunityId(communityId);
            ResponseMessage responseMessage = new ResponseMessage("0","获取成功");

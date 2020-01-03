@@ -1,13 +1,14 @@
 package com.zyct.ehome.controller;
 
-import com.zyct.ehome.dto.FixDto;
 import com.zyct.ehome.dto.ManagerDto;
 import com.zyct.ehome.entity.Manager;
 import com.zyct.ehome.service.ManagerService;
 import com.zyct.ehome.utils.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.Map;

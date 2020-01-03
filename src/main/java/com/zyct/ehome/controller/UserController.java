@@ -5,10 +5,7 @@ import com.zyct.ehome.config.weixin.OpenIdAndSessionKey;
 import com.zyct.ehome.config.weixin.RawData;
 import com.zyct.ehome.config.weixin.WxTools;
 import com.zyct.ehome.entity.Owner;
-import com.zyct.ehome.service.UserService;
 import com.zyct.ehome.utils.ResponseMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -24,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * @author litianfu
@@ -37,7 +33,7 @@ import java.util.UUID;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    private UserService UserService;
+    private com.zyct.ehome.service.UserService UserService;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -69,7 +65,7 @@ public class UserController {
         try {
             //获取数据
             if (rawData != null && !"".equals(rawData)){
-                data = mapper.readValue(rawData,RawData.class);
+                data = mapper.readValue(rawData, RawData.class);
             }
             //调用工具获取openid和sessionkey
             openidAndSessionkey = wxTools.getOpenidAndSessionkey(code);

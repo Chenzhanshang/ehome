@@ -1,18 +1,16 @@
 package com.zyct.ehome.controller;
 
-import com.zyct.ehome.dao.AdminManageMapper;
-import com.zyct.ehome.dao.GenerateAdminAccountMapper;
 import com.zyct.ehome.entity.Admin;
-import com.zyct.ehome.entity.Role;
 import com.zyct.ehome.service.AdminManageService;
 import com.zyct.ehome.utils.GenerateAccountEntity;
 import com.zyct.ehome.utils.GenerateAdminAccount;
 import com.zyct.ehome.utils.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author CZS
